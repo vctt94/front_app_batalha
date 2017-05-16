@@ -47,7 +47,6 @@
 </aside>
 </template>
 
-
 <script>
     export default {
         props : [
@@ -67,11 +66,11 @@
 
         },
         methods : {
-          toogleActive(item){
+          toogleActive(tab){
             for(let item of this.menus){
               item.isActive = false;
             }
-            item.isActive = true
+            tab.isActive = true;
           }
         }
     }

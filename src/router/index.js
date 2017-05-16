@@ -9,13 +9,13 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      isActive : true,
       nameToShow : 'Home', 
       component: Wrapper
     },
     {
       path: '/usuarios',
       name: 'usuarios',
+      isActive : true,
       nameToShow : 'Usuários', 
       component: Wrapper,
       children :  [
