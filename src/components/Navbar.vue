@@ -35,10 +35,10 @@
   </p>
 
   <ul class="menu-list">
-    <li  v-for="item in menus" v-on:click="toogleActive()">
+    <li  v-for="item in menus" v-on:click="toogleActive(item)">
       <router-link  :to="item.path" :class="[item.isActive ? 'is-active' : '' ]">{{item.nameToShow}}</router-link>
       <ul v-if="item.children && item.isActive">
-        <li v-for="child in item.children">
+        <li v-for="child in item.children" v-on:click="toogleActive(child)">
           <router-link  :to="item.path + child.path">{{child.nameToShow}}</router-link>
         </li>
       </ul>
@@ -67,9 +67,11 @@
 
         },
         methods : {
-          toogleActive(){
-            console.log(this)
-
+          toogleActive(item){
+            for(let item of this.menus){
+              item.isActive = false;
+            }
+            item.isActive = true
           }
         }
     }
