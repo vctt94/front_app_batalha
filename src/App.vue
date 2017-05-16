@@ -1,14 +1,31 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view></router-view>
+    <navbar :menus="router" class="navbar"></navbar>
+    <router-view ></router-view>
   </div>
 </template>
 
 <script>
 
+import Navbar from './components/Navbar.vue'
+import Router from './router/index.js'
+
 export default {
-  name: 'app'
+
+  name: 'app',
+  components: {
+    'navbar': Navbar,
+  },
+  data (){
+    return{
+      router : null,
+
+    }
+  },
+  mounted(){
+    this.router = Router.options.routes
+
+  }
 }
 </script>
 
@@ -22,6 +39,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+
+.navbar
+  width : 20em;
+
 
 </style>
