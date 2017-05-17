@@ -1,26 +1,24 @@
-
 <template>
-<div>
-	teste
+<div class="home">
+	home page
 </div>
 </template>
 
 <script>
-import Navbar from './Navbar.vue'
 
 export default {
-  name: 'Wrapper',
-  components: {
-    'navbar': Navbar
-  },
+  name: 'Home',
   data () {
     return {
     }
+  },
+  mounted(){
   }
 }
 </script>
 
 <style scoped lang="sass">
+.home
 
 
 </style>

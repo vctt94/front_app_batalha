@@ -63,10 +63,6 @@
 
         data(){
             return {
-                user:false,
-                localAvatar: "",
-                dropMenu: false,
-                parsedTabs: ""
             }
         },
 
@@ -95,7 +91,7 @@
 
 .font-white
   color : white
-
+  
 
 
 

@@ -1,9 +1,11 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue     from 'vue'
+import Router  from 'vue-router'
 import Wrapper from '@/components/WrapperTemplate'
+import Home    from '@/components/Home'
+
 
 Vue.use(Router)
-
+console.log(Home)
 export default new Router({
   routes: [
     {
@@ -11,7 +13,7 @@ export default new Router({
       name: 'home',
       isActive : true,
       nameToShow : 'Home', 
-      component: Wrapper
+      component: Home
     },
     {
       path: '/usuarios',

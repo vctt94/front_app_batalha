@@ -18,7 +18,6 @@
 <script>
 
 import Router from './router/index.js'
-
 import Navbar from './components/Navbar.vue'
 import Footer from './components/Footer.vue'
 
@@ -46,6 +45,8 @@ export default {
 <style lang="sass">
 @import "../node_modules/bulma/bulma";
 @import '../node_modules/bulma/sass/utilities/initial-variables'
+
+
 
 #app 
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
