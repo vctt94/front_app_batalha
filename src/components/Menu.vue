@@ -39,7 +39,7 @@
 
     <ul class="menu-list">
       <li v-for="item in menus" v-on:click="toggleActive(item)">
-        <router-link class="font-white"  :to="item.path" :class="[item.isActive ? 'is-active' : '' ]">{{item.nameToShow}}</router-link>
+        <router-link class="font-white"  :to="item.path" :exact="true">{{item.nameToShow}}</router-link>
         <ul v-if="item.children && item.isActive">
           <li v-for="child in item.children" v-on:click="toggleActive(child)">
             <router-link class="font-white" :to="item.path + child.path">{{child.nameToShow}}</router-link>
@@ -90,6 +90,7 @@
 
 .font-white
   color : white
+
 
 
 

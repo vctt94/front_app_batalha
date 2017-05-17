@@ -1,23 +1,26 @@
 <template>
-  <div class="hero is-fullheight">
-    <div id="app" class="columns is-gapless">
+  <div id="app" class="hero is-fullheight">
+    <div class="columns is-gapless">
       
       <div class="column is-2 aside is-fullheight is-hidden-mobile">
-        <my-menu :menus="router"></my-menu>
-      </div>
-
-      <div class="column hero-head is-10">
-        <navbar title  = "Home"
-                :menus = "router"
-        >
-        </navbar>
-
+        <my-menu 
+          :menus="router"
+        />
       </div>
 
       <div class="column is-10">
-        <router-view class="hero-body "></router-view>
-      </div>
+        
+        <div class="hero-head">
+          <navbar title  = "Home"
+                  :menus = "router"
+          />
+        </div>
 
+        <div class="hero-body">
+          <router-view />
+        </div>
+
+      </div>
     </div>
     <my-footer class="hero-foot"></my-footer>
   </div>
@@ -72,6 +75,11 @@ export default {
 
 .font-white
   color : white
+
+.router-link-active 
+  background : #800000
+  color : gray
+
 
 
 

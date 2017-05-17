@@ -1,6 +1,6 @@
 <template>
 <div class="home">
-	home page
+	<h1>home</h1>
 </div>
 </template>
 
@@ -13,13 +13,14 @@ export default {
     }
   },
   mounted(){
+  	console.log('home mounted')
   }
 }
 </script>
 
 <style scoped lang="sass">
 .home
-	
-
+	background : blue
+	width : 100%
 
 </style>
