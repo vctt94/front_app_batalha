@@ -24,75 +24,68 @@
 -->
 
 <template>
-<aside class="menu  teste aside hero is-fullheight is-hidden-mobile">
-  <div>
-  <div>
-    <h1 class="title font-white">Batalha da Escada</h1>
-  </div>
-  <div class="logo">
-    <img src="../assets/logo.png" alt="Bulma logo">
-  </div>
-  
+<nav class="nav has-shadow" id="top">
+        <div class="container">
+          <div class="nav-left">
+            <div class="nav-item" >
+              <h1 class="title">{{title}}</h1>
+            </div>
+          </div>
+          <span class="nav-toggle" :class="[isActive ? 'is-active' : '' ]" v-on:click="isActive = !isActive">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+          <div class="nav-right nav-menu is-hidden-tablet" :class="[isActive ? 'is-active' : '' ]">
+			  <div class="main">
+			    <ul class="menu-list">
+			      <li v-for="item in menus" v-on:click="toggleActive(item)">
+			        <router-link class="font-white"  :to="item.path" :class="[item.isActive ? 'is-active' : '' ]">{{item.nameToShow}}</router-link>
+			        <ul v-if="item.children && item.isActive">
+			          <li v-for="child in item.children" v-on:click="toggleActive(child)">
+			            <router-link class="font-white" :to="item.path + child.path">{{child.nameToShow}}</router-link>
+			          </li>
+			        </ul>
+			      </li>    
+			    </ul>
+			  </div> 
+              <a href="#" class="nav-item">
+	            Logout
+	          </a>
+          </div>
 
-  <hr>
-
-  <div class="main">
-
-    <ul class="menu-list">
-      <li  v-for="item in menus" v-on:click="toogleActive(item)">
-        <router-link class="font-white"  :to="item.path" :class="[item.isActive ? 'is-active' : '' ]">{{item.nameToShow}}</router-link>
-        <ul v-if="item.children && item.isActive">
-          <li v-for="child in item.children" v-on:click="toogleActive(child)">
-            <router-link class="font-white" :to="item.path + child.path">{{child.nameToShow}}</router-link>
-          </li>
-        </ul>
-      </li>    
-    </ul>
-  </div> 
-
-</div>
-</aside>
+          <a href="#" class="nav-item is-hidden-mobile">
+              Logout
+          </a>
+        </div>
+      </nav>
 </template>
 
 <script>
-    export default {
-        props : [
-            'menus',
-        ],
-
-        data(){
-            return {
-            }
-        },
-
-        mounted() {
-
-        },
-        methods : {
-          toogleActive(tab){
+export default {
+  name: 'Navbar',
+  props : [
+  	'title',
+  	'menus'
+  ],
+  data(){
+  	return{
+  		isActive : false
+  	}
+  },
+  methods :{
+  	toggleActive(item){
             for(let item of this.menus){
               item.isActive = false;
             }
-            tab.isActive = true;
+            item.isActive = true
           }
-        }
-    }
+  }
+}
 </script>
 
-<style scoped lang="sass">
-
-.teste
-  background : rgb(53,64,82)
-  margin  : 0
-  padding : 0
-  padding-top : 2em
-  padding-bottom : 5em
-
-.font-white
-  color : white
-  
-
-
+<style scoped>
 
 </style>
+
 

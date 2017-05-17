@@ -6,12 +6,10 @@
 </template>
 
 <script>
-import Navbar from './Navbar.vue'
 
 export default {
   name: 'Wrapper',
   components: {
-    'navbar': Navbar
   },
   data () {
     return {

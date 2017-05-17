@@ -1,12 +1,20 @@
 <template>
   <div>
-    <div id="app" class="columns">
+    <div id="app" class="columns is-gapless">
       
-      <div class="column is-one-quarter aside hero is-fullheight is-hidden-mobile">
-        <navbar :menus="router"></navbar>
+      <div class="column is-2 aside hero is-fullheight is-hidden-mobile">
+        <my-menu :menus="router"></my-menu>
       </div>
 
-      <div class="column">
+      <div class="column is-10">
+        <navbar title  = "Home"
+                :menus = "router"
+        >
+        </navbar>
+
+      </div>
+
+      <div class="column is-10">
         <router-view ></router-view>
       </div>
 
@@ -18,6 +26,7 @@
 <script>
 
 import Router from './router/index.js'
+import Menu from './components/Menu.vue'
 import Navbar from './components/Navbar.vue'
 import Footer from './components/Footer.vue'
 
@@ -26,7 +35,8 @@ export default {
 
   name: 'app',
   components: {
-    'navbar' : Navbar,
+    'my-menu'   : Menu,
+    'navbar'    : Navbar,
     'my-footer' : Footer
   },
   data (){
@@ -60,6 +70,10 @@ export default {
 .column
   padding : 0
   margin : 0
+
+.font-white
+  color : white
+
 
 
 
