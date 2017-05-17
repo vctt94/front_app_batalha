@@ -80,9 +80,4 @@ export default {
   background : #800000
   color : gray
 
-
-
-
-
-
 </style>
