@@ -19,6 +19,7 @@ export default {
 
 <style scoped lang="sass">
 .home
+	
 
 
 </style>

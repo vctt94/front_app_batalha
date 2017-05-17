@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="hero is-fullheight">
     <div id="app" class="columns is-gapless">
       
-      <div class="column is-2 aside hero is-fullheight is-hidden-mobile">
+      <div class="column is-2 aside is-fullheight is-hidden-mobile">
         <my-menu :menus="router"></my-menu>
       </div>
 
-      <div class="column is-10">
+      <div class="column hero-head is-10">
         <navbar title  = "Home"
                 :menus = "router"
         >
@@ -15,11 +15,11 @@
       </div>
 
       <div class="column is-10">
-        <router-view ></router-view>
+        <router-view class="hero-body "></router-view>
       </div>
 
     </div>
-    <my-footer></my-footer>
+    <my-footer class="hero-foot"></my-footer>
   </div>
 </template>
 
@@ -57,12 +57,11 @@ export default {
 @import '../node_modules/bulma/sass/utilities/initial-variables'
 
 
-
 #app 
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  text-align : center;
   color: #2c3e50;
   padding : 0
   margin : 0
