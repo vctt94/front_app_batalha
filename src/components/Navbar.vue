@@ -23,27 +23,34 @@
     5 - Pass logo by props
 -->
 
-<template xmlns:v-model="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
-<aside class="menu">
-    
-    <a class="nav-item">
-      <img src="http://bulma.io/images/bulma-logo.png" alt="Bulma logo">
-    </a>
+<template>
+<aside class="menu  teste aside hero is-fullheight is-hidden-mobile">
+  <div>
+  <div>
+    <h1 class="title font-white">Batalha da Escada</h1>
+  </div>
+  <div class="logo">
+    <img src="../assets/logo.png" alt="Bulma logo">
+  </div>
+  
 
-  <p class="menu-label">
-    admin
-  </p>
+  <hr>
 
-  <ul class="menu-list">
-    <li  v-for="item in menus" v-on:click="toogleActive(item)">
-      <router-link  :to="item.path" :class="[item.isActive ? 'is-active' : '' ]">{{item.nameToShow}}</router-link>
-      <ul v-if="item.children && item.isActive">
-        <li v-for="child in item.children" v-on:click="toogleActive(child)">
-          <router-link  :to="item.path + child.path">{{child.nameToShow}}</router-link>
-        </li>
-      </ul>
-    </li>    
-  </ul>
+  <div class="main">
+
+    <ul class="menu-list">
+      <li  v-for="item in menus" v-on:click="toogleActive(item)">
+        <router-link class="font-white"  :to="item.path" :class="[item.isActive ? 'is-active' : '' ]">{{item.nameToShow}}</router-link>
+        <ul v-if="item.children && item.isActive">
+          <li v-for="child in item.children" v-on:click="toogleActive(child)">
+            <router-link class="font-white" :to="item.path + child.path">{{child.nameToShow}}</router-link>
+          </li>
+        </ul>
+      </li>    
+    </ul>
+  </div> 
+
+</div>
 </aside>
 </template>
 
@@ -79,5 +86,18 @@
 
 <style scoped lang="sass">
 
+.teste
+  background : rgb(53,64,82)
+  margin  : 0
+  padding : 0
+  padding-top : 2em
+  padding-bottom : 5em
+
+.font-white
+  color : white
+
+
+
 
 </style>
+

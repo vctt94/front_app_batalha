@@ -16,6 +16,7 @@ export default new Router({
     {
       path: '/usuarios',
       name: 'usuarios',
+      isActive : false,
       nameToShow : 'Usuários', 
       component: Wrapper,
       children :  [
@@ -40,6 +41,7 @@ export default new Router({
       path: '/bandas',
       name: 'bandas',
       nameToShow : 'Bandas', 
+      isActive : false,
       children : [
         { 
         	path: '/listar',
