@@ -20,7 +20,6 @@ export default {
 
 <style scoped lang="sass">
 .home
-	background : blue
 	width : 100%
 
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="hero is-fullheight">
-    <div class="columns is-gapless">
+    <div class="columns is-gapless reset-margin">
       
       <div class="column is-2 aside is-fullheight is-hidden-mobile">
         <my-menu 
@@ -65,7 +65,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align : center;
-  color: #2c3e50;
+
   padding : 0
   margin : 0
 
@@ -73,11 +73,18 @@ export default {
   padding : 0
   margin : 0
 
+.reset-margin
+  margin : 0 !important
+  
 .font-white
   color : white
 
-.router-link-active 
-  background : #800000
-  color : gray
+.font-gray
+  color : rgb(170, 170, 170) !important
+
+.router-link-active
+  color : #f6f7f7 !important
+  font-weight: bold
+
 
 </style>
