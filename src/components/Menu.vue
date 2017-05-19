@@ -24,59 +24,81 @@
 -->
 
 <template>
-<aside class="menu  teste aside hero is-fullheight is-hidden-mobile">
+<aside v-if="getSidebarActiveStatus" class="menu  teste aside hero is-fullheight is-hidden-mobile">
   <div>
-  <div>
-    <h1 class="title font-white">Batalha da Escada</h1>
+    <div>
+      <h1 class="title font-white">Batalha da Escada</h1>
+    </div>
+    <div class="logo">
+      <img src="../assets/logo.png" alt="Bulma logo">
+    </div>
+    
+    <hr>
+
+    <div class="main">
+
+      <ul class="menu-list">
+        <li v-for="item in menus" v-on:click="toggleActive(item)">
+          <router-link class="font-gray" :to="item.path" :exact="true">{{item.nameToShow}}</router-link>
+          <ul v-if="item.children && item.isActive">
+            <li v-for="child in item.children" v-on:click="toggleActive(child)">
+              <router-link class="font-gray" :to="item.path + child.path">{{child.nameToShow}}</router-link>
+            </li>
+          </ul>
+        </li>    
+      </ul>
+    </div> 
+
   </div>
-  <div class="logo">
-    <img src="../assets/logo.png" alt="Bulma logo">
-  </div>
-  
-  <hr>
-
-  <div class="main">
-
-    <ul class="menu-list">
-      <li v-for="item in menus" v-on:click="toggleActive(item)">
-        <router-link class="font-gray" :to="item.path" :exact="true">{{item.nameToShow}}</router-link>
-        <ul v-if="item.children && item.isActive">
-          <li v-for="child in item.children" v-on:click="toggleActive(child)">
-            <router-link class="font-gray" :to="item.path + child.path">{{child.nameToShow}}</router-link>
-          </li>
-        </ul>
-      </li>    
-    </ul>
-  </div> 
-
-</div>
 </aside>
 </template>
 
 
 <script>
-    export default {
-        props : [
-            'menus',
-        ],
 
-        data(){
-            return {
-            }
-        },
+import { mapMutations, mapGetters } from 'vuex'
 
-        mounted() {
+export default {
+  props : [
+      'menus',
+  ],
 
-        },
-        methods : {
-          toggleActive(item){
-            for(let item of this.menus){
-              item.isActive = false;
-            }
-            item.isActive = true
-          }
-        }
+  data(){
+      return {
+        active : false
+      }
+  },
+
+  computed: {
+    ...mapGetters([
+      'sidebar'
+    ]),
+    getSidebarActiveStatus(){
+      return this.sidebar.activeStatus
     }
+  },
+
+
+  mounted() {
+    console.log('menu sidebar mounted')
+    this.active = this.getSidebarActiveStatus
+  },
+
+  methods : {
+    
+    ...mapMutations({
+      updateSideBarActiveStatus : 'UPDATE_SIDEBAR_ACTIVE_STATUS'
+    }),
+
+    toggleActive(item){
+      for(let item of this.menus){
+        item.isActive = false;
+      }
+      item.isActive = true
+    },
+    
+  }
+}
 </script>
 
 <style scoped lang="sass">
@@ -91,8 +113,6 @@
 .menu-list a:hover 
   color : black !important
   font-weight : bold
-
-
 
 
 </style>

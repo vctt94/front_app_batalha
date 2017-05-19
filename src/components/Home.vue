@@ -1,10 +1,14 @@
 <template>
 <div class="home">
 	<h1>home</h1>
+  <a class="button" v-on:click="updateSideBarStatus">desligar navbar</a>
 </div>
 </template>
 
 <script>
+import Menu from './Menu'
+import { mapMutations, mapGetters } from 'vuex'
+
 
 export default {
   name: 'Home',
@@ -12,8 +16,28 @@ export default {
     return {
     }
   },
+  computed: {
+    ...mapGetters([
+      'sidebar'
+    ]),
+  },
   mounted(){
   	console.log('home mounted')
+    this.$store.commit({
+      type: 'UPDATE_SIDEBAR_ACTIVE_STATUS',
+      status: true
+    })
+    
+  },
+  methods : {
+    updateSideBarStatus(){
+        this.$store.commit({
+        type: 'UPDATE_SIDEBAR_ACTIVE_STATUS',
+        status: !this.sidebar.activeStatus
+      })
+    }
+    
+
   }
 }
 </script>
