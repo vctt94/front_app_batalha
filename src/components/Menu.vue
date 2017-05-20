@@ -32,7 +32,7 @@
     <div class="logo">
       <img src="../assets/logo.png" alt="Bulma logo">
     </div>
-    
+
     <hr>
 
     <div class="main">
@@ -45,9 +45,9 @@
               <router-link class="font-gray" :to="item.path + child.path">{{child.nameToShow}}</router-link>
             </li>
           </ul>
-        </li>    
+        </li>
       </ul>
-    </div> 
+    </div>
 
   </div>
 </aside>
@@ -85,7 +85,7 @@ export default {
   },
 
   methods : {
-    
+
     ...mapMutations({
       updateSideBarActiveStatus : 'UPDATE_SIDEBAR_ACTIVE_STATUS'
     }),
@@ -96,24 +96,33 @@ export default {
       }
       item.isActive = true
     },
-    
+
   }
 }
 </script>
 
-<style scoped lang="sass">
+<style scoped lang="scss">
 
-.teste
-  background : rgb(53,64,82)
-  margin  : 0
-  padding : 0
-  padding-top : 2em
-  padding-bottom : 5em
+.teste {
+  background: black;
+  margin: 0;
+  padding: 0;
+  padding-top: 2em;
+  padding-bottom: 5em;
+  min-width: 45px;
+  max-height: 100vh;
+  height: calc(100% - 50px);
+  z-index: 1024 - 1;
+  box-shadow: 0 2px 3px rgba(17, 17, 17, 0.1), 0 0 0 1px rgba(17, 17, 17, 0.1);
+  overflow-y: auto;
+  overflow-x: hidden;
 
-.menu-list a:hover 
-  color : black !important
-  font-weight : bold
+}
 
+.menu-list a:hover {
+  color: black !important;
+  font-weight: bold
+}
 
 </style>
 
