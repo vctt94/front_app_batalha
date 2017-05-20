@@ -1,15 +1,17 @@
+
+
 <template>
   <div id="app" class="hero is-fullheight">
     <div class="columns is-gapless reset-margin">
-      
+
       <div class="column is-2 aside is-fullheight is-hidden-mobile">
-        <my-menu 
+        <my-menu
           :menus="router"
         />
       </div>
 
       <div class="column is-10">
-        
+
         <div class="hero-head">
           <navbar title  = "Home"
                   :menus = "router"
@@ -60,7 +62,7 @@ export default {
 @import '../node_modules/bulma/sass/utilities/initial-variables'
 
 
-#app 
+#app
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -75,7 +77,7 @@ export default {
 
 .reset-margin
   margin : 0 !important
-  
+
 .font-white
   color : white
 

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Menu from './Menu'
+import Menu from '../components/Menu'
 import { mapMutations, mapGetters } from 'vuex'
 
 
@@ -27,7 +27,7 @@ export default {
       type: 'UPDATE_SIDEBAR_ACTIVE_STATUS',
       status: true
     })
-    
+
   },
   methods : {
     updateSideBarStatus(){
@@ -36,7 +36,7 @@ export default {
         status: !this.sidebar.activeStatus
       })
     }
-    
+
 
   }
 }
