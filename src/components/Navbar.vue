@@ -24,41 +24,26 @@
 -->
 
 <template>
-<nav class="nav has-shadow" id="top">
+  <section class="hero is-bold app-navbar animated" :class="{ slideInDown: show, slideOutDown: !show }">
+    <div class="hero-head">
+
+    <nav class="nav" >
         <div class="container">
           <div class="nav-left">
             <div class="nav-item" >
               <h1 class="title">{{title}}</h1>
             </div>
           </div>
-          <span class="nav-toggle" :class="[isActive ? 'is-active' : '' ]" v-on:click="isActive = !isActive">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-          <div class="nav-right nav-menu is-hidden-tablet" :class="[isActive ? 'is-active' : '' ]">
-			  <div class="main">
-			    <ul class="menu-list">
-			      <li v-for="item in menus" v-on:click="toggleActive(item)">
-			        <router-link class="font-white"  :to="item.path" :exact="true">{{item.nameToShow}}</router-link>
-			        <ul v-if="item.children && item.isActive">
-			          <li v-for="child in item.children" v-on:click="toggleActive(child)">
-			            <router-link class="font-white" :to="item.path + child.path">{{child.nameToShow}}</router-link>
-			          </li>
-			        </ul>
-			      </li>    
-			    </ul>
-			  </div> 
-              <a href="#" class="nav-item">
-	            Logout
-	          </a>
-          </div>
+
 
           <a href="#" class="nav-item is-hidden-mobile">
               Logout
           </a>
         </div>
       </nav>
+
+    </div>
+  </section>
 </template>
 
 <script>
@@ -70,22 +55,53 @@ export default {
   ],
   data(){
   	return{
-  		isActive : false
   	}
   },
   methods :{
-  	toggleActive(item){
-            for(let item of this.menus){
-              item.isActive = false;
-            }
-            item.isActive = true
-          }
+
   }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.nav {
+  position: fixed;
+  min-width: 100%;
+  z-index: 1024;
+  box-shadow: 0 2px 3px rgba(17, 17, 17, 0.1), 0 0 0 1px rgba(17, 17, 17, 0.1);
 
+}
+
+.app-navbar {
+  position: fixed;
+  min-width: 100%;
+  z-index: 1024;
+  box-shadow: 0 2px 3px rgba(17, 17, 17, 0.1), 0 0 0 1px rgba(17, 17, 17, 0.1);
+
+.container {
+  margin: auto 10px;
+}
+
+.nav-right {
+  align-items: stretch;
+  align-items: stretch;
+  flex: 1;
+  justify-content: flex-end;
+  overflow: hidden;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+}
+
+.hero-brand {
+.vue {
+  margin-left: 10px;
+  color: #36AC70;
+}
+.admin {
+  color: #28374B;
+}
+}
 </style>
 
 

@@ -1,4 +1,4 @@
-
+bandas
 <template>
 <div>
 	teste

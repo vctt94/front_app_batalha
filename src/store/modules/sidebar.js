@@ -2,7 +2,7 @@ import * as Mutations from '../mutations'
 
 
 const state = {
-	activeStatus : null
+	activeStatus : true
 }
 
 const getters = {}
