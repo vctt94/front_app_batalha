@@ -18,6 +18,13 @@ export default new Router({
       component: Home
     },
     {
+      path: '/',
+      name: 'batalha',
+      isActive : true,
+      nameToShow : 'Batalha !',
+      component: Home
+    },
+    {
       path: '/usuarios',
       name: 'usuarios',
       isActive : false,

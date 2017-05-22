@@ -1,5 +1,5 @@
 <template>
-<div class="home">
+  <div class="home column is-half is-offset-two-quarter">
 	<h1>home</h1>
   <a class="button" v-on:click="updateSideBarStatus">desligar navbar</a>
 </div>
@@ -42,8 +42,10 @@ export default {
 }
 </script>
 
-<style scoped lang="sass">
-.home
-	width : 100%
+<style scoped lang="scss">
+.home {
+  width : 100%;
+  padding-top: 10em;
 
+}
 </style>

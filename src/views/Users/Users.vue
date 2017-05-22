@@ -15,7 +15,7 @@
     </div>
 
     <div class="field" style="width: 50%">
-      <label class="label">Email : </label>
+      <label class="label">email : </label>
       <p class="control has-icons-left has-icons-right">
         <input class="input" type="text" placeholder="identificação, cidadão" >
         <span class="icon is-small is-left">
@@ -27,16 +27,9 @@
       </p>
     </div>
 
-    <div class="field" style="width: 50%">
-      <label class="label">Message</label>
+    <div class="field hero">
       <p class="control">
-        <textarea class="textarea" placeholder="Textarea"></textarea>
-      </p>
-    </div>
-
-
-    <div class="field">
-      <p class="control">
+        <label class="label">gênero :</label>
         <label class="radio">
           <input type="radio" name="genero">
           Mano
@@ -47,6 +40,16 @@
         </label>
       </p>
     </div>
+
+    <div class="field" style="width: 50%">
+      <label class="label">informação extra : </label>
+      <p class="control">
+        <textarea class="textarea" placeholder=""></textarea>
+      </p>
+    </div>
+
+
+
 
     <div class="field is-grouped">
       <p class="control">
