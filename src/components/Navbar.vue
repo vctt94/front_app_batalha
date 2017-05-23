@@ -55,6 +55,7 @@ export default {
   ],
   data(){
   	return{
+  	    show : false
   	}
   },
   methods :{

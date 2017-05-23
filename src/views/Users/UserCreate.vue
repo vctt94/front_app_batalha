@@ -4,7 +4,7 @@
     <div class="field" style="width: 50%">
       <label class="label">MC ____ : </label>
       <p class="control has-icons-left has-icons-right">
-        <input class="input" type="text" placeholder="mais conhecido como...">
+        <input class="input" type="text" placeholder="nome/mais conhecido como" v-model="name">
         <span class="icon is-small is-left">
           <i class="fa fa-user"></i>
         </span>
@@ -17,7 +17,7 @@
     <div class="field" style="width: 50%">
       <label class="label">Email : </label>
       <p class="control has-icons-left has-icons-right">
-        <input class="input" type="text" placeholder="identificação, cidadão" >
+        <input class="input" type="text" placeholder="email" >
         <span class="icon is-small is-left">
           <i class="fa fa-envelope"></i>
         </span>
@@ -27,24 +27,30 @@
       </p>
     </div>
 
-    <div class="field" style="width: 50%">
-      <label class="label">Message</label>
-      <p class="control">
-        <textarea class="textarea" placeholder="Textarea"></textarea>
-      </p>
-    </div>
-
 
     <div class="field">
       <p class="control">
         <label class="radio">
-          <input type="radio" name="genero">
+          <input type="radio" value="male" name="genero" v-model="gender">
           Mano
         </label>
         <label class="radio">
-          <input type="radio" name="genero">
+          <input type="radio" value="female" name="genero" v-model="gender">
           Mina
         </label>
+      </p>
+    </div>
+
+    <div class="field" style="width: 50%">
+      <label class="label">Email : </label>
+      <p class="control has-icons-left has-icons-right">
+        <input class="input" type="text" placeholder="email" >
+        <span class="icon is-small is-left">
+          <i class="fa fa-envelope"></i>
+        </span>
+        <span class="icon is-small is-right">
+          <i class="fa fa-warning"></i>
+        </span>
       </p>
     </div>
 
@@ -66,6 +72,11 @@
 
     data () {
       return {
+          name : null,
+          email : null,
+          gender : null,
+          groups : [],
+
       }
     },
 
@@ -81,6 +92,5 @@
 <style scoped lang="sass">
   .users
     width : 100%
-    margin-top: 10em
     border-width: 10em
 </style>

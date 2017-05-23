@@ -39,10 +39,10 @@
 
       <ul class="menu-list">
         <li v-for="item in menus" v-on:click="toggleActive(item)">
-          <router-link class="font-gray" :to="item.path" :exact="true">{{item.nameToShow}}</router-link>
+          <router-link class="font-gray" :to="item.path" :exact="true">{{item.meta.label}}</router-link>
           <ul v-if="item.children && item.isActive">
             <li v-for="child in item.children" v-on:click="toggleActive(child)">
-              <router-link class="font-gray" :to="item.path + child.path">{{child.nameToShow}}</router-link>
+              <router-link class="font-gray" :to="item.path + child.path">{{child.meta.label}}</router-link>
             </li>
           </ul>
         </li>

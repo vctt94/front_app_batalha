@@ -65,7 +65,7 @@
 
 
   export default {
-    name: 'Usuários',
+    name: 'users',
 
     data () {
       return {

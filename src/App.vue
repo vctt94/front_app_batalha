@@ -88,5 +88,8 @@ export default {
   color : #f6f7f7 !important
   font-weight: bold
 
+.hero-body
+  margin-top: 2em
+
 
 </style>

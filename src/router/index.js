@@ -4,44 +4,47 @@ import Wrapper from '@/components/WrapperTemplate'
 import Home    from '@/views/Home'
 import Users   from '@/views/Users/Users'
 import UserCreate   from '@/views/Users/UserCreate.vue'
+import BandCreate   from '@/views/bands/BandCreate.vue'
 
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
-    {
-      path: '/',
-      name: 'home',
-      isActive : true,
-      nameToShow : 'Home',
-      component: Home
-    },
+
     {
       path: '/',
       name: 'batalha',
       isActive : true,
-      nameToShow : 'Batalha !',
+      meta : {
+        label: 'Batalha !'
+      },
       component: Home
     },
     {
       path: '/usuarios',
       name: 'usuarios',
       isActive : false,
-      nameToShow : 'Usuários',
-      component: Users,
+      meta : {
+        label: 'Usuários',
+      },
+      component: UserCreate,
       children :  [
         {
         	path: '/listar',
         	append : true,
-        	nameToShow : 'Listar Todos',
+          meta : {
+            label: 'Listar Todos',
+          },
         	name 	   : 'listar',
         	component: Wrapper,
         },
         {
         	path: '/cadastrar',
         	append : true,
-        	nameToShow : 'Cadastrar',
+          meta : {
+            label: 'Cadastrar',
+          },
         	name 	   : 'cadastrar',
         	component: UserCreate
         },
@@ -51,26 +54,32 @@ export default new Router({
     {
       path: '/bandas',
       name: 'bandas',
-      nameToShow : 'Bandas',
+      meta : {
+        label: 'Bandas',
+      },
+      component  :  BandCreate,
       isActive : false,
       children : [
         {
         	path: '/listar',
         	append : true,
-        	nameToShow : 'Listar Todos',
+          meta : {
+            label: 'Listar Todos',
+          },
         	name 	   : 'listar',
         	component: Wrapper,
         },
         {
         	path: '/cadastrar',
         	append : true,
-        	nameToShow : 'Cadastrar',
+          meta : {
+            label: 'Cadastrar',
+          },
         	name 	   : 'cadastrar',
         	component: Wrapper,
         },
 
       ],
-      component: Wrapper
     }
   ]
 })
