@@ -9,7 +9,6 @@ import UserCreate   from '@/views/Users/UserCreate.vue'
  * band
  */
 import Band   from '@/views/bands/Band.vue'
-import BandCreate   from '@/views/bands/BandCreate.vue'
 
 
 
@@ -63,25 +62,7 @@ export default new Router({
       },
       component  :  Band,
       isActive : false,
-      children : [
-        {
-        	path: 'listar',
-          meta : {
-            label: 'Listar Todos',
-          },
-        	name 	   : 'listar',
-        	component: Wrapper,
-        },
-        {
-        	path: 'cadastrar',
-          meta : {
-            label: 'Cadastrar',
-          },
-        	name 	   : 'cadastrar',
-        	component: BandCreate,
-        },
 
-      ],
     }
   ]
 })

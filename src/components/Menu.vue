@@ -104,14 +104,6 @@ export default {
 
 .teste {
   background: black;
-  margin: 0;
-  min-width: 45px;
-  max-height: 100%;
-  height: calc(100% - 50px);
-  z-index: 1024 - 1;
-  box-shadow: 0 2px 3px rgba(17, 17, 17, 0.1), 0 0 0 1px rgba(17, 17, 17, 0.1);
-  overflow-y: auto;
-  overflow-x: hidden;
 
 }
 
