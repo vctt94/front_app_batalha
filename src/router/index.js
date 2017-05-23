@@ -4,7 +4,13 @@ import Wrapper from '@/components/WrapperTemplate'
 import Home    from '@/views/Home'
 import Users   from '@/views/Users/Users'
 import UserCreate   from '@/views/Users/UserCreate.vue'
+
+/**
+ * band
+ */
+import Band   from '@/views/bands/Band.vue'
 import BandCreate   from '@/views/bands/BandCreate.vue'
+
 
 
 Vue.use(Router)
@@ -28,24 +34,22 @@ export default new Router({
       meta : {
         label: 'Usuários',
       },
-      component: UserCreate,
+      component: Users,
       children :  [
         {
-        	path: '/listar',
-        	append : true,
+        	path: 'listar',
           meta : {
             label: 'Listar Todos',
           },
-        	name 	   : 'listar',
+        	name 	   : 'userList',
         	component: Wrapper,
         },
         {
-        	path: '/cadastrar',
-        	append : true,
+        	path: 'cadastrar',
           meta : {
             label: 'Cadastrar',
           },
-        	name 	   : 'cadastrar',
+        	name 	   : 'userCreate',
         	component: UserCreate
         },
    	  ],
@@ -57,12 +61,11 @@ export default new Router({
       meta : {
         label: 'Bandas',
       },
-      component  :  BandCreate,
+      component  :  Band,
       isActive : false,
       children : [
         {
-        	path: '/listar',
-        	append : true,
+        	path: 'listar',
           meta : {
             label: 'Listar Todos',
           },
@@ -70,13 +73,12 @@ export default new Router({
         	component: Wrapper,
         },
         {
-        	path: '/cadastrar',
-        	append : true,
+        	path: 'cadastrar',
           meta : {
             label: 'Cadastrar',
           },
         	name 	   : 'cadastrar',
-        	component: Wrapper,
+        	component: BandCreate,
         },
 
       ],

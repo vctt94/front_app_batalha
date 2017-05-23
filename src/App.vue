@@ -58,15 +58,15 @@ export default {
 </script>
 
 <style lang="sass">
-@import "../node_modules/bulma/bulma";
+@import "../node_modules/bulma/bulma"
 @import '../node_modules/bulma/sass/utilities/initial-variables'
 
 
 #app
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align : center;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  text-align : center
 
   padding : 0
   margin : 0

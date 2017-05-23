@@ -42,7 +42,7 @@
           <router-link class="font-gray" :to="item.path" :exact="true">{{item.meta.label}}</router-link>
           <ul v-if="item.children && item.isActive">
             <li v-for="child in item.children" v-on:click="toggleActive(child)">
-              <router-link class="font-gray" :to="item.path + child.path">{{child.meta.label}}</router-link>
+              <router-link class="font-gray" :to="item.path + '/' +child.path">{{child.meta.label}}</router-link>
             </li>
           </ul>
         </li>
@@ -105,11 +105,8 @@ export default {
 .teste {
   background: black;
   margin: 0;
-  padding: 0;
-  padding-top: 2em;
-  padding-bottom: 5em;
   min-width: 45px;
-  max-height: 100vh;
+  max-height: 100%;
   height: calc(100% - 50px);
   z-index: 1024 - 1;
   box-shadow: 0 2px 3px rgba(17, 17, 17, 0.1), 0 0 0 1px rgba(17, 17, 17, 0.1);

@@ -22,7 +22,7 @@
         :options="people"
         :multiple="true"
         :hideSelected = "true"
-        track-by="id"
+        track-by="_id"
         :custom-label="customLabel"
       >
       </multiselect>
