@@ -1,5 +1,15 @@
 <template>
   <div class="table is-bordered is-striped is-narrow">
+
+    <modal-confirm
+      :show="showDelete"
+      :title = "modalProps.title"
+      :content = "modalProps.content"
+      :submitButton="modalProps.submitButton"
+      v-on:submit="deleteBand(modalProps.group._id); showDelete = false"
+      v-on:cancel="showDelete = false"
+    ></modal-confirm>
+
     <table></table>
     <thead>
     <tr>
@@ -13,6 +23,8 @@
     <tr>
       <th>Nome</th>
       <th>Integrantes</th>
+      <th>Editar</th>
+      <th>Deletar</th>
     </tr>
     </tfoot>
     <tbody>
@@ -26,7 +38,7 @@
       <td>
         Editar
       </td>
-      <td v-on:click="deleteBand(group._id)">
+      <td v-on:click="openModal(group)">
         deletar
       </td>
     </tr>
@@ -36,12 +48,19 @@
 </template>
 
 <script>
+
+  import ModalConfirm from '../Components/Modal.vue'
+
   export default {
     name: 'BandCreate',
 
+    components : {ModalConfirm},
+
     data () {
       return {
-        groups : {}
+        groups : {},
+        showDelete : false,
+        modalProps : [],
       }
     },
     mounted(){
@@ -54,10 +73,17 @@
 
     methods : {
 
+        openModal(group){
+            this.modalProps.content = "Tem certeza que deseja deletar "+group.name +"?"
+            this.modalProps.submitButton = "Deletar"
+            this.modalProps.title = "Confirmar"
+            this.modalProps.group = group
+            this.showDelete = true
+        },
       deleteBand(id){
 
-          console.log(this.groups)
-          console.log(this.groups[id])
+        console.log(this.groups)
+        console.log(this.groups[id])
         this.groups[id] = null
 
 //          this.$http.delete('api/group/delete-group-by-id/'+id)
