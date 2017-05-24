@@ -49,7 +49,7 @@ export default {
   },
   mounted(){
     this.router = Router.options.routes
-    console.log(this.router);
+
   }
 }
 </script>
