@@ -5,7 +5,7 @@
     <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">Cadastrar Grupo</p>
-        <button class="delete" v-on:click="$emit('cancel')"></button>
+        <button class="delete" v-on:click="$emit('close')"></button>
       </header>
       <section class="modal-card-body">
 
@@ -25,14 +25,14 @@
         <div class="field">
           <label class="label">Escolher Integrantes: </label>
           <div>
-            <multiselect
-              v-model="peopleOnGroup"
-              :options="people"
-              :multiple="true"
-              :hideSelected = "true"
-              track-by="_id"
-              :label = "name"
-              :custom-label="customLabel"
+            <multiselect v-if="people"
+                         v-model="peopleOnGroup"
+                         :options="people"
+                         :multiple="true"
+                         :hideSelected = "true"
+                         track-by="_id"
+                         :label = "name"
+                         :custom-label="customLabel"
             >
             </multiselect>
           </div>
@@ -41,8 +41,9 @@
 
       </section>
       <footer class="modal-card-foot">
-        <a class="button is-success" v-on:click="insertBand">Cadastrar Banda</a>
-        <a class="button"  v-on:click="$emit('cancel')">{{cancelButton}}</a>
+        <a class="button is-success" v-on:click="submitForm" v-if="!edit">Cadastrar Banda</a>
+        <a class="button is-success" v-on:click="submitForm" v-else>Editar Banda</a>
+        <a class="button"  v-on:click="$emit('close')">{{cancelButton}}</a>
       </footer>
     </div>
   </div>
@@ -78,7 +79,13 @@
         default: "Cancelar"
       },
       groups:{
-          type: Object
+        type: Object
+      },
+      group: {
+        type: Object
+      },
+      edit : {
+        type: Boolean
       }
     },
 
@@ -87,42 +94,72 @@
         name          : null,
         people        : [],
         peopleOnGroup : [],
-
       }
     },
+
+    watch : {
+      group(){
+        if(this.group) {
+          this.name = this.group.name
+          this.peopleOnGroup = this.group._members
+        }
+      }
+
+    },
     mounted(){
-        console.log(this.groups)
+      if(this.group){
+        this.name = this.group.name
+        this.peopleOnGroup = this.group._members
+      }
+
       let scope = this
-      this.$http.get('/api/user/get-all-users').then(response=>{
-        scope.people = response.body
+      this.axios.get('/api/user/get-all-users').then(response=>{
+        scope.people = response.data.data
       })
     },
 
     methods : {
+      closeModal(){
+        this.$emit('close')
+
+      },
       customLabel (option) {
         return `${option.name}`
       },
 
-      submitModal(){
-        this.$emit('submit')
-        this.$emit('close')
-      },
-
-      insertBand(){
+      submitForm(){
 
         let band = {}
-        band.name = this.name
+        band.name    = this.name
         band.members = this.peopleOnGroup
         let jsonBand = JSON.stringify(band)
 
-        this.$http.post('/api/group/create-group',jsonBand,{
-          headers: {
-            Accept: "application/json"
-          }
-        }).then(response=>{
-            this.groups[response.body.group._id] = response.body.group
+        if(this.edit){
+
+          const oldId = this.group._id
+
+          this.axios.put('/api/group/update-group-by-id/'+this.group._id,jsonBand,{
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }).then(response=>{
+            this.$emit('close')
+          }).catch(error=>{
+            console.log(error)
+          })
+
+        }
+        else {
+
+          this.axios.post('/api/group/create-group', jsonBand,{
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }).then(response => {
+            this.groups[response.data.data._id] = response.data.data
             alert('cadastrado com sucesso')
-        })
+          })
+        }
 
       }
 
