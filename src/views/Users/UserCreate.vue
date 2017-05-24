@@ -41,29 +41,16 @@
       </p>
     </div>
 
-    <div class="field" style="width: 50%">
-      <label class="label">Email : </label>
-      <p class="control has-icons-left has-icons-right">
-        <input class="input" type="text" placeholder="email" >
-        <span class="icon is-small is-left">
-          <i class="fa fa-envelope"></i>
-        </span>
-        <span class="icon is-small is-right">
-          <i class="fa fa-warning"></i>
-        </span>
-      </p>
-    </div>
-
-    <div class="field is-grouped">
+    <br /><br />
+    <div class="hero field is-grouped">
       <p class="control">
-        <button class="button is-primary"> Cadastrar MC </button>
+        <button class="button is-primary" style="background-color: black"> Cadastrar MC </button>
       </p>
     </div>
   </div>
 </template>
 
 <script>
-  import Menu from '../../components/Menu'
   import { mapMutations, mapGetters } from 'vuex'
 
 
@@ -93,4 +80,5 @@
   .users
     width : 100%
     border-width: 10em
+    align-items: center
 </style>

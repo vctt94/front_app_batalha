@@ -5,7 +5,6 @@
 </template>
 
 <script>
-  import Menu from '../../components/Menu'
   import { mapMutations, mapGetters } from 'vuex'
 
 

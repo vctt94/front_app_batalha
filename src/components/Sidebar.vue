@@ -24,14 +24,13 @@
 -->
 
 <template>
-<aside v-if="getSidebarActiveStatus" class="menu  teste aside hero is-fullheight is-hidden-mobile">
+
+  <aside v-if="getSidebarActiveStatus" class="app-sidebar aside hero is-fullheight is-hidden-mobile">
   <div>
-    <div>
-      <h1 class="title font-white">Batalha da Escada</h1>
-    </div>
     <div class="logo">
-      <img src="../assets/logo.png" alt="Bulma logo">
+      <img src="../assets/006.svg" alt="Bulma logo">
     </div>
+
 
     <hr>
 
@@ -102,15 +101,56 @@ export default {
 
 <style scoped lang="scss">
 
-.teste {
+.app-sidebar {
+  position: fixed;
+  top: 50px;
+  left: 0;
+  bottom: 0;
+  padding: 20px 0 50px;
+  width: 15em;
+  min-width: 45px;
+  max-height: 100vh;
+  height: calc(100% - 50px);
+  z-index: 1024 - 1;
   background: black;
+  box-shadow: 5px 43px 22px rgba(17, 17, 17, 0.1), 0 0 0 1px rgba(17, 17, 17, 0.1);
+  overflow-y: auto;
+  overflow-x: hidden;
 
+  .icon {
+    vertical-align: baseline;
+    &.is-angle {
+      position: absolute;
+      right: 10px;
+      transition: transform .377s ease;
+    }
+  }
+
+  .menu-label {
+    padding-left: 5px;
+  }
+
+  .menu-list {
+    li a {
+      &[aria-expanded="true"] {
+        .is-angle {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    li a + ul {
+      margin: 0 10px 0 15px;
+    }
+  }
 }
-
 .menu-list a:hover {
   color: black !important;
   font-weight: bold
 }
 
-</style>
+.logo {
+  background-color: white;
+}
 
+</style>

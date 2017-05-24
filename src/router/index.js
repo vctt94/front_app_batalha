@@ -8,7 +8,7 @@ import UserCreate   from '@/views/Users/UserCreate.vue'
 /**
  * band
  */
-import Band   from '@/views/bands/Band.vue'
+import Band   from '@/views/Bands/Band.vue'
 
 
 
