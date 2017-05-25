@@ -1,25 +1,24 @@
 <template>
-  <div class="container">
-    <div class="column table is-bordered is-striped is-narrow">
-      <modal-confirm
-        :show="showDelete"
-        :title = "modalProps.title"
-        :content = "modalProps.content"
-        :submitButton="modalProps.submitButton"
-        v-on:submit="deleteBand(modalProps.group._id); showDelete = false"
-        v-on:cancel="showDelete = false"
-      ></modal-confirm>
+  <div>
+    <modal-confirm
+      :show="showDelete"
+      :title = "modalProps.title"
+      :content = "modalProps.content"
+      :submitButton="modalProps.submitButton"
+      v-on:submit="deleteBand(modalProps.group._id); showDelete = false"
+      v-on:cancel="showDelete = false"
+    ></modal-confirm>
 
-      <modal-band-form
-        :show       = "showModalForm"
-        :title      = "modalProps.title"
-        :groups     = "groups"
-        :group      = "group"
-        :edit       = "edit"
-        v-on:submit = "showModalForm = false"
-        v-on:close  = "closeModal"
-      ></modal-band-form>
-
+    <modal-band-form
+      :show       = "showModalForm"
+      :title      = "modalProps.title"
+      :groups     = "groups"
+      :group      = "group"
+      :edit       = "edit"
+      v-on:submit = "showModalForm = false"
+      v-on:close  = "closeModal"
+    ></modal-band-form>
+    <div class="table is-bordered is-striped is-narrow">
       <a class="fa fa-plus" v-on:click="openCreateModal">Adicionar novo</a>
 
       <table>
@@ -64,8 +63,8 @@
       </table>
 
     </div>
-
   </div>
+
 </template>
 
 <script>
