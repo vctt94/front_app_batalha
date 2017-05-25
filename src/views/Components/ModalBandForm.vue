@@ -33,10 +33,10 @@
                 </div>
             </div>
             <hr>
-            <label class="label">Pesquisar Integrante </label>
-            <input class="input" type="text" v-model="search" v-on:keyup="searchUser">
+            <label class="label">Adicionar Integrante </label>
+            <input class="input" type="text" placeholder="Pesquisar" v-model="search" v-on:keyup="searchUser">
 
-            <div v-if="loadingSearch" class="fa fa-cog fa-spin fa-3x fa-fw">
+            <div v-if="loadingSearch" class="fa fa-spinner fa-pulse fa-3x fa-fw">
             </div>
             <div v-else>
               <h4 class="title">Integrantes: </h4>
