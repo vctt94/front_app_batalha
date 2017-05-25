@@ -36,14 +36,15 @@
             <label class="label">Pesquisar Integrante </label>
             <input class="input" type="text" v-model="search" v-on:keyup="searchUser">
 
-            <div v-if="people">
+            <div v-if="loadingSearch" class="fa fa-cog fa-spin fa-3x fa-fw">
+            </div>
+            <div v-else>
               <h4 class="title">Integrantes: </h4>
-              <ul>
+              <ul v-if="people">
                 <li v-for="person in people" v-if="person" v-on:click="addPersonToGroup(person)">
                   {{person.name}}
                 </li>
               </ul>
-
             </div>
           </div>
         </div>
@@ -64,6 +65,11 @@
   import Multiselect from 'vue-multiselect'
   import { mapMutations, mapGetters } from 'vuex'
 
+  const headers = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
 
   export default {
     name: 'BandCreate',
@@ -104,7 +110,8 @@
         name          : null,
         people        : {},
         peopleOnGroup : {},
-        search        : null
+        search        : null,
+        loadingSearch : false
       }
     },
 
@@ -139,14 +146,19 @@
         this.people[person._id] = null
 
       },
-      searchUser(event){
-      },
-      closeModal(){
-        this.$emit('close')
+      searchUser(){
+
+        const scope = this
+        this.loadingSearch = true
+        this.axios.post('/api/user/search-user-by-name',{name : this.search},headers).then(response => {
+          scope.people = response.data.data
+          scope.loadingSearch = false
+        })
 
       },
-      customLabel (option) {
-        return `${option.name}`
+
+      closeModal(){
+        this.$emit('close')
       },
 
       submitForm(){
