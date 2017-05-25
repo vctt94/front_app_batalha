@@ -1,19 +1,24 @@
 <template>
-  <div id="app" class="hero is-fullheight">
+  <div id="app" class="hero">
 
     <div class="hero-head">
       <navbar></navbar>
     </div>
 
     <div class="columns ">
-      <div class="column is-2">
-        <sidebar
-          :menus="router"
-        ></sidebar>
+      <div class="column is-2 is-fullheight is-hidden-mobile">
+          <sidebar
+            :menus="router"
+          ></sidebar>
       </div>
-      <section class="column is-offset-2 hero-body container">
-          <router-view class="" ></router-view>
-      </section>
+      <main class="column is-offset-1 is-centered is-fullheight content">
+        <div class="container">
+          <div class="has-text-centered">
+            <router-view></router-view>
+
+          </div>
+        </div>
+      </main>
     </div>
     <my-footer class="hero-foot"></my-footer>
   </div>
@@ -52,7 +57,7 @@
   @import "../node_modules/bulma/bulma";
   @import "../node_modules/bulma/sass/utilities/initial-variables";
 
-  .app-main {
+  #app {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transform: translate3d(0, 0, 0);
@@ -62,6 +67,23 @@
       margin-left: 0;
     }
 
+  }
+  .columns{
+    margin: 0;
+    padding: 0;
+  }
+
+  .column{
+    margin: 0;
+    padding: 0;
+  }
+
+  .content{
+    margin-top: 2em;
+    padding-top: 3em;
+    margin-right: 2em;
+
+    min-height:100vh
   }
 
   .router-link-active {

@@ -104,18 +104,9 @@ export default {
 .app-sidebar {
   position: fixed;
   top: 50px;
-  left: 0;
-  bottom: 0;
-  padding: 20px 0 50px;
   width: 15em;
-  min-width: 45px;
-  max-height: 100vh;
-  height: calc(100% - 50px);
-  z-index: 1024 - 1;
   background: black;
   box-shadow: 5px 43px 22px rgba(17, 17, 17, 0.1), 0 0 0 1px rgba(17, 17, 17, 0.1);
-  overflow-y: auto;
-  overflow-x: hidden;
 
   .icon {
     vertical-align: baseline;
