@@ -14,7 +14,7 @@
           <div class="field" style="width: 50%">
             <label class="label">MC ____ : </label>
             <p class="control has-icons-left has-icons-right">
-              <input class="input" type="text" placeholder="nome/mais conhecido como" v-model="user.name">
+              <input class="input" type="text" placeholder="nome/mais conhecido como" v-model="localUser.name">
               <span class="icon is-small is-left">
           <i class="fa fa-user"></i>
         </span>
@@ -27,7 +27,7 @@
           <div class="field" style="width: 50%">
             <label class="label">Email : </label>
             <p class="control has-icons-left has-icons-right">
-              <input class="input" type="text" placeholder="email" v-model="user.email" >
+              <input class="input" type="text" placeholder="email" v-model="localUser.email" >
               <span class="icon is-small is-left">
                 <i class="fa fa-envelope"></i>
               </span>
@@ -41,11 +41,11 @@
           <div class="field">
             <p class="control">
               <label class="radio">
-                <input type="radio" value="mano" name="genero" v-model="user.gender">
+                <input type="radio" value="mano" name="genero" v-model="localUser.gender">
                 Mano
               </label>
               <label class="radio">
-                <input type="radio" value="mina" name="genero" v-model="user.gender">
+                <input type="radio" value="mina" name="genero" v-model="localUser.gender">
                 Mina
               </label>
             </p>
@@ -76,7 +76,7 @@
 
     data () {
       return {
-        user: {
+        localUser: {
           name : null,
           email : null,
           gender : null,
@@ -107,11 +107,18 @@
       groups:{
         type: Object
       },
-      group: {
+      user: {
         type: Object
       },
       edit : {
         type: Boolean
+      }
+    },
+
+    watch : {
+      user(){
+        if(this.user)
+          this.localUser = this.user
       }
     },
 
@@ -125,13 +132,11 @@
       submitForm(){
 
         const scope = this;
-        let jsonUser = JSON.stringify(this.user)
+        let jsonUser = JSON.stringify(this.localUser)
 
         if(this.edit){
 
-          const oldId = this.group._id
-
-          this.axios.put('/api/group/update-group-by-id/'+scope.user._id,jsonUser,{
+          this.axios.put('/api/user/update-user-by-id/'+scope.user._id,jsonUser,{
             headers: headers
           }).then(response=>{
             this.$emit('close')

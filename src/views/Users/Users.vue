@@ -43,7 +43,7 @@
         <tr v-for="user in users" v-if="user">
           <td>{{user.name}}</td>
           <td >
-              {{user.email}}
+            {{user.email}}
           </td>
           <td>
             <a class="fa fa-book" v-on:click="openEditModal(user)">
@@ -127,7 +127,7 @@
         console.log(this.users[id])
         this.users[id] = null
 
-//          this.$http.delete('api/user/delete-user-by-id/'+id)
+        this.$http.delete('api/user/delete-user-by-id/'+id)
       },
 
 

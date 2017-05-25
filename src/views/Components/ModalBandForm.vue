@@ -23,18 +23,28 @@
         </div>
 
         <div class="field">
-          <label class="label">Escolher Integrantes: </label>
           <div>
-            <multiselect v-if="people"
-                         v-model="peopleOnGroup"
-                         :options="people"
-                         :multiple="true"
-                         :hideSelected = "true"
-                         track-by="_id"
-                         :label = "name"
-                         :custom-label="customLabel"
-            >
-            </multiselect>
+            <div v-if="peopleOnGroup">
+                <div v-for="personInGroup in peopleOnGroup">
+                  <div v-if="personInGroup">
+                    {{personInGroup.name}}
+                    <span class="fa fa-remove" v-on:click="removePersonFromGroup(personInGroup)"></span>
+                  </div>
+                </div>
+            </div>
+            <hr>
+            <label class="label">Pesquisar Integrante </label>
+            <input class="input" type="text" v-model="search" v-on:keyup="searchUser">
+
+            <div v-if="people">
+              <h4 class="title">Integrantes: </h4>
+              <ul>
+                <li v-for="person in people" v-if="person" v-on:click="addPersonToGroup(person)">
+                  {{person.name}}
+                </li>
+              </ul>
+
+            </div>
           </div>
         </div>
 
@@ -92,8 +102,9 @@
     data () {
       return {
         name          : null,
-        people        : [],
-        peopleOnGroup : [],
+        people        : {},
+        peopleOnGroup : {},
+        search        : null
       }
     },
 
@@ -119,6 +130,17 @@
     },
 
     methods : {
+      removePersonFromGroup(person){
+        this.peopleOnGroup[person._id] = null
+        this.people[person._id]        = person
+      },
+      addPersonToGroup(person){
+        this.peopleOnGroup[person._id] = person
+        this.people[person._id] = null
+
+      },
+      searchUser(event){
+      },
       closeModal(){
         this.$emit('close')
 

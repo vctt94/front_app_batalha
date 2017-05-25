@@ -6,12 +6,14 @@
     </div>
 
     <div class="columns ">
-      <div class="column is-2 is-fullheight is-hidden-mobile">
+
+      <div class="column is-2 aside is-fullheight is-hidden-mobile">
           <sidebar
             :menus="router"
           ></sidebar>
       </div>
-      <main class="column is-offset-1 is-centered is-fullheight content">
+
+      <main class="column is-centered is-fullheight content">
         <div class="container">
           <div class="has-text-centered">
             <router-view></router-view>
@@ -62,10 +64,6 @@
     -moz-osx-font-smoothing: grayscale;
     transform: translate3d(0, 0, 0);
     text-align : center;
-
-    @include mobile() {
-      margin-left: 0;
-    }
 
   }
   .columns{
