@@ -1,12 +1,10 @@
 <template>
-  <div class="home column is-half is-offset-two-quarter">
-	<h1>home</h1>
-  <a class="button" v-on:click="updateSideBarStatus">desligar navbar</a>
-</div>
+  <div >
+	   <h1>hqwdqdome</h1>
+  </div>
 </template>
 
 <script>
-import Menu from '../components/Menu'
 import { mapMutations, mapGetters } from 'vuex'
 
 
@@ -43,9 +41,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.home {
-  width : 100%;
-  padding-top: 10em;
 
-}
 </style>

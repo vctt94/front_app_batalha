@@ -64,9 +64,7 @@
       </table>
 
     </div>
-    <div class="column">
-      <router-view></router-view>
-    </div>
+
   </div>
 </template>
 
