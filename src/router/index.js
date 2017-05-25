@@ -3,8 +3,6 @@ import Router  from 'vue-router'
 import Wrapper from '@/components/WrapperTemplate'
 import Home    from '@/views/Home'
 import Users   from '@/views/Users/Users'
-import UserCreate   from '@/views/Users/UserCreate.vue'
-import UserList from '@/views/Users/UserList.vue'
 
 /**
  * band
@@ -35,25 +33,6 @@ export default new Router({
         label: 'Usuários',
       },
       component: Users,
-      children :  [
-        {
-        	path: 'listar',
-          meta : {
-            label: 'Listar Todos',
-          },
-        	name 	   : 'userList',
-        	component: UserList
-        },
-        {
-        	path: 'cadastrar',
-          meta : {
-            label: 'Cadastrar',
-          },
-        	name 	   : 'userCreate',
-        	component: UserCreate
-        },
-   	  ],
-
     },
     {
       path: '/bandas',

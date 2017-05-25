@@ -1,27 +1,25 @@
 <template>
-  <div class="container">
-    <div class="column table is-bordered is-striped is-narrow">
-      <modal-confirm
-        :show="showDelete"
-        :title = "modalProps.title"
-        :content = "modalProps.content"
-        :submitButton="modalProps.submitButton"
-        v-on:submit="deleteUser(modalProps.user._id); showDelete = false"
-        v-on:cancel="showDelete = false"
-      ></modal-confirm>
+  <div class="">
+    <modal-confirm
+      :show="showDelete"
+      :title = "modalProps.title"
+      :content = "modalProps.content"
+      :submitButton="modalProps.submitButton"
+      v-on:submit="deleteUser(modalProps.user._id); showDelete = false"
+      v-on:cancel="showDelete = false"
+    ></modal-confirm>
 
-      <modal-user-form
-        :show       = "showModalForm"
-        :title      = "modalProps.title"
-        :users     = "users"
-        :user      = "user"
-        :edit       = "edit"
-        v-on:submit = "showModalForm = false"
-        v-on:close  = "closeModal"
-      ></modal-user-form>
-
-      <a class="fa fa-plus" v-on:click="openCreateModal">Adicionar novo</a>
-
+    <modal-user-form
+      :show       = "showModalForm"
+      :title      = "modalProps.title"
+      :users     = "users"
+      :user      = "user"
+      :edit       = "edit"
+      v-on:submit = "showModalForm = false"
+      v-on:close  = "closeModal"
+    ></modal-user-form>
+    <a class="fa fa-plus" v-on:click="openCreateModal">Adicionar novo</a>
+    <div class="table is-bordered is-striped is-narrow">
       <table>
         <thead>
 
@@ -139,8 +137,5 @@
 </script>
 
 <style scoped lang="sass">
-  .users
-    width : 100%
-    margin-top: 10em
-    border-width: 10em
+
 </style>
