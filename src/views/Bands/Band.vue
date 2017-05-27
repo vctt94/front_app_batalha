@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="column table is-bordered is-striped is-narrow">
+    <div class="table is-bordered is-striped is-narrow">
       <modal-confirm
         :show="showDelete"
         :title = "modalProps.title"

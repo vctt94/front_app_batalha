@@ -13,9 +13,11 @@
       <div class="hero-head">
         <navbar />
       </div>
-      <section class="app-main">
+      <section class="app-main-content">
 
         <div class="container is-fluid is-marginless app-content">
+          <video src="timelapse.mp4" type="video/mp4" autoplay loop class="fillWidth">
+          </video>
           {{ this.$router.name }}
           <router-view class="animated" />
         </div>
@@ -57,6 +59,10 @@ export default {
 <style lang="scss">
 @import "../node_modules/bulma/bulma";
 @import "../node_modules/bulma/sass/utilities/initial-variables";
+// @import '~animate.css';
+// .animated {
+//   animation-duration: .377s;
+// }
 
 .app-main {
   -webkit-font-smoothing: antialiased;
@@ -68,6 +74,24 @@ export default {
     margin-left: 0;
   }
 
+}
+
+.app-main-content {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding-top: 50px;
+  margin-left: 180px;
+  transform: translate3d(0, 0, 0);
+  text-align : center;
+
+  @include mobile() {
+    margin-left: 0;
+  }
+
+}
+
+.app-content {
+  padding: 20px;
 }
 
 .container {

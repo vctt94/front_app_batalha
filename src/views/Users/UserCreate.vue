@@ -1,5 +1,5 @@
 <template>
-  <div class="users column is-half is-offset-one-quarter">
+  <div class="users">
 
     <div class="field" style="width: 50%">
       <label class="label">MC ____ : </label>

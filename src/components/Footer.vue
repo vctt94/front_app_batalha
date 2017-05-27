@@ -1,6 +1,9 @@
 <template>
-	<footer class="footer">
-	</footer>
+	<div class="footer">
+
+		<footer >
+		</footer>
+	</div>
 </template>
 
 <script>
@@ -16,7 +19,8 @@ export default {
 </script>
 
 <style scoped>
-.container {
+.footer {
 	color: black;
+	background-image: '../assets/stairs.gif';
 }
 </style>
