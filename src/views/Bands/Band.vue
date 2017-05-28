@@ -1,24 +1,25 @@
 <template>
-  <div class="container">
+  <div>
+    <modal-confirm
+      :show="showDelete"
+      :title = "modalProps.title"
+      :content = "modalProps.content"
+      :submitButton="modalProps.submitButton"
+      v-on:submit="deleteBand(modalProps.group._id); showDelete = false"
+      v-on:cancel="showDelete = false"
+    ></modal-confirm>
+
+    <modal-band-form
+      :show       = "showModalForm"
+      :title      = "modalProps.title"
+      :groups     = "groups"
+      :group      = "group"
+      :edit       = "edit"
+      v-on:submit = "showModalForm = false"
+      v-on:close  = "closeModal"
+    ></modal-band-form>
     <div class="table is-bordered is-striped is-narrow">
-      <modal-confirm
-        :show="showDelete"
-        :title = "modalProps.title"
-        :content = "modalProps.content"
-        :submitButton="modalProps.submitButton"
-        v-on:submit="deleteBand(modalProps.group._id); showDelete = false"
-        v-on:cancel="showDelete = false"
-      ></modal-confirm>
-
-      <modal-band-create
-        :show  = "showCreate"
-        :title = "modalProps.title"
-        :groups = "groups"
-        v-on:submit="showCreate = false"
-        v-on:cancel="showCreate = false"
-      ></modal-band-create>
-
-      <a class="fa fa-plus" v-on:click="showCreate = true">Adicionar novo</a>
+      <a class="fa fa-plus" v-on:click="openCreateModal">Adicionar novo</a>
 
       <table>
         <thead>
@@ -48,11 +49,11 @@
             </ul>
           </td>
           <td>
-            <a class="fa fa-book">
+            <a class="fa fa-book" v-on:click="openEditModal(group)">
 
             </a>
           </td>
-          <td v-on:click="openModal(group)">
+          <td v-on:click="openDeleteModal(group)">
             <a class="fa fa-trash">
 
             </a>
@@ -62,46 +63,69 @@
       </table>
 
     </div>
-    <div class="column">
-      <router-view></router-view>
-    </div>
   </div>
+
 </template>
 
 <script>
 
   import ModalConfirm from '../Components/Modal.vue'
-  import ModalBandCreate from '../Components/ModalBandCreate.vue'
+  import ModalBandForm from '../Components/ModalBandForm.vue'
 
   export default {
     name: 'BandCreate',
 
-    components : {ModalConfirm,ModalBandCreate},
+    components : {ModalConfirm,ModalBandForm},
 
     data () {
       return {
-        groups : {},
-        showDelete : false,
-        showCreate : false,
-        modalProps : [],
+        groups        : {},
+        showDelete    : false,
+        showModalForm : false,
+        modalProps    : [],
+        group         : null,
+        edit          : null
+
       }
     },
     mounted(){
-      let scope = this
-      this.$http.get('/api/group/get-all-groups').then(response=>{
-        scope.groups = JSON.parse(response.bodyText)
+      const scope = this;
+      this.axios.get('/api/group/get-all-groups').then(response=>{
+        scope.groups = response.data.data
       })
+
     },
 
     methods : {
 
-        openModal(group){
-            this.modalProps.content = "Tem certeza que deseja deletar "+group.name +"?"
-            this.modalProps.submitButton = "Deletar"
-            this.modalProps.title = "Confirmar"
-            this.modalProps.group = group
-            this.showDelete = true
-        },
+      openDeleteModal(group){
+        this.modalProps.content = "Tem certeza que deseja deletar "+group.name +"?"
+        this.modalProps.submitButton = "Deletar"
+        this.modalProps.title = "Confirmar"
+        this.modalProps.group = group
+        this.showDelete = true
+      },
+
+      openEditModal(group){
+
+        this.edit = true
+        this.group = group
+        this.showModalForm = true
+      },
+
+      openCreateModal(){
+        this.edit = false
+        this.showModalForm = true
+      },
+
+      closeModal(group){
+        if(group)
+          this.groups[group._id] = group
+        this.edit          = false
+        this.showModalForm = false
+        this.group         = null
+      },
+
       deleteBand(id){
 
         console.log(this.groups)
@@ -111,23 +135,6 @@
 //          this.$http.delete('api/group/delete-group-by-id/'+id)
       },
 
-      insertBand(){
-
-        let band = {}
-        band.name = this.name
-        band.members = this.peopleOnGroup
-        let jsonBand = JSON.stringify(band)
-        console.log(jsonBand)
-
-        this.$http.post('/api/group/create-group',jsonBand,{
-          headers: {
-            Accept: "application/json"
-          }
-        }).then(response=>{
-          console.log(response)
-        })
-
-      }
 
 
     }
