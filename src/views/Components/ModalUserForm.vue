@@ -11,7 +11,7 @@
 
         <div class="users column is-half is-offset-one-quarter">
 
-          <div class="field" style="width: 50%">
+          <div class="field" >
             <label class="label">MC ____ : </label>
             <p class="control has-icons-left has-icons-right">
               <input class="input" type="text" placeholder="nome/mais conhecido como" v-model="localUser.name">
@@ -24,7 +24,7 @@
             </p>
           </div>
 
-          <div class="field" style="width: 50%">
+          <div class="field" >
             <label class="label">Email : </label>
             <p class="control has-icons-left has-icons-right">
               <input class="input" type="text" placeholder="email" v-model="localUser.email" >
@@ -56,8 +56,8 @@
 
       </section>
       <footer class="modal-card-foot">
-        <a class="button is-success" v-on:click="submitForm" v-if="!edit">Cadastrar Banda</a>
-        <a class="button is-success" v-on:click="submitForm" v-else>Editar Banda</a>
+        <a class="button is-success" v-on:click="submitForm" v-if="!edit">Cadastrar</a>
+        <a class="button is-success" v-on:click="submitForm" v-else>Editar</a>
         <a class="button"  v-on:click="$emit('close')">{{cancelButton}}</a>
       </footer>
     </div>

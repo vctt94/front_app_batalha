@@ -3,7 +3,7 @@
     <h1>2013 NCAA Tournament - Midwest Bracket</h1>
     <main id="tournament">
         <bracket
-        :rounds-number="8"></bracket>
+        :rounds-number="32"></bracket>
     </main>
   </div>
 </template>

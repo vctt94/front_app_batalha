@@ -7,18 +7,15 @@
 
     <div class="columns ">
 
-      <div class="column is-2 aside is-fullheight is-hidden-mobile">
+      <div class="column is-2 aside is-fullheight is-hidden-touch">
           <sidebar
             :menus="router"
           ></sidebar>
       </div>
 
-      <main class="column is-10 is-centered is-fullheight content">
-        <div class="container">
-          <div class="has-text-centered">
+      <main class="column is-10 is-offset-1">
+        <div class="content">
             <router-view></router-view>
-
-          </div>
         </div>
       </main>
     </div>
@@ -59,6 +56,7 @@
   @import "../node_modules/bulma/bulma";
   @import "../node_modules/bulma/sass/utilities/initial-variables";
 
+
   #app {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -79,47 +77,11 @@
   .content{
     margin-top: 2em;
     padding-top: 3em;
-    margin-right: 2em;
+    margin-right: 5em;
+    max-width: 80%;
 
     min-height:100vh
   }
-
-  .router-link-active {
-    color: #f6f7f7 !important;
-    font-weight: bold;
-  }
-  /*@import "../node_modules/bulma/bulma"*/
-  /*@import '../node_modules/bulma/sass/utilities/initial-variables'*/
-
-
-  /*#app*/
-  /*font-family: 'Avenir', Helvetica, Arial, sans-serif*/
-  /*-webkit-font-smoothing: antialiased*/
-  /*-moz-osx-font-smoothing: grayscale*/
-  /*text-align : center*/
-
-  /*padding : 0*/
-  /*margin : 0*/
-
-  /*.column*/
-  /*padding : 0*/
-  /*margin : 0*/
-
-  /*.reset-margin*/
-  /*margin : 0 !important*/
-
-  /*.font-white*/
-  /*color : white*/
-
-  /*.font-gray*/
-  /*color : rgb(170, 170, 170) !important*/
-
-  /*.router-link-active*/
-  /*color : #f6f7f7 !important*/
-  /*font-weight: bold*/
-
-  /*.hero-body*/
-  /*margin-top: 2em*/
 
 
 </style>

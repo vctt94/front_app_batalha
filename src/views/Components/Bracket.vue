@@ -6,26 +6,26 @@
       <div v-for="i in iTotal">
 
 
-        <div style=""  v-if="!loading && matriz[j-1][i-1]">
-          <div style="padding-right:1em">
+        <div
+          v-if="!loading && matriz[j-1][i-1]">
             <!--{{j-1}}{{i-1}}-->
-            <ul :class="['round round-'+j, j==jTotal ? 'is-last' : '']">
+            <ul :class="['round round-'+j, j==jTotal ? 'is-last' : '']" style="min-height: 10em; ">
 
               <li class="spacer">&nbsp;</li>
 
               <i v-if="j==jTotal" class="fa fa-trophy"></i>
               <li class="game game-top winner">MC 1 <span>79</span></li>
 
-              <li class="game game-spacer">&nbsp;</li>
+              <li class="game game-spacer" >&nbsp;</li>
 
               <li class="game game-bottom ">MC 2 <span>48</span></li>
 
 
               <li class="spacer">&nbsp;</li>
             </ul>
-          </div>
+
         </div>
-        <div v-else style="min-height: 2em;margin-top:8em"></div>
+        <div v-else style="min-height:10em"></div>
 
       </div>
 
@@ -102,7 +102,6 @@
   body{
     font-family:sans-serif;
     font-size:small;
-    padding:10px;
     line-height:1.4em;
   }
   .main{
@@ -110,40 +109,38 @@
     flex-direction:row;
   }
 
-  li.game{
-    padding-left:20px;
+  .game{
   }
 
-  li.game.winner{
+  .game.winner{
     font-weight:bold;
   }
-  li.game span{
+  .game span{
     float:right;
-    margin-right:5px;
   }
 
-  li.game-top{ border-bottom:1px solid #aaa; }
 
-  li.game-spacer{
+  .game-spacer{
     border-right:1px solid #aaa;
-    min-height:40px;
+    min-height: 2em;
+
   }
 
-  li.game-bottom{
+  .game-top{ border-bottom:1px solid #aaa; }
+
+  .game-bottom{
     border-top:1px solid #aaa;
   }
 
   .is-last{
     margin-top: 5em !important;
+
   }
   .round{
-
-    display:flex;
     width: 10em;
+    display: flex;
     flex-direction:column;
-    justify-content:center;
     list-style:none;
-    padding: 0;
     margin: 0;
   }
   .round .spacer{ flex-grow:1; }
@@ -153,5 +150,6 @@
   .round .game-spacer{
     flex-grow:1;
   }
+
 
 </style>

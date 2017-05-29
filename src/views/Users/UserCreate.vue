@@ -1,7 +1,7 @@
 <template>
   <div class="users">
 
-    <div class="field" style="width: 50%">
+    <div class="field" >
       <label class="label">MC ____ : </label>
       <p class="control has-icons-left has-icons-right">
         <input class="input" type="text" placeholder="nome/mais conhecido como" v-model="user.name">
@@ -14,7 +14,7 @@
       </p>
     </div>
 
-    <div class="field" style="width: 50%">
+    <div class="field">
       <label class="label">Email : </label>
       <p class="control has-icons-left has-icons-right">
         <input class="input" type="text" placeholder="email" v-model="user.email" >
