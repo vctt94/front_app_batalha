@@ -10,11 +10,16 @@
           <div style="padding-right:1em">
             <!--{{j-1}}{{i-1}}-->
             <ul :class="['round round-'+j, j==jTotal ? 'is-last' : '']">
+
               <li class="spacer">&nbsp;</li>
 
+              <i v-if="j==jTotal" class="fa fa-trophy"></i>
               <li class="game game-top winner">MC 1 <span>79</span></li>
+
               <li class="game game-spacer">&nbsp;</li>
+
               <li class="game game-bottom ">MC 2 <span>48</span></li>
+
 
               <li class="spacer">&nbsp;</li>
             </ul>
