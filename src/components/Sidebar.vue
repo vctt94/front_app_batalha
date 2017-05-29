@@ -143,5 +143,9 @@ export default {
 .logo {
   background-color: white;
 }
+.router-link-active {
+  color: #f6f7f7 !important;
+  font-weight: bold;
+}
 
 </style>
