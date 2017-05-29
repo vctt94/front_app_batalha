@@ -4,12 +4,20 @@
 <main id="tournament">
 
 
-			<div v-for="i in 7" style="padding-left: 5em">
+			<div v-for="i in 8" style="padding-left: 5em">
 
 					<div v-for="j in 4">
 							<br />
 							<div v-if="!loading && matriz[i-1][j-1]">
-								{{i-1}}{{j-1}}
+								<ul :class="'round round-'+j">
+									<li class="spacer">&nbsp;</li>
+
+									<li class="game game-top winner">{{firstStage[j].first.name}} <span></span></li>
+									<li class="game game-spacer">&nbsp;</li>
+									<li class="game game-bottom ">{{firstStage[j].second.name}} <span></span></li>
+
+									<li class="spacer">&nbsp;</li>
+								</ul>
 							</div>
 					</div>
 			</div>
@@ -55,7 +63,6 @@ export default {
 
 	  }
 	  this.loading = false
-	  console.log(this.matriz)
   },
 
   methods : {
