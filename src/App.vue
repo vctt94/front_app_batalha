@@ -7,7 +7,7 @@
 
     <div class="columns ">
 
-      <div class="column is-2 aside is-fullheight is-hidden-touch">
+      <div class="column is-2 aside sidebar is-hidden-touch">
           <sidebar
             :menus="router"
           ></sidebar>

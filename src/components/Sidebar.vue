@@ -78,7 +78,6 @@ export default {
 
 
   mounted() {
-    console.log('menu sidebar mounted')
     this.active = this.getSidebarActiveStatus
   },
 
@@ -107,6 +106,8 @@ export default {
   width: 15em;
   background: black;
   box-shadow: 5px 43px 22px rgba(17, 17, 17, 0.1), 0 0 0 1px rgba(17, 17, 17, 0.1);
+  height: 100%;
+
 
   .icon {
     vertical-align: baseline;
