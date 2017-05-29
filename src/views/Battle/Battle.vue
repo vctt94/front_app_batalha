@@ -59,7 +59,7 @@ export default {
 		  	this.matriz[i][j] = true
 		  }
 		  if(i==j)
-			 	this.matriz[i][j] = true
+			 this.matriz[i][j] = true
 		  k -= 2
 
 	  }

@@ -1,5 +1,8 @@
 <template>
   <div class="">
+
+      <content-navbar></content-navbar>
+
     <modal-confirm
       :show="showDelete"
       :title = "modalProps.title"
@@ -32,12 +35,7 @@
 
         </thead>
         <tfoot>
-        <tr>
-          <th>Nome</th>
-          <th>Email</th>
-          <th>Editar</th>
-          <th>Deletar</th>
-        </tr>
+
         </tfoot>
         <tbody>
         <tr v-for="user in users" v-if="user">
@@ -66,11 +64,12 @@
 <script>
   import ModalConfirm from '../Components/Modal.vue'
   import ModalUserForm from '../Components/ModalUserForm.vue'
+  import ContentNavbar from '../../components/ContentNavbar.vue'
 
   export default {
     name: 'users',
 
-    components : {ModalConfirm,ModalUserForm},
+    components : {ModalConfirm,ModalUserForm,ContentNavbar},
 
     data () {
       return {
@@ -136,6 +135,6 @@
   }
 </script>
 
-<style scoped lang="sass">
+<style scoped lang="scss">
 
 </style>

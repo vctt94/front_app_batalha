@@ -13,7 +13,7 @@
           ></sidebar>
       </div>
 
-      <main class="column is-centered is-fullheight content">
+      <main class="column is-10 is-centered is-fullheight content">
         <div class="container">
           <div class="has-text-centered">
             <router-view></router-view>
