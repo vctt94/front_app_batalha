@@ -4,17 +4,17 @@
 <main id="tournament">
 
 
-			<div v-for="i in 8" style="padding-left: 5em">
+			<div v-for="i in 4" >
 
-					<div v-for="j in 4">
+					<div v-for="j in 8">
 							<br />
 							<div v-if="!loading && matriz[i-1][j-1]">
 								<ul :class="'round round-'+j">
 									<li class="spacer">&nbsp;</li>
 
-									<li class="game game-top winner">{{firstStage[j].first.name}} <span></span></li>
+									<li class="game game-top winner">asd <span></span></li>
 									<li class="game game-spacer">&nbsp;</li>
-									<li class="game game-bottom ">{{firstStage[j].second.name}} <span></span></li>
+									<li class="game game-bottom ">asd <span></span></li>
 
 									<li class="spacer">&nbsp;</li>
 								</ul>
@@ -48,9 +48,10 @@ export default {
 		// this.total_rounds =response.data.data.first_stage.length
 	  })
 
-	  let k = 4
+	  let k = 8
+	  let scope = 'first_stage'
 
-	  for(let i=0; i < 8; i++){
+	  for(let i=0; i < 4; i++){
 		  this.matriz[i] = []
 
 		  for(var j=i; j < k; j++) {
@@ -58,8 +59,8 @@ export default {
 		  	this.matriz[i][j] = true
 		  }
 		  if(i==j)
-		  	this.matriz[i][j] = true
-		  k--
+			 	this.matriz[i][j] = true
+		  k -= 2
 
 	  }
 	  this.loading = false
