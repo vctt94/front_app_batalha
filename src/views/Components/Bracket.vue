@@ -9,7 +9,7 @@
         <div style=""  v-if="!loading && matriz[j-1][i-1]">
           <div style="padding-right:1em">
             <!--{{j-1}}{{i-1}}-->
-            <ul :class="'round round-'+j">
+            <ul :class="['round round-'+j, j==jTotal ? 'is-last' : '']">
               <li class="spacer">&nbsp;</li>
 
               <li class="game game-top winner">MC 1 <span>79</span></li>
@@ -128,7 +128,11 @@
     border-top:1px solid #aaa;
   }
 
+  .is-last{
+    margin-top: 5em !important;
+  }
   .round{
+
     display:flex;
     width: 10em;
     flex-direction:column;
