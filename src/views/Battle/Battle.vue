@@ -4,11 +4,13 @@
 <main id="tournament">
 
 
-			<div v-for="j in 7" style="padding-left: 5em">
+			<div v-for="i in 7" style="padding-left: 5em">
 
-					<div v-for="i in 4">
+					<div v-for="j in 4">
 							<br />
-							{{ i}} {{j}}
+							<div v-if="!loading && matriz[i-1][j-1]">
+								{{i-1}}{{j-1}}
+							</div>
 					</div>
 			</div>
 
@@ -24,7 +26,9 @@ export default {
   data () {
     return {
 		firstStage: [],
-		total_rounds: 0
+		total_rounds: 0,
+		matriz: [],
+		loading: true
     }
   },
 
@@ -32,16 +36,32 @@ export default {
 
 	  this.axios.get('/api/bracket/make-bracket').then(response => {
 	  	this.firstStage = response.data.data.first_stage
+		console.log(this.firstStage)
 		// this.total_rounds =response.data.data.first_stage.length
 	  })
 
-	  console.log(this.firstStage)
+	  let k = 4
+
+	  for(let i=0; i < 8; i++){
+		  this.matriz[i] = []
+
+		  for(var j=i; j < k; j++) {
+
+		  	this.matriz[i][j] = true
+		  }
+		  if(i==j)
+		  	this.matriz[i][j] = true
+		  k--
+
+	  }
+	  this.loading = false
+	  console.log(this.matriz)
   },
 
   methods : {
 
-	  matrixLeft(i, j) {
-		  
+	  matriz(i, j) {
+		//   for()
 
 	  }
   }
