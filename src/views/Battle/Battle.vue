@@ -3,7 +3,6 @@
     <h1>2013 NCAA Tournament - Midwest Bracket</h1>
     <main id="tournament">
 
-
       <div v-for="j in jTotal" >
 
         <div v-for="i in iTotal">
@@ -33,7 +32,11 @@
 
 <script>
 
+  import Bracket from '../Components/Bracket.vue'
+
   export default {
+
+    components : {Bracket},
 
     data () {
       return {
@@ -41,7 +44,7 @@
         total_rounds: 0,
         matriz: [],
         loading: true,
-        iTotal : 8,
+        iTotal : 0,
         jTotal : 1,
 
       }
@@ -54,6 +57,10 @@
 //        console.log(this.firstStage)
 //        // this.total_rounds =response.data.data.first_stage.length
 //      })
+
+
+      //number of rounds
+      this.iTotal = 8
 
       let k = 0;
       let iTotalBefore = this.iTotal
