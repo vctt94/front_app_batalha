@@ -8,22 +8,21 @@
 
       <template v-for="i in iTotal"
                 v-if="!loading && matriz[j-1][i-1]"
-                class="test"
       >
         <li class="spacer">&nbsp;</li>
 
         <li class="game game-top"
             v-if="mData[j-1][i-1][0].first"
         >
-          <draggable :options="{group:'people'}" :move="cloneWinner" :list="mData[j-1][i-1]"  @start="drag=true" @end="drag=false">
-            <div class="game-content">{{mData[j-1][i-1][0].first.name}}</div>
+          <draggable :options="{group:'people'}" :move="cloneWinner" :list="mData[j-1][i-1]" >
+            <div class="game-content" v-for="data in mData[j-1][i-1]">{{data.first.name}}</div>
           </draggable>
         </li>
         <li class="game game-top"
             v-else
         >
-          <draggable :list="mData[j-1][i-1]"  :options="{group:'people'}" @start="drag=true" @end="drag=false">
-            <div class="square"></div>
+          <draggable :list="mData[j-1][i-1]"  :options="{group:'people'}">
+            <div class="square" v-for="data in mData[j-1][i-1]">{{data}}</div>
           </draggable>
         </li>
 
@@ -32,13 +31,13 @@
         <li class="game game-bottom"
             v-if="mData[j-1][i-1][0].second"
         >
-          <draggable :optins="options" v-model="mData[j-1][i-1]" :options="{group:'people'}" @start="drag=true" @end="drag=false">
+          <draggable :optins="options" v-model="mData[j-1][i-1]" :options="{group:'people'}">
             <div class="game-content">{{mData[j-1][i-1][0].second.name}}</div>
           </draggable>
         </li>
         <li class="game game-bottom"
             v-else>
-          <draggable v-model="mData[j-1][i-1]" :options="{group:'people'}" @start="drag=true" @end="drag=false">
+          <draggable v-model="mData[j-1][i-1]" :options="{group:'people'}">
             <div class="square"></div>
           </draggable>
         </li>
@@ -133,7 +132,7 @@
             else {
               this.matriz[j][i] = true
               this.mData[j][i] = []
-              this.mData[j][i].push(true)
+              this.mData[j][i].push([])
             }
           }
           k += (iTotalBefore/4)
@@ -142,7 +141,7 @@
         }
       },
 
-      cloneWinner(evt,j,i){
+      cloneWinner(){
         console.log(this.mData)
       }
 
