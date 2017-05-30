@@ -8,27 +8,27 @@
 
       <template v-for="i in iTotal"
                 v-if="!loading && matriz[j-1][i-1]"
-                class="test"
       >
         <li class="spacer">&nbsp;</li>
 
-        <li class="game game-top"
-            v-if="matriz[j-1][i-1].first"
-        >
-          {{matriz[j-1][i-1].first.name}} <span></span></li>
-        <li class="game game-top"
-            v-else>
+        <li class="game game-top">
+          <draggable :options="{group:'people'}" :move="cloneWinner" :list="mData[j-1][i-1].first" >
+            <div class="game-content" v-for="data in mData[j-1][i-1]"
+                 v-if="data.first">{{data.first.name}}</div>
+            <div v-else class="square">Arraste para ca</div>
+          </draggable>
         </li>
 
         <li class="game game-spacer" >&nbsp;</li>
 
-        <li class="game game-top"
-            v-if="matriz[j-1][i-1].second"
-        >
-          {{matriz[j-1][i-1].second.name}} <span></span></li>
-        <li class="game game-top"
-            v-else>
+        <li class="game game-bottom">
+          <draggable :options="{group:'people'}" :move="cloneWinner" :list="mData[j-1][i-1].second" >
+            <div class="game-content" v-for="data in mData[j-1][i-1]"
+                 v-if="data.second">{{data.second.name}}</div>
+            <div v-else class="square">Arraste para ca</div>
+          </draggable>
         </li>
+
 
       </template>
 
@@ -41,9 +41,13 @@
 
 <script>
 
+  import draggable from 'vuedraggable'
 
   export default {
 
+    components: {
+      draggable
+    },
 
     props: {
       roundsNumber : {
@@ -57,13 +61,24 @@
       return {
         loading: true,
         matriz: [],
+        mData : [],
         iTotal : 0,
         jTotal : 1,
+        options : {
+
+          clone : true
+        }
 
       }
     },
 
+    watch : {
+      mData(){
+      }
+    },
+
     mounted(){
+
 
       this.iTotal = this.roundsNumber
 
@@ -95,20 +110,32 @@
         for(j=0; j< this.jTotal;j++){
 
           this.matriz[j] = []
+          this.mData[j]  = []
 
           fBegin = parseInt(k)
           fFinal = parseInt(this.iTotal - k)
 
           for(i = fBegin; i < fFinal ; i++){
-            if(j === 0)
-              this.matriz[j][i] = this.firstRound[n++]
-            else
+            if(j === 0) {
+              this.matriz[j][i] = this.firstRound[n]
+              this.mData[j][i]  = []
+              this.mData[j][i].push(this.firstRound[n])
+              n++;
+            }
+            else {
               this.matriz[j][i] = true
+              this.mData[j][i] = []
+              this.mData[j][i].push([])
+            }
           }
           k += (iTotalBefore/4)
           iTotalBefore = iTotalBefore/2
 
         }
+      },
+
+      cloneWinner(){
+        console.log(this.mData)
       }
 
     }
@@ -117,16 +144,12 @@
 
 <style scoped lang="scss">
 
-  body{
-    font-family:sans-serif;
-    font-size:small;
-    line-height:1.4em;
-  }
   .main{
     display:flex;
     flex-direction:row;
   }
   .round{
+
     width: 10em;
     display: flex;
     flex-direction:column;
@@ -137,19 +160,24 @@
   .spacer{
     flex-grow:1;
   }
-  .round .spacer:first-child,
-  .round .spacer:last-child{ flex-grow:.5; }
+
 
   .round .game-spacer{
     flex-grow:1;
   }
 
-  .game{
+
+  body{
+    font-family:sans-serif;
+    font-size:small;
+    padding:10px;
+    line-height:1.4em;
   }
 
-  .game-spacer{
-    border-right:1px solid #aaa;
-    min-height: 2em;
+  .game{
+    padding-left:20px;
+    margin:0;
+
   }
 
   .game.winner{
@@ -157,17 +185,38 @@
   }
   .game span{
     float:right;
+    margin-right:5px;
   }
 
-  .game-top{ border-bottom:1px solid #aaa; }
+  .game-top{
+    border-bottom:1px solid #aaa;
+  }
+
+  .game-spacer{
+    border-right:1px solid #aaa;
+    min-height:40px;
+  }
 
   .game-bottom{
-    border-top:1px solid #aaa;
+    border-right: 1px solid #aaa;
+    border-bottom:1px solid #aaa;
   }
 
   .is-last{
     /*margin-top: 5em !important;*/
 
+  }
+  .square{
+    min-height: 2em;
+    min-width: 2em;
+    margin: 0.2em;
+    margin-right: 1em;
+    border : 1px solid #aaa;
+    color: #aaa;
+    font-size: 8pt
+  }
+  .game-content{
+    float: left;
   }
 
 
