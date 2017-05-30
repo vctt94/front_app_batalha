@@ -15,19 +15,32 @@
         <li class="game game-top"
             v-if="matriz[j-1][i-1].first"
         >
-          {{matriz[j-1][i-1].first.name}} <span></span></li>
+          <draggable v-model="myArray" :options="{group:'people'}" @start="drag=true" @end="drag=false">
+            <div class="square">{{matriz[j-1][i-1].first.name}}</div>
+          </draggable>
+        </li>
         <li class="game game-top"
-            v-else>
+            v-else
+        >
+          <draggable v-model="myArray" :options="{group:'people'}" @start="drag=true" @end="drag=false">
+            <div class="square"></div>
+          </draggable>
         </li>
 
         <li class="game game-spacer" >&nbsp;</li>
 
-        <li class="game game-top"
+        <li class="game game-bottom"
             v-if="matriz[j-1][i-1].second"
         >
-          {{matriz[j-1][i-1].second.name}} <span></span></li>
-        <li class="game game-top"
+          <draggable v-model="myArray" :options="{group:'people'}" @start="drag=true" @end="drag=false">
+            <div class="square">{{matriz[j-1][i-1].second.name}}</div>
+          </draggable>
+        </li>
+        <li class="game game-bottom"
             v-else>
+          <draggable v-model="myArray" :options="{group:'people'}" @start="drag=true" @end="drag=false">
+            <div class="square"></div>
+          </draggable>
         </li>
 
       </template>
@@ -41,9 +54,13 @@
 
 <script>
 
+  import draggable from 'vuedraggable'
 
   export default {
 
+    components: {
+      draggable
+    },
 
     props: {
       roundsNumber : {
@@ -57,6 +74,7 @@
       return {
         loading: true,
         matriz: [],
+        myArray : [],
         iTotal : 0,
         jTotal : 1,
 
@@ -117,11 +135,6 @@
 
 <style scoped lang="scss">
 
-  body{
-    font-family:sans-serif;
-    font-size:small;
-    line-height:1.4em;
-  }
   .main{
     display:flex;
     flex-direction:row;
@@ -144,12 +157,18 @@
     flex-grow:1;
   }
 
-  .game{
+
+  body{
+    font-family:sans-serif;
+    font-size:small;
+    padding:10px;
+    line-height:1.4em;
   }
 
-  .game-spacer{
-    border-right:1px solid #aaa;
-    min-height: 2em;
+  .game{
+    padding-left:20px;
+    margin:0;
+
   }
 
   .game.winner{
@@ -157,17 +176,29 @@
   }
   .game span{
     float:right;
+    margin-right:5px;
   }
 
-  .game-top{ border-bottom:1px solid #aaa; }
+  .game-top{
+    border-bottom:1px solid #aaa;
+  }
+
+  .game-spacer{
+    border-right:1px solid #aaa;
+    min-height:40px;
+  }
 
   .game-bottom{
-    border-top:1px solid #aaa;
+    border-right: 1px solid #aaa;
+    border-bottom:1px solid #aaa;
   }
 
   .is-last{
     /*margin-top: 5em !important;*/
 
+  }
+  .square{
+    float: left;
   }
 
 
