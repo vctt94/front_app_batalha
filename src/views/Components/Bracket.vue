@@ -1,35 +1,28 @@
 <template>
   <div class="main">
+    <ul
+      v-for="j in jTotal"
+      :class="['round round-'+j, j==jTotal ? 'is-last' : '']"
+    >
 
-    <div v-for="j in jTotal" >
+      <template v-for="i in iTotal"
+           v-if="!loading && matriz[j-1][i-1]"
+           class="test"
+      >
 
-      <div v-for="i in iTotal">
+        <li class="spacer">&nbsp;</li>
 
+        <i v-if="j==jTotal" class="fa fa-trophy"></i>
+        <li class="game game-top winner">MC 1 <span>79</span></li>
 
-        <div
-          v-if="!loading && matriz[j-1][i-1]">
-            <!--{{j-1}}{{i-1}}-->
-            <ul :class="['round round-'+j, j==jTotal ? 'is-last' : '']" style="min-height: 10em; ">
+        <li class="game game-spacer" >&nbsp;</li>
 
-              <li class="spacer">&nbsp;</li>
+        <li class="game game-bottom ">MC 2 <span>48</span></li>
 
-              <i v-if="j==jTotal" class="fa fa-trophy"></i>
-              <li class="game game-top winner">MC 1 <span>79</span></li>
+      </template>
 
-              <li class="game game-spacer" >&nbsp;</li>
-
-              <li class="game game-bottom ">MC 2 <span>48</span></li>
-
-
-              <li class="spacer">&nbsp;</li>
-            </ul>
-
-        </div>
-        <div v-else style="min-height:10em"></div>
-
-      </div>
-
-    </div>
+      <li class="spacer">&nbsp;</li>
+    </ul>
 
   </div>
 </template>
@@ -108,8 +101,30 @@
     display:flex;
     flex-direction:row;
   }
+  .round{
+    width: 10em;
+    display: flex;
+    flex-direction:column;
+    list-style:none;
+    margin: 0;
+  }
+
+  .spacer{
+    flex-grow:1;
+  }
+  .round .spacer:first-child,
+  .round .spacer:last-child{ flex-grow:.5; }
+
+  .round .game-spacer{
+    flex-grow:1;
+  }
 
   .game{
+  }
+
+  .game-spacer{
+    border-right:1px solid #aaa;
+    min-height: 2em;
   }
 
   .game.winner{
@@ -119,13 +134,6 @@
     float:right;
   }
 
-
-  .game-spacer{
-    border-right:1px solid #aaa;
-    min-height: 2em;
-
-  }
-
   .game-top{ border-bottom:1px solid #aaa; }
 
   .game-bottom{
@@ -133,23 +141,11 @@
   }
 
   .is-last{
-    margin-top: 5em !important;
+    /*margin-top: 5em !important;*/
 
   }
-  .round{
-    width: 10em;
-    display: flex;
-    flex-direction:column;
-    list-style:none;
-    margin: 0;
-  }
-  .round .spacer{ flex-grow:1; }
-  .round .spacer:first-child,
-  .round .spacer:last-child{ flex-grow:.5; }
 
-  .round .game-spacer{
-    flex-grow:1;
-  }
+
 
 
 </style>
