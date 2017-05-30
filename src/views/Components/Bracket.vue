@@ -11,36 +11,24 @@
       >
         <li class="spacer">&nbsp;</li>
 
-        <li class="game game-top"
-            v-if="mData[j-1][i-1][0].first"
-        >
-          <draggable :options="{group:'people'}" :move="cloneWinner" :list="mData[j-1][i-1]" >
-            <div class="game-content" v-for="data in mData[j-1][i-1]">{{data.first.name}}</div>
-          </draggable>
-        </li>
-        <li class="game game-top"
-            v-else
-        >
-          <draggable :list="mData[j-1][i-1]"  :options="{group:'people'}">
-            <div class="square" v-for="data in mData[j-1][i-1]">{{data}}</div>
+        <li class="game game-top">
+          <draggable :options="{group:'people'}" :move="cloneWinner" :list="mData[j-1][i-1].first" >
+            <div class="game-content" v-for="data in mData[j-1][i-1]"
+                 v-if="data.first">{{data.first.name}}</div>
+            <div v-else class="square"></div>
           </draggable>
         </li>
 
         <li class="game game-spacer" >&nbsp;</li>
 
-        <li class="game game-bottom"
-            v-if="mData[j-1][i-1][0].second"
-        >
-          <draggable :optins="options" v-model="mData[j-1][i-1]" :options="{group:'people'}">
-            <div class="game-content">{{mData[j-1][i-1][0].second.name}}</div>
+        <li class="game game-bottom">
+          <draggable :options="{group:'people'}" :move="cloneWinner" :list="mData[j-1][i-1].second" >
+            <div class="game-content" v-for="data in mData[j-1][i-1]"
+                 v-if="data.second">{{data.second.name}}</div>
+            <div v-else class="square"></div>
           </draggable>
         </li>
-        <li class="game game-bottom"
-            v-else>
-          <draggable v-model="mData[j-1][i-1]" :options="{group:'people'}">
-            <div class="square"></div>
-          </draggable>
-        </li>
+
 
       </template>
 
@@ -84,13 +72,18 @@
       }
     },
 
+    watch : {
+      mData(){
+      }
+    },
+
     mounted(){
+
 
       this.iTotal = this.roundsNumber
 
       this.initMatrix();
 
-      console.log(this.mData)
       this.loading = false
     },
 
