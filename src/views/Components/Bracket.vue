@@ -16,7 +16,7 @@
             v-if="matriz[j-1][i-1].first"
         >
           <draggable v-model="myArray" :options="{group:'people'}" @start="drag=true" @end="drag=false">
-            <div class="square">{{matriz[j-1][i-1].first.name}}</div>
+            <div class="game-content">{{matriz[j-1][i-1].first.name}}</div>
           </draggable>
         </li>
         <li class="game game-top"
@@ -33,7 +33,7 @@
             v-if="matriz[j-1][i-1].second"
         >
           <draggable v-model="myArray" :options="{group:'people'}" @start="drag=true" @end="drag=false">
-            <div class="square">{{matriz[j-1][i-1].second.name}}</div>
+            <div class="game-content">{{matriz[j-1][i-1].second.name}}</div>
           </draggable>
         </li>
         <li class="game game-bottom"
@@ -198,6 +198,8 @@
 
   }
   .square{
+  }
+  .game-content{
     float: left;
   }
 
