@@ -1,9 +1,10 @@
 <template>
   <div >
-    <h1>2013 NCAA Tournament - Midwest Bracket</h1>
     <main id="tournament">
         <bracket
-        :rounds-number="8"></bracket>
+          v-if="!loading"
+        :rounds-number="firstStage.length"
+        :first-round = "firstStage"></bracket>
     </main>
   </div>
 </template>
@@ -18,19 +19,21 @@
 
     data () {
       return {
-        firstStage: [],
-        total_rounds: 0,
+        firstStage   : [],
+        loading      : true,
+        total_rounds : 0,
 
       }
     },
 
     mounted(){
 //
-//      this.axios.get('/api/bracket/make-bracket').then(response => {
-//        this.firstStage = response.data.data.first_stage
-//        console.log(this.firstStage)
-//        // this.total_rounds =response.data.data.first_stage.length
-//      })
+      let scope = this;
+      this.axios.get('/api/bracket/make-bracket').then(response => {
+        scope.firstStage = response.data.first_stage
+        scope.loading = false
+        // this.total_rounds =response.data.data.first_stage.length
+      })
 
     },
 

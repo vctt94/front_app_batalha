@@ -4,20 +4,31 @@
       v-for="j in jTotal"
       :class="['round round-'+j, j==jTotal ? 'is-last' : '']"
     >
+      <h4 class="title">Round {{j}}</h4>
 
       <template v-for="i in iTotal"
-           v-if="!loading && matriz[j-1][i-1]"
-           class="test"
+                v-if="!loading && matriz[j-1][i-1]"
+                class="test"
       >
-
         <li class="spacer">&nbsp;</li>
 
-        <i v-if="j==jTotal" class="fa fa-trophy"></i>
-        <li class="game game-top winner">MC 1 <span>79</span></li>
+        <li class="game game-top"
+            v-if="matriz[j-1][i-1].first"
+        >
+          {{matriz[j-1][i-1].first.name}} <span></span></li>
+        <li class="game game-top"
+            v-else>
+        </li>
 
         <li class="game game-spacer" >&nbsp;</li>
 
-        <li class="game game-bottom ">MC 2 <span>48</span></li>
+        <li class="game game-top"
+            v-if="matriz[j-1][i-1].second"
+        >
+          {{matriz[j-1][i-1].second.name}} <span></span></li>
+        <li class="game game-top"
+            v-else>
+        </li>
 
       </template>
 
@@ -34,15 +45,18 @@
   export default {
 
 
-    props: [
-      'roundsNumber'
-    ],
+    props: {
+      roundsNumber : {
+        type : Number
+      },
+      firstRound : {
+        type: Array
+      }
+    },
     data () {
       return {
-        firstStage: [],
-        total_rounds: 0,
-        matriz: [],
         loading: true,
+        matriz: [],
         iTotal : 0,
         jTotal : 1,
 
@@ -53,38 +67,49 @@
 
       this.iTotal = this.roundsNumber
 
-      let k = 0;
-      let iTotalBefore = this.iTotal
+      this.initMatrix();
 
-      let fBegin;
-      let fFinal;
-
-      let i,j
-
-      let tempITotal = this.iTotal;
-
-      while(tempITotal > 1){
-        tempITotal /= 2
-        this.jTotal++;
-      }
-
-      for(j=0; j< this.jTotal;j++){
-
-        this.matriz[j] = []
-
-        fBegin = parseInt(k)
-        fFinal = parseInt(this.iTotal - k)
-
-        for(i = fBegin; i < fFinal ; i++){
-          this.matriz[j][i] = true
-        }
-        k += (iTotalBefore/4)
-        iTotalBefore = iTotalBefore/2
-      }
       this.loading = false
     },
 
     methods : {
+
+      initMatrix(){
+
+        let n = 0;
+        let k = 0;
+        let iTotalBefore = this.iTotal
+
+        let fBegin;
+        let fFinal;
+
+        let i,j
+
+        let tempITotal = this.iTotal;
+
+        while(tempITotal > 1){
+          tempITotal /= 2
+          this.jTotal++;
+        }
+
+        for(j=0; j< this.jTotal;j++){
+
+          this.matriz[j] = []
+
+          fBegin = parseInt(k)
+          fFinal = parseInt(this.iTotal - k)
+
+          for(i = fBegin; i < fFinal ; i++){
+            if(j === 0)
+              this.matriz[j][i] = this.firstRound[n++]
+            else
+              this.matriz[j][i] = true
+          }
+          k += (iTotalBefore/4)
+          iTotalBefore = iTotalBefore/2
+
+        }
+      }
 
     }
   }
