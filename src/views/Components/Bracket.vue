@@ -13,16 +13,16 @@
         <li class="spacer">&nbsp;</li>
 
         <li class="game game-top"
-            v-if="matriz[j-1][i-1].first"
+            v-if="mData[j-1][i-1][0].first"
         >
-          <draggable v-model="myArray" :options="{group:'people'}" @start="drag=true" @end="drag=false">
-            <div class="game-content">{{matriz[j-1][i-1].first.name}}</div>
+          <draggable :options="{group:'people'}" :move="cloneWinner" :list="mData[j-1][i-1]"  @start="drag=true" @end="drag=false">
+            <div class="game-content">{{mData[j-1][i-1][0].first.name}}</div>
           </draggable>
         </li>
         <li class="game game-top"
             v-else
         >
-          <draggable v-model="myArray" :options="{group:'people'}" @start="drag=true" @end="drag=false">
+          <draggable :list="mData[j-1][i-1]"  :options="{group:'people'}" @start="drag=true" @end="drag=false">
             <div class="square"></div>
           </draggable>
         </li>
@@ -30,15 +30,15 @@
         <li class="game game-spacer" >&nbsp;</li>
 
         <li class="game game-bottom"
-            v-if="matriz[j-1][i-1].second"
+            v-if="mData[j-1][i-1][0].second"
         >
-          <draggable v-model="myArray" :options="{group:'people'}" @start="drag=true" @end="drag=false">
-            <div class="game-content">{{matriz[j-1][i-1].second.name}}</div>
+          <draggable :optins="options" v-model="mData[j-1][i-1]" :options="{group:'people'}" @start="drag=true" @end="drag=false">
+            <div class="game-content">{{mData[j-1][i-1][0].second.name}}</div>
           </draggable>
         </li>
         <li class="game game-bottom"
             v-else>
-          <draggable v-model="myArray" :options="{group:'people'}" @start="drag=true" @end="drag=false">
+          <draggable v-model="mData[j-1][i-1]" :options="{group:'people'}" @start="drag=true" @end="drag=false">
             <div class="square"></div>
           </draggable>
         </li>
@@ -74,9 +74,13 @@
       return {
         loading: true,
         matriz: [],
-        myArray : [],
+        mData : [],
         iTotal : 0,
         jTotal : 1,
+        options : {
+
+          clone : true
+        }
 
       }
     },
@@ -87,6 +91,7 @@
 
       this.initMatrix();
 
+      console.log(this.mData)
       this.loading = false
     },
 
@@ -113,20 +118,32 @@
         for(j=0; j< this.jTotal;j++){
 
           this.matriz[j] = []
+          this.mData[j]  = []
 
           fBegin = parseInt(k)
           fFinal = parseInt(this.iTotal - k)
 
           for(i = fBegin; i < fFinal ; i++){
-            if(j === 0)
-              this.matriz[j][i] = this.firstRound[n++]
-            else
+            if(j === 0) {
+              this.matriz[j][i] = this.firstRound[n]
+              this.mData[j][i]  = []
+              this.mData[j][i].push(this.firstRound[n])
+              n++;
+            }
+            else {
               this.matriz[j][i] = true
+              this.mData[j][i] = []
+              this.mData[j][i].push(true)
+            }
           }
           k += (iTotalBefore/4)
           iTotalBefore = iTotalBefore/2
 
         }
+      },
+
+      cloneWinner(evt,j,i){
+        console.log(this.mData)
       }
 
     }
@@ -140,6 +157,7 @@
     flex-direction:row;
   }
   .round{
+
     width: 10em;
     display: flex;
     flex-direction:column;
@@ -150,8 +168,7 @@
   .spacer{
     flex-grow:1;
   }
-  .round .spacer:first-child,
-  .round .spacer:last-child{ flex-grow:.5; }
+
 
   .round .game-spacer{
     flex-grow:1;
@@ -198,6 +215,11 @@
 
   }
   .square{
+    min-height: 2em;
+    min-width: 2em;
+    margin: 0.2em;
+    margin-right: 1em;
+    border : 1px solid #aaa;
   }
   .game-content{
     float: left;
