@@ -12,7 +12,7 @@
         <li class="spacer">&nbsp;</li>
 
         <li class="game game-top">
-          <draggable :options="{group:'people'}" :move="cloneWinner" :list="mData[j-1][i-1].first" >
+          <draggable :options="{group:{ name:'people',  pull:'clone'}}" :move="cloneWinner" :list="mData[j-1][i-1].first" >
             <div class="game-content" v-for="data in mData[j-1][i-1]"
                  v-if="data.first">{{data.first.name}}</div>
             <div v-else class="square">Arraste para ca</div>
@@ -22,7 +22,7 @@
         <li class="game game-spacer" >&nbsp;</li>
 
         <li class="game game-bottom">
-          <draggable :options="{group:'people'}" :move="cloneWinner" :list="mData[j-1][i-1].second" >
+          <draggable :options="{group:{ name:'people',  pull:'clone'}}" :move="cloneWinner" :list="mData[j-1][i-1].second" >
             <div class="game-content" v-for="data in mData[j-1][i-1]"
                  v-if="data.second">{{data.second.name}}</div>
             <div v-else class="square">Arraste para ca</div>
