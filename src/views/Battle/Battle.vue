@@ -1,10 +1,12 @@
 <template>
   <div >
+
+    <content-navbar />
     <main id="tournament">
         <bracket
           v-if="!loading"
-        :rounds-number="firstStage.length"
-        :first-round = "firstStage"></bracket>
+          :rounds-number="firstStage.length"
+          :first-round = "firstStage"></bracket>
     </main>
   </div>
 </template>
@@ -12,10 +14,11 @@
 <script>
 
   import Bracket from '../Components/Bracket.vue'
+  import ContentNavbar from '../../components/ContentNavbar.vue'
 
   export default {
 
-    components : {Bracket},
+    components : {Bracket,ContentNavbar},
 
     data () {
       return {

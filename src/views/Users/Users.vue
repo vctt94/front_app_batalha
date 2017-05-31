@@ -1,7 +1,13 @@
 <template>
   <div class="">
 
-      <content-navbar></content-navbar>
+      <content-navbar
+
+
+
+      >
+
+      </content-navbar>
 
     <modal-confirm
       :show="showDelete"
@@ -65,6 +71,8 @@
   import ModalConfirm from '../Components/Modal.vue'
   import ModalUserForm from '../Components/ModalUserForm.vue'
   import ContentNavbar from '../../components/ContentNavbar.vue'
+
+
 
   export default {
     name: 'users',

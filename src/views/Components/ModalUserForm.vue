@@ -4,7 +4,7 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">Cadastrar MC</p>
+        <p class="modal-card-title">Editar MC</p>
         <button class="delete" v-on:click="$emit('close')"></button>
       </header>
       <section class="modal-card-body">
@@ -168,4 +168,3 @@
 <style scoped lang="sass">
 
 </style>
-

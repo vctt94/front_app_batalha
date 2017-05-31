@@ -34,17 +34,20 @@
   export default {
 
     name: 'app',
+
     components: {
       'sidebar'   : Sidebar,
       'navbar'    : Navbar,
       'my-footer' : Footer
     },
+
     data (){
       return{
         router : null,
 
       }
     },
+    
     mounted(){
       this.router = Router.options.routes
 

@@ -3,6 +3,7 @@ import Router  from 'vue-router'
 import Wrapper from '@/components/WrapperTemplate'
 import Home    from '@/views/Home'
 import Users   from '@/views/Users/Users'
+import UsersMain from '@/views/Users/UsersMain'
 import Battle from '@/views/Battle/Battle'
 /**
  * band
@@ -26,13 +27,22 @@ export default new Router({
       component: Battle
     },
     {
+      path: '/teste',
+      name: 'teste',
+      isActive : false,
+      meta : {
+        label: 'Usuários',
+      },
+      component: Users,
+    },
+    {
       path: '/usuarios',
       name: 'usuarios',
       isActive : false,
       meta : {
         label: 'Usuários',
       },
-      component: Users,
+      component: UsersMain
     },
     {
       path: '/bandas',
