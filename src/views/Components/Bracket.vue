@@ -16,19 +16,14 @@
         <li class="game game-top" >
           <draggable :options="{group:{ name:'people',  pull:'clone'}}"
                      :list="rounds[j-1][i-1]"
-                     @update="onUpdate"
                      :move="cloneWinnerTop"
                      class="square"
           >
 
-            <div class="game-content" v-for="data in rounds[j-1][i-1]"
-                 v-if="data.firstPerson"
+            <div class="game-content" v-for="data in rounds[j-1][i-1][0]"
+                 v-if="data"
             >
-              {{data.firstPerson.name}}
-            </div>
-            <div v-else>
-              <!--{{data}}-->
-
+              {{data.name}}
             </div>
 
           </draggable>
@@ -43,9 +38,9 @@
                      class="square"
           >
 
-            <div class="game-content" v-for="data in rounds[j-1][i-1]"
-                 v-if="data.secondPerson">
-              {{data.secondPerson.name}}
+            <div class="game-content" v-for="data in rounds[j-1][i-1][1]"
+                 v-if="data">
+              {{data.name}}
             </div>
             <div v-else>
               <!--{{data}}-->
@@ -105,6 +100,7 @@
 
         round: [],
 
+        rounds : [],
 
         battle: [],
 
@@ -122,26 +118,26 @@
     },
 
     computed : {
-      rounds(){
-        let rounds = []
-        for (let j = 0; j < this.jTotal; j++) {
-          rounds[j] = []
-          for (let i = 0; i < this.iTotal; i++) {
-
-            if (this.matriz[j][i]) {
-              const data = {
-                firstPerson: null,
-                secondPerson: null,
-                j: j,
-                i: i
-              }
-              rounds[j][i] = [data]
-            }
-
-          }
-        }
-        return rounds
-      },
+//      rounds(){
+//        let rounds = []
+//        for (let j = 0; j < this.jTotal; j++) {
+//          rounds[j] = []
+//          for (let i = 0; i < this.iTotal; i++) {
+//
+//            if (this.matriz[j][i]) {
+//              const data = {
+//                firstPerson: null,
+//                secondPerson: null,
+//                j: j,
+//                i: i
+//              }
+//              rounds[j][i] = [data]
+//            }
+//
+//          }
+//        }
+//        return rounds
+//      },
       matriz (){
         let matriz = []
         let k = 0;
@@ -195,7 +191,22 @@
 
 
       initMatrixData(){
+        for (let j = 0; j < this.jTotal; j++) {
+          this.rounds[j] = []
+          for (let i = 0; i < this.iTotal; i++) {
 
+            if (this.matriz[j][i]) {
+              const data = {
+                firstPerson: null,
+                secondPerson: null,
+                j: j,
+                i: i
+              }
+              this.rounds[j][i] = []
+            }
+
+          }
+        }
       },
 
       drawStage(roundNumber, rounds){
@@ -206,10 +217,12 @@
 
         for(let i=0;i<this.firstRounds.length;i++){
           for(let k=0;k<this.rounds[j][i].length;k++){
-            if(this.rounds[j][i].j !== undefined)
-              tempJ = this.rounds[j][i].j
-            if(this.rounds[j][i].i !== undefined)
-              tempI = this.rounds[j][i].i
+
+            if(this.rounds[j][i][k].j !== undefined)
+              tempJ = this.rounds[j][i][k].j
+
+            if(this.rounds[j][i][k].i !== undefined)
+              tempI = this.rounds[j][i][k].i
           }
           let data = {
             firstPerson : rounds[i].first,
@@ -217,7 +230,8 @@
             j  : tempJ,
             i  : tempI
           }
-          this.rounds[j][i].push(data);
+          this.rounds[j][i][0] = [data.firstPerson];
+          this.rounds[j][i][1] = [data.secondPerson];
         }
 
       },
@@ -226,20 +240,32 @@
         console.log(this.rounds)
       },
       cloneWinnerTop(evt){
-//        const game = evt.draggedContext.element.game
+        console.log(evt)
+        console.log(this.rounds)
+//        const first = evt
 //        const j = evt.draggedContext.element.j
 //        const i = evt.draggedContext.element.i
+//        const n = this.matriz[j].length
 //
 //        const futureJ = j+1;
-//        const futureI = i+1;
-//
-        console.log('top')
-        console.log(evt)
-//        this.rounds[][i] = this
-        this.rounds = Object.assign({}, this.rounds)
-//        evt.relatedContext.element.secondPerson = null
-//        console.log(this.rounds)
+//        const futureI = (n/4)+i;
 
+//        let firstPerson, secondPerson
+//
+//
+//        for(let data of this.rounds[j][i].firstPerson){
+//          if(data !== undefined)
+//            firstPerson = data;
+//
+//        }
+//
+//        this.rounds[futureJ][futureI] = {
+//          firstPerson : firstPerson,
+//          secondPerson : null,
+//          j : futureJ,
+//          i : futureI
+//        }
+        this.rounds = Object.assign({}, this.rounds)
 
       },
 
