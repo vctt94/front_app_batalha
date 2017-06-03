@@ -9,32 +9,48 @@
       <template v-for="i in iTotal"
                 v-if="!loading && matriz[j-1][i-1]"
       >
+
+
         <li class="spacer">&nbsp;</li>
 
-        <li class="game game-top">
-          <draggable :options="{group:'people'}" :move="cloneWinner" :list="mData[j-1][i-1].first" >
-            <div class="game-content" v-for="data in mData[j-1][i-1]"
-                 v-if="data.first">{{data.first.name}}</div>
-            <div v-else class="square">Arraste para ca</div>
+        <li class="game game-top" >
+          <draggable :options="{group:{ name:'people',  pull:'clone'}}"
+                     :list="rounds[j-1][i-1][0]"
+                     :move = "cloneWinner"
+                     class="square"
+          >
+
+            <div class="game-content" v-for="data in rounds[j-1][i-1][0]"
+                 v-if="data"
+            >
+              {{data.name}}
+            </div>
+
           </draggable>
         </li>
 
         <li class="game game-spacer" >&nbsp;</li>
 
-        <li class="game game-bottom">
-          <draggable :options="{group:'people'}" :move="cloneWinner" :list="mData[j-1][i-1].second" >
-            <div class="game-content" v-for="data in mData[j-1][i-1]"
-                 v-if="data.second">{{data.second.name}}</div>
-            <div v-else class="square">Arraste para ca</div>
+        <li class="game game-bottom" >
+          <draggable :options="{group:{ name:'people',  pull:'clone'}}"
+                     :move="cloneWinner"
+                     :list="rounds[j-1][i-1][1]"
+                     class="square"
+          >
+
+            <div class="game-content" v-for="data in rounds[j-1][i-1][1]"
+                 v-if="data">
+              {{data.name}}
+            </div>
+
           </draggable>
         </li>
-
 
       </template>
 
       <li class="spacer">&nbsp;</li>
     </ul>
-
+    <a v-on:click="showRounds">show rounds</a>
   </div>
 </template>
 
@@ -50,93 +66,134 @@
     },
 
     props: {
-      roundsNumber : {
-        type : Number
+      roundsNumber: {
+        type: Number
       },
-      firstRound : {
+      firstRound: {
         type: Array
       }
     },
     data () {
       return {
         loading: true,
-        matriz: [],
-        mData : [],
-        iTotal : 0,
-        jTotal : 1,
-        options : {
 
-          clone : true
+        game: {
+          firstPerson: null,
+          secondPerson: null,
+          j: null,
+          i: null
+        },
+
+        round: [],
+
+        rounds : [],
+
+        battle: [],
+
+        iTotal: 0,
+        jTotal: 1,
+
+        currentRound: 0,
+
+        options: {
+          clone: true
         }
+
 
       }
     },
 
-    watch : {
-      mData(){
+    computed : {
+      matriz (){
+        let matriz = []
+        let k = 0;
+
+        let tempITotal = this.iTotal;
+
+        let iTotalBefore = this.iTotal
+
+        while (tempITotal > 1) {
+          tempITotal /= 2
+          this.jTotal++;
+        }
+          for (let j = 0; j < this.jTotal; j++) {
+
+          matriz[j] = []
+
+          let fBegin = parseInt(k)
+          let fFinal = parseInt(this.iTotal - k)
+
+          for (let i = fBegin; i < fFinal; i++) {
+            matriz[j][i] = true
+          }
+          k += (iTotalBefore / 4)
+          iTotalBefore = iTotalBefore / 2
+
+        }
+        return matriz;
+
       }
+
     },
 
     mounted(){
 
-
       this.iTotal = this.roundsNumber
 
-      this.initMatrix();
+      const scope = this;
+
+      this.initMatrixData();
+
+      this.drawStage(0,this.firstRound);
 
       this.loading = false
     },
 
-    methods : {
+    methods: {
 
-      initMatrix(){
+      initMatrixData(){
 
-        let n = 0;
-        let k = 0;
-        let iTotalBefore = this.iTotal
+        for (let j = 0; j < this.jTotal; j++) {
+          this.rounds[j] = []
+          for (let i = 0; i < this.iTotal; i++) {
 
-        let fBegin;
-        let fFinal;
-
-        let i,j
-
-        let tempITotal = this.iTotal;
-
-        while(tempITotal > 1){
-          tempITotal /= 2
-          this.jTotal++;
-        }
-
-        for(j=0; j< this.jTotal;j++){
-
-          this.matriz[j] = []
-          this.mData[j]  = []
-
-          fBegin = parseInt(k)
-          fFinal = parseInt(this.iTotal - k)
-
-          for(i = fBegin; i < fFinal ; i++){
-            if(j === 0) {
-              this.matriz[j][i] = this.firstRound[n]
-              this.mData[j][i]  = []
-              this.mData[j][i].push(this.firstRound[n])
-              n++;
+            if (this.matriz[j][i]) {
+              this.rounds[j][i] = []
+              this.rounds[j][i][0] = []
+              this.rounds[j][i][1] = []
             }
-            else {
-              this.matriz[j][i] = true
-              this.mData[j][i] = []
-              this.mData[j][i].push([])
-            }
+
           }
-          k += (iTotalBefore/4)
-          iTotalBefore = iTotalBefore/2
-
         }
+
       },
 
-      cloneWinner(){
-        console.log(this.mData)
-      }
+      drawStage(roundNumber, rounds){
+
+        const j = roundNumber
+
+        for(let i=0;i<this.firstRound.length;i++){
+
+          let data = {
+            firstPerson : rounds[i].first,
+            secondPerson : rounds[i].second,
+          }
+
+          this.rounds[j][i][0] = [data.firstPerson];
+          this.rounds[j][i][1] = [data.secondPerson];
+        }
+
+      },
+
+      showRounds(){
+        console.log(this.rounds)
+      },
+      cloneWinner(evt){
+        console.log(evt)
+        this.rounds = Object.assign({}, this.rounds)
+
+
+      },
 
     }
   }
@@ -158,7 +215,7 @@
   }
 
   .spacer{
-    flex-grow:1;
+    flex-grow:0.5;
   }
 
 
@@ -209,8 +266,7 @@
   .square{
     min-height: 2em;
     min-width: 2em;
-    margin: 0.2em;
-    margin-right: 1em;
+    margin: 0em;
     border : 1px solid #aaa;
     color: #aaa;
     font-size: 8pt
