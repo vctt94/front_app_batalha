@@ -6,7 +6,7 @@
         <bracket
           v-if="!loading"
           :rounds-number="firstStage.length"
-          :first-round = "firstStage"></bracket>
+          :first-rounds = "firstStage"></bracket>
     </main>
   </div>
 </template>
