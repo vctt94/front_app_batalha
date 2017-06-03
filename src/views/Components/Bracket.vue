@@ -16,7 +16,7 @@
         <li class="game game-top" >
           <draggable :options="{group:{ name:'people',  pull:'clone'}}"
                      :list="rounds[j-1][i-1][0]"
-                     :move="cloneWinnerTop"
+                     :move = "cloneWinner"
                      class="square"
           >
 
@@ -33,7 +33,7 @@
 
         <li class="game game-bottom" >
           <draggable :options="{group:{ name:'people',  pull:'clone'}}"
-                     :move="cloneWinnerBottom"
+                     :move="cloneWinner"
                      :list="rounds[j-1][i-1][1]"
                      class="square"
           >
@@ -45,16 +45,6 @@
 
           </draggable>
         </li>
-
-
-        <!--<li class="game game-bottom">-->
-        <!--<draggable :options="{group:{ name:'people',  pull:'clone'}}" :move="cloneWinner" :list="mData[j-1][i-1].second" >-->
-        <!--<div class="game-content" v-for="data in mData[j-1][i-1]"-->
-        <!--v-if="data.second">{{data.second.name}}</div>-->
-        <!--<div v-else class="square">Arraste para ca</div>-->
-        <!--</draggable>-->
-        <!--</li>-->
-
 
       </template>
 
@@ -114,26 +104,6 @@
     },
 
     computed : {
-//      rounds(){
-//        let rounds = []
-//        for (let j = 0; j < this.jTotal; j++) {
-//          rounds[j] = []
-//          for (let i = 0; i < this.iTotal; i++) {
-//
-//            if (this.matriz[j][i]) {
-//              const data = {
-//                firstPerson: null,
-//                secondPerson: null,
-//                j: j,
-//                i: i
-//              }
-//              rounds[j][i] = [data]
-//            }
-//
-//          }
-//        }
-//        return rounds
-//      },
       matriz (){
         let matriz = []
         let k = 0;
@@ -181,12 +151,8 @@
 
     methods: {
 
-      onUpdate(evt){
-        console.log(evt)
-      },
-
-
       initMatrixData(){
+
         for (let j = 0; j < this.jTotal; j++) {
           this.rounds[j] = []
           for (let i = 0; i < this.iTotal; i++) {
@@ -199,19 +165,20 @@
 
           }
         }
+
       },
 
       drawStage(roundNumber, rounds){
+
         const j = roundNumber
 
-        let tempJ;
-        let tempI
-
         for(let i=0;i<this.firstRound.length;i++){
+
           let data = {
             firstPerson : rounds[i].first,
             secondPerson : rounds[i].second,
           }
+
           this.rounds[j][i][0] = [data.firstPerson];
           this.rounds[j][i][1] = [data.secondPerson];
         }
@@ -221,46 +188,12 @@
       showRounds(){
         console.log(this.rounds)
       },
-      cloneWinnerTop(evt){
-        console.log(this.rounds)
-//        const first = evt
-//        const j = evt.draggedContext.element.j
-//        const i = evt.draggedContext.element.i
-//        const n = this.matriz[j].length
-//
-//        const futureJ = j+1;
-//        const futureI = (n/4)+i;
-
-//        let firstPerson, secondPerson
-//
-//
-//        for(let data of this.rounds[j][i].firstPerson){
-//          if(data !== undefined)
-//            firstPerson = data;
-//
-//        }
-//
-//        this.rounds[futureJ][futureI] = {
-//          firstPerson : firstPerson,
-//          secondPerson : null,
-//          j : futureJ,
-//          i : futureI
-//        }
+      cloneWinner(evt){
+        console.log(evt)
         this.rounds = Object.assign({}, this.rounds)
-
-      },
-
-      cloneWinnerBottom(evt){
-        console.log(this.rounds)
-        this.rounds = Object.assign({}, this.rounds)
-//        console.log('bottom')
-//        console.log(evt)
-//        console.log(this.rounds)
-//        this.rounds = Object.assign({},this.rounds)
 
 
       },
-
 
     }
   }
