@@ -13,30 +13,33 @@
 
         <li class="spacer">&nbsp;</li>
 
-        <li class="game game-top" >
-          <draggable :options="{group:{ name:'people',  pull:'clone'}}"
-                     :move="cloneWinner"
-                     :list="rounds[j-1][i-1]"
-                     class="square"
-          >
+        <draggable :list="rounds[j-1][i-1]" >
+          <li class="game game-top" >
+            <draggable :options="{group:{ name:'people',  pull:'clone'}}"
+                       :list="rounds[j-1][i-1]"
+                       :move="cloneWinnerTop"
+                       class="square"
+            >
 
-            <div class="game-content" v-for="data in rounds[j-1][i-1]"
-                 v-if="data.firstPerson">
-              {{data.firstPerson.name}}
-            </div>
-            <div v-else>
-              <!--{{data}}-->
+              <div class="game-content" v-for="data in rounds[j-1][i-1]"
+                   v-if="data.firstPerson"
+              >
+                {{data.firstPerson.name}}
+              </div>
+              <div v-else>
+                <!--{{data}}-->
 
-            </div>
+              </div>
 
-          </draggable>
-        </li>
+            </draggable>
+          </li>
+        </draggable>
 
         <li class="game game-spacer" >&nbsp;</li>
 
         <li class="game game-bottom" >
           <draggable :options="{group:{ name:'people',  pull:'clone'}}"
-                     :move="cloneWinner"
+                     :move="cloneWinnerBottom"
                      :list="rounds[j-1][i-1]"
                      class="square"
           >
@@ -53,7 +56,7 @@
           </draggable>
         </li>
 
-        
+
         <!--<li class="game game-bottom">-->
           <!--<draggable :options="{group:{ name:'people',  pull:'clone'}}" :move="cloneWinner" :list="mData[j-1][i-1].second" >-->
             <!--<div class="game-content" v-for="data in mData[j-1][i-1]"-->
@@ -193,9 +196,24 @@
 //        console.log(this.rounds)
       },
 
-      cloneWinner(evt){
+      cloneWinnerTop(evt){
+        console.log('top')
+        this.rounds = Object.assign({},this.rounds)
         console.log(evt)
-        console.log(this.mData)
+//        evt.relatedContext.element.secondPerson = null
+//        console.log(this.rounds)
+
+
+
+      },
+
+      cloneWinnerBottom(evt){
+//        console.log('bottom')
+//        console.log(evt)
+//        console.log(this.rounds)
+//        this.rounds = Object.assign({},this.rounds)
+
+
       },
 
     }
