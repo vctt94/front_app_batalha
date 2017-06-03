@@ -105,7 +105,6 @@
 
         round: [],
 
-        rounds: [],
 
         battle: [],
 
@@ -123,6 +122,26 @@
     },
 
     computed : {
+      rounds(){
+        let rounds = []
+        for (let j = 0; j < this.jTotal; j++) {
+          rounds[j] = []
+          for (let i = 0; i < this.iTotal; i++) {
+
+            if (this.matriz[j][i]) {
+              const data = {
+                firstPerson: null,
+                secondPerson: null,
+                j: j,
+                i: i
+              }
+              rounds[j][i] = [data]
+            }
+
+          }
+        }
+        return rounds
+      },
       matriz (){
         let matriz = []
         let k = 0;
@@ -176,22 +195,7 @@
 
 
       initMatrixData(){
-        for (let j = 0; j < this.jTotal; j++) {
-          this.rounds[j] = []
-          for (let i = 0; i < this.iTotal; i++) {
 
-            if (this.matriz[j][i]) {
-              const data = {
-                firstPerson: null,
-                secondPerson: null,
-                j: j,
-                i: i
-              }
-              this.rounds[j][i] = [data]
-            }
-
-          }
-        }
       },
 
       drawStage(roundNumber, rounds){
