@@ -194,6 +194,14 @@
 
         this.rounds[j][i].winner = position
 
+        let data = {
+          round    : j,
+          game     : i,
+          person   : this.rounds[j][i][position],
+          position : position === 0 ? 'top' : 'bottom'
+        }
+
+        this.$emit('getWinner', data)
         this.rounds = Object.assign({}, this.rounds)
 
 

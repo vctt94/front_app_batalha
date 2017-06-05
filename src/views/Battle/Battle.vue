@@ -6,7 +6,8 @@
         <bracket
           v-if="!loading"
           :rounds-number="firstStage.length"
-          :first-round = "firstStage"></bracket>
+          :first-round = "firstStage"
+          v-on:getWinner="showWinner"></bracket>
     </main>
   </div>
 </template>
@@ -41,7 +42,9 @@
     },
 
     methods : {
-
+      showWinner(data){
+        console.log(data)
+      }
     }
   }
 </script>
