@@ -9,14 +9,14 @@
       <template v-for="i in iTotal"
                 v-if="!loading && matriz[j-1][i-1]"
       >
-
-
         <li class="spacer">&nbsp;</li>
 
-        <li class="game game-top" >
+        <li class="game game-top"
+            :class="[rounds[j-1][i-1].winner == 0 ? 'winner' : '' ]"
+        >
           <draggable :options="{group:{ name:'people',  pull:'clone'}}"
                      :list="rounds[j-1][i-1][0]"
-                     :move = "cloneWinner"
+                     v-on:clone = "cloneWinner(j-1,i-1, 0, $event)"
                      class="square"
           >
 
@@ -31,9 +31,11 @@
 
         <li class="game game-spacer" >&nbsp;</li>
 
-        <li class="game game-bottom" >
+        <li class="game game-bottom"
+            :class="[rounds[j-1][i-1].winner == 1 ? 'winner' : '' ]"
+        >
           <draggable :options="{group:{ name:'people',  pull:'clone'}}"
-                     :move="cloneWinner"
+                     v-on:clone="cloneWinner(j-1,i-1, 1, $event)"
                      :list="rounds[j-1][i-1][1]"
                      class="square"
           >
@@ -188,8 +190,10 @@
       showRounds(){
         console.log(this.rounds)
       },
-      cloneWinner(evt){
-        console.log(evt)
+      cloneWinner(j,i, position, evt){
+
+        this.rounds[j][i].winner = position
+
         this.rounds = Object.assign({}, this.rounds)
 
 
@@ -237,7 +241,7 @@
 
   }
 
-  .game.winner{
+  .winner{
     font-weight:bold;
   }
   .game span{
