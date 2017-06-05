@@ -142,10 +142,7 @@
 
       this.iTotal = this.roundsNumber
 
-      const scope = this;
-
       this.initMatrixData();
-
       this.drawStage(0,this.firstRound);
 
       this.loading = false
@@ -190,6 +187,13 @@
       showRounds(){
         console.log(this.rounds)
       },
+
+      /**
+       * emit data to parent
+       * round starts in 0
+       * person is array of people
+       * game is the game position on the round
+       */
       cloneWinner(j,i, position, evt){
 
         this.rounds[j][i].winner = position
