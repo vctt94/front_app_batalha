@@ -1,31 +1,7 @@
-<!--
-@Component:
-    nav-bar-vue
-@Description:
-    Simple collapsible and toggleable top navbar to paginate through tabs.
-    'Entrar' and 'Sair' buttons included according to name and avatar info
-    passed by props
-@CalledComponents:
-@ApiRoutes:
-@WebRoutes:
-@Props:
-    avatar: string of the user image url. If it is null or man.jpg, a default
-        avatar icon is shown
-    name:   string containing users name
-    tabs:   JSON passed as string, containing tab name and link that goes to.
-            Ex: tabs = '[{"name": "home", "url": "/home"},
-                         {"name": "exit", "url": "/exit"}]'
-@TODO:
-    1 - Pass background color by props;
-    2 - Pass style by props
-    3 - Top or bottom option by props
-    4 - Toggleable option by props
-    5 - Pass logo by props
--->
 
 <template>
 
-  <aside v-if="getSidebarActiveStatus" class="app-sidebar aside hero is-fullheight is-hidden-mobile">
+  <aside v-if="getSidebarActiveStatus" class="app-sidebar aside hero is-fullheight is-hidden-mobile animated slideInLeft">
   <div>
     <div class="logo">
       <img src="../assets/006.svg" alt="Bulma logo">
@@ -37,8 +13,10 @@
     <div class="main">
 
       <ul class="menu-list">
-        <li v-for="item in menus" v-on:click="toggleActive(item)">
-          <router-link class="font-gray" :to="item.path" :exact="true">{{item.meta.label}}</router-link>
+        <li v-for="item in menus" >
+            <div v-if="item.meta.sidebar">
+                <router-link class="font-gray" :to="item.path" :exact="true">{{item.meta.label}}</router-link>
+            </div>
           <!-- <ul v-if="item.children && item.isActive">
             <li v-for="child in item.children" v-on:click="toggleActive(child)">
               <router-link class="font-gray" :to="item.path + '/' +child.path">{{child.meta.label}}</router-link>
@@ -75,7 +53,6 @@ export default {
       return this.sidebar.activeStatus
     }
   },
-
 
   mounted() {
     this.active = this.getSidebarActiveStatus

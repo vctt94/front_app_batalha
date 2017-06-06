@@ -1,8 +1,17 @@
 <template>
     <div>
+        <div class="column is-half is-offset-2">
+            <el-steps :space="350" :active="1" style="color: black">
+                <el-step title="Batalha" icon="plus">asdasd</el-step>
+                <el-step title="Sorteio" icon="search"></el-step>
+                <el-step title="Chaves" icon="share"></el-step>
+            </el-steps>
+
+        </div>
+
         <h2>Sorteio dos MC's</h2>
         <div class="columns" style="padding-top: 2em">
-            <div class="column is-one-third">
+            <div class="column is-one-third is-offset-1">
                 <table>
                     <thead>
                         <tr>
@@ -20,7 +29,7 @@
                                 {{user.name}}
                             </td>
                             <td>
-                                <a class="btn" @click="subscribe(user)"><i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                <a class="btn" @click="subscribe(user)"><i class="fa fa-arrow-right" style="color: grey" aria-hidden="true"></i></a>
                             </td>
                         </tr>
                     </tbody>
@@ -49,21 +58,26 @@
             </div>
 
             <fab
-            bg-color="#0e2449"
-            position="top-right"
-            :actions="actions"
-            @newUser="newUser"
-            @listUsers="listUsers"
-            style="padding-top: 2em"
+                bg-color="#0e2449"
+                position="top-right"
+                :actions="actions"
+                @newUser="newUser"
+                @listUsers="listUsers"
+                style="padding-top: 2em"
             />
 
             <!-- <content-navbar /> -->
             <!-- <main id="tournament">
             <bracket
-            v-if="!loading"
-            :rounds-number="firstStage.length"
-            :first-round = "firstStage"></bracket>
-        </main> -->
+                  v-if="!loading"
+                  :rounds-number="firstStage.length"
+                  :first-round = "firstStage"
+                  v-on:getWinner="showWinner">
+
+                </bracket>
+            </main> -->
+
+
     </div>
 
 </div>
@@ -128,6 +142,10 @@ export default {
 
         listUsers() {
             alert('listing users')
+        },
+
+        showWinner(data){
+            console.log(data)
         }
 
     }
@@ -140,6 +158,9 @@ export default {
     padding-top: 10em;
 }
 
+i :hover {
+    color: black;
+}
 /*
 *  General Styles
 */

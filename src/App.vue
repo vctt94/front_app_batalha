@@ -13,7 +13,7 @@
           ></sidebar>
       </div>
 
-      <main class="column is-10 is-offset-1">
+      <main class="column is-10">
         <div class="content">
             <router-view></router-view>
         </div>
@@ -47,7 +47,7 @@
 
       }
     },
-    
+
     mounted(){
       this.router = Router.options.routes
 

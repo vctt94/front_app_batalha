@@ -9,14 +9,14 @@
       <template v-for="i in iTotal"
                 v-if="!loading && matriz[j-1][i-1]"
       >
-
-
         <li class="spacer">&nbsp;</li>
 
-        <li class="game game-top" >
+        <li class="game game-top"
+            :class="[rounds[j-1][i-1].winner == 0 ? 'winner' : '' ]"
+        >
           <draggable :options="{group:{ name:'people',  pull:'clone'}}"
                      :list="rounds[j-1][i-1][0]"
-                     :move = "cloneWinner"
+                     v-on:clone = "cloneWinner(j-1,i-1, 0, $event)"
                      class="square"
           >
 
@@ -31,9 +31,11 @@
 
         <li class="game game-spacer" >&nbsp;</li>
 
-        <li class="game game-bottom" >
+        <li class="game game-bottom"
+            :class="[rounds[j-1][i-1].winner == 1 ? 'winner' : '' ]"
+        >
           <draggable :options="{group:{ name:'people',  pull:'clone'}}"
-                     :move="cloneWinner"
+                     v-on:clone="cloneWinner(j-1,i-1, 1, $event)"
                      :list="rounds[j-1][i-1][1]"
                      class="square"
           >
@@ -140,10 +142,7 @@
 
       this.iTotal = this.roundsNumber
 
-      const scope = this;
-
       this.initMatrixData();
-
       this.drawStage(0,this.firstRound);
 
       this.loading = false
@@ -188,8 +187,25 @@
       showRounds(){
         console.log(this.rounds)
       },
-      cloneWinner(evt){
-        console.log(evt)
+
+      /**
+       * emit data to parent
+       * round starts in 0
+       * person is array of people
+       * game is the game position on the round
+       */
+      cloneWinner(j,i, position, evt){
+
+        this.rounds[j][i].winner = position
+
+        let data = {
+          round    : j,
+          game     : i,
+          person   : this.rounds[j][i][position],
+          position : position === 0 ? 'top' : 'bottom'
+        }
+
+        this.$emit('getWinner', data)
         this.rounds = Object.assign({}, this.rounds)
 
 
@@ -237,7 +253,7 @@
 
   }
 
-  .game.winner{
+  .winner{
     font-weight:bold;
   }
   .game span{

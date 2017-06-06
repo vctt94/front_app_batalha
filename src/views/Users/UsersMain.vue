@@ -1,6 +1,6 @@
 <template>
-  <div class="users">
-    <div v-if="loading" class="fa fa-spinner fa-pulse fa-3x fa-fw">
+  <div class="column is-offset-2">
+    <div v-if="loading" class="fa fa-spinner fa-pulse fa-3x fa-fw" style="font-size: 130px;">
     </div>
     <div v-else>
 
@@ -35,31 +35,18 @@
         <div v-if="this.section == 'list'" class="table is-bordered is-striped is-narrow">
           <table>
             <thead>
-
-            <tr>
-              <th></th>
-              <th>Nome</th>
-              <th>Email</th>
-              <th>Editar</th>
-              <th>Deletar</th>
-
-            </tr>
-
+                <tr>
+                  <th>Nome</th>
+                  <th>Email</th>
+                  <th>Editar</th>
+                  <th>Deletar</th>
+                </tr>
             </thead>
             <tfoot>
-
             </tfoot>
             <tbody>
 
             <tr v-for="user in listUsers" v-if="user">
-              <td>
-                <p class="control">
-                  <label class="checkbox">
-                    <input type="checkbox">
-                  </label>
-                </p>
-              </td>
-
               <td>
                 {{user.name}}
               </td>
@@ -68,12 +55,10 @@
               </td>
               <td style="width: 2em">
                 <a class="fa fa-book" v-on:click="openEditModal(user)">
-
                 </a>
               </td>
               <td style="width: 2em" >
                 <a class="fa fa-trash" v-on:click="openDeleteModal(user)">
-
                 </a>
               </td>
             </tr>
@@ -83,7 +68,7 @@
         </div>
 
         <div v-if="this.section == 'create'">
-          <div class="users">
+          <div class="column is-half is-offset-2">
 
             <div class="field" >
               <label class="label">MC ____ : </label>
@@ -135,9 +120,9 @@
         </div>
 
 
-        <div v-else>
+        <!-- <div v-else>
           else
-        </div>
+        </div> -->
 
       </div>
 

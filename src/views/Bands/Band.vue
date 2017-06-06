@@ -1,5 +1,10 @@
 <template>
-  <div>
+  <div class="column is-offset-2">
+      <content-navbar
+        v-on:update="setContentNavbarSection"
+        string = "Bandas cadastradas"
+      />
+
     <modal-confirm
       :show="showDelete"
       :title = "modalProps.title"
@@ -18,9 +23,7 @@
       v-on:submit = "showModalForm = false"
       v-on:close  = "closeModal"
     ></modal-band-form>
-    <div class="table is-bordered is-striped is-narrow">
-      <a class="fa fa-plus" v-on:click="openCreateModal">Adicionar novo</a>
-
+    <div class="rendered-content table is-bordered is-striped is-narrow">
       <table>
         <thead>
 
@@ -69,78 +72,84 @@
 
 <script>
 
-  import ModalConfirm from '../Components/Modal.vue'
-  import ModalBandForm from '../Components/ModalBandForm.vue'
+import ModalConfirm from '../Components/Modal.vue'
+import ModalBandForm from '../Components/ModalBandForm.vue'
+import ContentNavbar from '../../components/ContentNavbar.vue'
 
-  export default {
+export default {
     name: 'BandCreate',
 
-    components : {ModalConfirm,ModalBandForm},
+    components : {ModalConfirm, ModalBandForm, ContentNavbar},
 
     data () {
-      return {
-        groups        : {},
-        showDelete    : false,
-        showModalForm : false,
-        modalProps    : [],
-        group         : null,
-        edit          : null
+        return {
+            groups        : {},
+            showDelete    : false,
+            showModalForm : false,
+            modalProps    : [],
+            group         : null,
+            edit          : null,
+            section       : 'list'
 
-      }
+        }
     },
     mounted(){
-      const scope = this;
-      this.axios.get('/api/group/get-all-groups').then(response=>{
-        scope.groups = response.data.data
-      })
+        const scope = this;
+        this.axios.get('/api/group/get-all-groups').then(response=>{
+            scope.groups = response.data.data
+        })
 
     },
 
     methods : {
+        setContentNavbarSection(value) {
+            this.section = value
+        },
 
-      openDeleteModal(group){
-        this.modalProps.content = "Tem certeza que deseja deletar "+group.name +"?"
-        this.modalProps.submitButton = "Deletar"
-        this.modalProps.title = "Confirmar"
-        this.modalProps.group = group
-        this.showDelete = true
-      },
+        openDeleteModal(group){
+            this.modalProps.content = "Tem certeza que deseja deletar "+group.name +"?"
+            this.modalProps.submitButton = "Deletar"
+            this.modalProps.title = "Confirmar"
+            this.modalProps.group = group
+            this.showDelete = true
+        },
 
-      openEditModal(group){
+        openEditModal(group){
 
-        this.edit = true
-        this.group = group
-        this.showModalForm = true
-      },
+            this.edit = true
+            this.group = group
+            this.showModalForm = true
+        },
 
-      openCreateModal(){
-        this.edit = false
-        this.showModalForm = true
-      },
+        openCreateModal(){
+            this.edit = false
+            this.showModalForm = true
+        },
 
-      closeModal(group){
-        if(group)
-          this.groups[group._id] = group
-        this.edit          = false
-        this.showModalForm = false
-        this.group         = null
-      },
+        closeModal(group){
+            if(group)
+            this.groups[group._id] = group
+            this.edit          = false
+            this.showModalForm = false
+            this.group         = null
+        },
 
-      deleteBand(id){
+        deleteBand(id){
 
-        console.log(this.groups)
-        console.log(this.groups[id])
-        this.groups[id] = null
+            console.log(this.groups)
+            console.log(this.groups[id])
+            this.groups[id] = null
 
-//          this.$http.delete('api/group/delete-group-by-id/'+id)
-      },
+            //          this.$http.delete('api/group/delete-group-by-id/'+id)
+        },
 
 
 
     }
-  }
+}
 </script>
 
 <style scoped lang="sass">
-
+    .rendered-content
+      padding-top: 4em
 </style>

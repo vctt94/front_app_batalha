@@ -6,8 +6,11 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import {Steps, Step} from 'element-ui'
 
 Vue.use(VueAxios, axios)
+Vue.use(Steps)
+Vue.use(Step)
 
 Vue.config.productionTip = false
 

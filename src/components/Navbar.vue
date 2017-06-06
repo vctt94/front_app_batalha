@@ -1,5 +1,5 @@
 <template>
-  <section class="hero is-bold app-navbar" :class="{ slideInDown: show, slideOutDown: !show }">
+  <section class="hero is-bold app-navbar animated slideInDown">
     <div class="hero-head">
       <nav class="nav">
         <div class="nav-left">
@@ -9,7 +9,7 @@
         </div>
         <div class="nav-center">
           <a class="nav-item hero-brand" href="/">
-            <img src="../assets/003.svg" >
+            <!-- <img src="../assets/003.svg" > -->
               <div class="is-hidden-mobile">
                 <span>Batalha da </span> <strong class="admin">Escada</strong>
               </div>
