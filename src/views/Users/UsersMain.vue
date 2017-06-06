@@ -168,11 +168,12 @@
 
     mounted() {
       const scope = this;
+
       this.axios.get('/api/user/get-all-users').then(response=>{
-        scope.listUsers = response.data.data
-        this.loading = false
-        console.log(scope.listUsers)
+        scope.listUsers = response.data.dat
+        scope.loading = false
       })
+
 
     },
 
@@ -189,8 +190,21 @@
           headers: headers
         }).then( response => {
           console.log(response)
-        }).catch( e => {
-          console.log(e)
+
+          this.$notify({
+              title: 'Mil trutas mil tretas',
+              message: 'MC recrutado com sucesso',
+              type: 'success'
+            });
+
+        }).catch( err => {
+          console.log(err)
+
+          this.$notify({
+              title: 'Zero truta zero treta',
+              message: 'Erro interno ao recrutar MC. Causa: ' + err.message,
+              type: 'error'
+            });
         })
       },
 

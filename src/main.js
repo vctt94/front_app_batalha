@@ -6,11 +6,14 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import {Steps, Step} from 'element-ui'
+import {Steps, Step, Notification, Transfer} from 'element-ui'
 
 Vue.use(VueAxios, axios)
 Vue.use(Steps)
 Vue.use(Step)
+Vue.use(Transfer)
+
+Vue.prototype.$notify = Notification
 
 Vue.config.productionTip = false
 

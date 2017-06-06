@@ -7,64 +7,16 @@
                 <el-step title="Chaves" icon="share"></el-step>
             </el-steps>
 
+            <el-transfer
+                filterable
+                :filter-method="filterMethod"
+                filter-placeholder="State Abbreviations"
+                v-model="value2"
+                :data="users">
+              </el-transfer>
         </div>
 
-        <h2>Sorteio dos MC's</h2>
-        <div class="columns" style="padding-top: 2em">
-            <div class="column is-one-third is-offset-1">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nome MC</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
 
-                    </tfoot>
-                    <tbody>
-
-                        <tr v-for="user in users" v-if="user">
-
-                            <td>
-                                {{user.name}}
-                            </td>
-                            <td>
-                                <a class="btn" @click="subscribe(user)"><i class="fa fa-arrow-right" style="color: grey" aria-hidden="true"></i></a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="column is-one-third is-offset-4">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Sorteando</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-
-                    </tfoot>
-                    <tbody>
-                        <tr v-for="user in usersSubscribed" v-if="user">
-
-                            <td>
-                                {{user.name}}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <fab
-                bg-color="#0e2449"
-                position="top-right"
-                :actions="actions"
-                @newUser="newUser"
-                @listUsers="listUsers"
-                style="padding-top: 2em"
-            />
 
             <!-- <content-navbar /> -->
             <!-- <main id="tournament">
@@ -87,30 +39,19 @@
 <script>
 
 import Bracket from '../Components/Bracket.vue'
-import ContentNavbar from '../../components/ContentNavbar.vue'
 import fab from 'vue-fab'
 
 export default {
 
-    components : {Bracket, ContentNavbar, fab},
+    components : {Bracket, fab},
 
     data () {
         return {
             firstStage      : [],
             users           : [],
-            usersSubscribed : [],
             loading         : true,
             total_rounds    : 0,
-            actions: [
-                {
-                    name: 'newUser',
-                    icon: 'add'
-                },
-                {
-                    name: 'listUsers',
-                    icon: 'list'
-                }
-            ]
+
         }
     },
 
@@ -131,10 +72,7 @@ export default {
     },
 
     methods : {
-        subscribe(user) {
-            this.usersSubscribed.push(user)
-            console.log(this.usersSubscribed)
-        },
+
 
         newUser() {
             alert('creating new user')
