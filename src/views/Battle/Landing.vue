@@ -30,7 +30,7 @@ export default {
         createBattle() {
             this.loading = true
 
-            window.location.assign('/batalha')
+          this.$router.push('Batalha')
         }
     }
 
