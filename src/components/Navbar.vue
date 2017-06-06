@@ -1,5 +1,5 @@
 <template>
-  <section class="hero is-bold app-navbar animated" :class="{ slideInDown: show, slideOutDown: !show }">
+  <section class="hero is-bold app-navbar" :class="{ slideInDown: show, slideOutDown: !show }">
     <div class="hero-head">
       <nav class="nav">
         <div class="nav-left">

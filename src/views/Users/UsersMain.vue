@@ -6,8 +6,8 @@
 
       <content-navbar
         v-on:update="setContentNavbarSection"
-        :n="listUsers.length"
-        n-things=" MC's cadastrados"
+        :total = "listUsers.length"
+        string = "MC's cadastrados"
       />
 
       <modal-confirm
@@ -176,7 +176,8 @@
         modalProps    : [],
         edit          : null,
         userEdit      : null,
-        loading: true
+        loading: true,
+        string: 'MCs cadastrados'
       }
     },
 
@@ -185,6 +186,7 @@
       this.axios.get('/api/user/get-all-users').then(response=>{
         scope.listUsers = response.data.data
         this.loading = false
+        console.log(scope.listUsers)
       })
 
     },

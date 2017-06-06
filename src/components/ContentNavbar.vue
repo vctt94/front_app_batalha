@@ -28,7 +28,7 @@
 		  </a> -->
 
 		  <div class="nav-item is-tab">
-			<strong>{{n}} {{nthings}}</strong>
+			<strong>{{total}} {{string}}</strong>
 		  </div>
 		</div>
 		<div class="nav-right is-hidden-mobile">
@@ -47,10 +47,10 @@ export default {
 	name: 'ContentNavbar',
 
 	props: {
-		n: {
+		total: {
 			type: Number
 		},
-		nthings: {
+		string: {
 			type: String
 		}
 	},
@@ -65,8 +65,8 @@ export default {
 	},
 
 	mounted() {
-		console.log(this.n)
-		console.log(this.nthings)
+		console.log(this.total)
+		console.log(this.string)
 	},
 
 	methods :{
