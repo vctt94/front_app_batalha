@@ -31,6 +31,26 @@
 
         <li class="game game-spacer" >&nbsp;</li>
 
+        <li class="game game"
+            :class="[rounds[j-1][i-1].winner == 1 ? 'winner' : '' ]"
+            v-if="rounds[j-1][i-1][2]"
+        >
+          <draggable :options="{group:{ name:'people',  pull:'clone'}}"
+                     v-on:clone="cloneWinner(j-1,i-1, 1, $event)"
+                     :list="rounds[j-1][i-1][2]"
+                     class="square"
+          >
+
+            <div class="game-content" v-for="data in rounds[j-1][i-1][2]"
+                 v-if="data">
+              {{data.name}}
+            </div>
+
+          </draggable>
+        </li>
+
+        <li class="game game-spacer" v-if="rounds[j-1][i-1][2]">&nbsp;</li>
+
         <li class="game game-bottom"
             :class="[rounds[j-1][i-1].winner == 1 ? 'winner' : '' ]"
         >
@@ -158,8 +178,6 @@
 
             if (this.matriz[j][i]) {
               this.rounds[j][i] = []
-              this.rounds[j][i][0] = []
-              this.rounds[j][i][1] = []
             }
 
           }
@@ -170,16 +188,29 @@
       drawStage(roundNumber, rounds){
 
         const j = roundNumber
+        let is3People = false;
 
-        for(let i=0;i<this.firstRound.length;i++){
+        for(let i=0;i<rounds.length;i++){
 
-          let data = {
-            firstPerson : rounds[i].first,
-            secondPerson : rounds[i].second,
+          if(rounds[i].third) {
+            is3People = true;
+            this.rounds[j][i][0] = [rounds[i].first];
+            this.rounds[j][i][1] = [rounds[i].second];
+            this.rounds[j][i][2] = [rounds[i].third];
           }
 
-          this.rounds[j][i][0] = [data.firstPerson];
-          this.rounds[j][i][1] = [data.secondPerson];
+          else {
+            this.rounds[j][i][0] = [rounds[i].first];
+            this.rounds[j][i][1] = [rounds[i].second];
+          }
+        }
+
+        // set third person in all games of round so they have same size and flex grow, grow right
+        if(is3People) {
+          for (let i = 0; i < rounds.length; i++) {
+            if(!this.rounds[j][i][2])
+              this.rounds[j][i][2] = []
+          }
         }
 
       },
