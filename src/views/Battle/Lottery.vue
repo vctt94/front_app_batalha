@@ -57,7 +57,8 @@
             @listUsers="listUsers"
             style="padding-top: 2em"
         />
-        
+
+    </div>
     </div>
 
 </template>
@@ -71,7 +72,7 @@ export default {
 
     props: {
         users: {
-            Type: Object/
+            Type: Object
         }
     },
 

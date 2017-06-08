@@ -18,7 +18,7 @@ export default new Router({
     routes: [
         {
             path: '/',
-            name: 'batalha',
+            name: 'landing',
             isActive : true,
             meta : {
                 label: 'Batalha !',

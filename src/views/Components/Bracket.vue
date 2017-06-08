@@ -41,7 +41,7 @@
                      class="square"
           >
 
-            <div class="game-content" v-for="data in rounds[j-1][i-1][2]"
+            <div class="game-content" v-for="data in rounds[j-1][i-1][1]"
                  v-if="data">
               {{data.name}}
             </div>
@@ -52,15 +52,15 @@
         <li class="game game-spacer" v-if="rounds[j-1][i-1][2]">&nbsp;</li>
 
         <li class="game game-bottom"
-            :class="[rounds[j-1][i-1].winner == 1 ? 'winner' : '' ]"
+            :class="[rounds[j-1][i-1].winner == 2 ? 'winner' : '' ]"
         >
           <draggable :options="{group:{ name:'people',  pull:'clone'}}"
-                     v-on:clone="cloneWinner(j-1,i-1, 1, $event)"
-                     :list="rounds[j-1][i-1][1]"
+                     v-on:clone="cloneWinner(j-1,i-1, 2, $event)"
+                     :list="rounds[j-1][i-1][2]"
                      class="square"
           >
 
-            <div class="game-content" v-for="data in rounds[j-1][i-1][1]"
+            <div class="game-content" v-for="data in rounds[j-1][i-1][2]"
                  v-if="data">
               {{data.name}}
             </div>
@@ -226,10 +226,11 @@
        * game is the game position on the round
        */
       cloneWinner(j,i, position, evt){
+        this.rounds = Object.assign({}, this.rounds)
 
         this.rounds[j][i].winner = position
 
-        let data = {
+        const data = {
           round    : j,
           game     : i,
           person   : this.rounds[j][i][position],
@@ -237,7 +238,6 @@
         }
 
         this.$emit('getWinner', data)
-        this.rounds = Object.assign({}, this.rounds)
 
 
       },

@@ -1,19 +1,71 @@
 <template>
     <div>
+        <br /><br />
         <div class="column is-half is-offset-2">
-            <el-steps :space="350" :active="1" style="color: black">
-                <el-step title="Batalha" icon="plus">asdasd</el-step>
-                <el-step title="Sorteio" icon="search"></el-step>
-                <el-step title="Chaves" icon="share"></el-step>
-            </el-steps>
+            <div class="column is-offset-3">
+                <el-steps :space="350" :active="1" style="color: black">
+                    <el-step title="Sorteio" icon="search"></el-step>
+                    <el-step title="Chaves" icon="share"></el-step>
+                </el-steps>
 
-            <el-transfer
-                filterable
-                :filter-method="filterMethod"
-                filter-placeholder="State Abbreviations"
-                v-model="value2"
-                :data="users">
-              </el-transfer>
+            </div>
+            <a class="button" @click="showSubscribeds">Show usersSubscribed</a>
+            <br /><br />
+          <div class="columns" style="padding-top: 2em" >
+             <div class="column is-two-thirds">
+                  <table class="table">
+                      <thead>
+                          <tr>
+                             <th>nome MC</th>
+                         </tr>
+                     </thead>
+                     <tfoot>
+
+                     </tfoot>
+                     <tbody>
+
+                         <tr v-for="user in users" v-if="user">
+
+                             <td>
+                                  {{user.name}}
+                              </td>
+                              <td >
+                                 <a class="btn" @click="subscribe(user)"><i class="fa fa-arrow-right blackhover" style="color: grey" aria-hidden="true"></i></a>
+                              </td>
+                          </tr>
+                      </tbody>
+
+                  </table>
+              </div>
+             <div class="column is-two-thirds is-offset-2">
+                 <table class="table">
+                     <thead>
+                         <tr>
+                             <th>na disputa !</th>
+                             <th>
+                                 estreiante?
+                             </th>
+                         </tr>
+                     </thead>
+                     <tfoot>
+
+                     </tfoot>
+                     <tbody>
+                         <tr v-for="user in usersSubscribed">
+                             <td>
+                                <a class="btn" @click="unsubscribe(user)"><i class="fa fa-arrow-left blackhover" style="color: grey" aria-hidden="true"></i></a>
+                                &nbsp&nbsp
+                                &nbsp&nbsp
+                                &nbsp&nbsp
+                                 {{user.name}}
+                             </td>
+                             <td>
+                                    <a @change="setVirgin(user)"><el-checkbox></el-checkbox></a>
+                             </td>
+                         </tr>
+                     </tbody>
+                 </table>
+              </div>
         </div>
 
 
@@ -32,7 +84,7 @@
 
     </div>
 
-</div>
+        </div>
 
 </template>
 
@@ -49,15 +101,16 @@ export default {
         return {
             firstStage      : [],
             users           : [],
+            usersSubscribed : [],
             loading         : true,
             total_rounds    : 0,
+            value2 : null
 
         }
     },
 
     mounted(){
         let scope = this;
-
         this.axios.get('/api/bracket/make-battle').then(response => {
             scope.firstStage = response.data.brackets.first_stage
             console.log(response.data)
@@ -73,13 +126,35 @@ export default {
 
     methods : {
 
-
         newUser() {
             alert('creating new user')
         },
 
         listUsers() {
             alert('listing users')
+        },
+
+        showSubscribeds(){
+            console.log(this.usersSubscribed)
+        },
+
+        subscribe(user) {
+            if(this.usersSubscribed.indexOf(user) == -1)
+                this.usersSubscribed.push(user)
+        },
+
+        unsubscribe(user) {
+            let index = this.usersSubscribed.indexOf(user)
+            this.usersSubscribed.splice(index, 1)
+        },
+
+        setVirgin(user) {
+            let index = this.usersSubscribed.indexOf(user)
+            if(this.usersSubscribed[index].virgin == undefined)
+                this.usersSubscribed[index].virgin = true
+            else
+                this.usersSubscribed[index].virgin = !this.usersSubscribed[index].virgin
+
         },
 
         showWinner(data){
@@ -98,6 +173,22 @@ export default {
 
 i :hover {
     color: black;
+}
+
+a :hover {
+    color: black;
+}
+
+.blackhover {
+    color: black;
+
+}
+
+.box {
+    width: 320px;
+    padding: 10px;
+    border: 5px solid gray;
+    margin: 0;
 }
 /*
 *  General Styles

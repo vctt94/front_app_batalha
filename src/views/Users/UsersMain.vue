@@ -6,7 +6,6 @@
 
       <content-navbar
         v-on:update="setContentNavbarSection"
-        :total = "listUsers.length"
         string = "MC's cadastrados"
       />
 
@@ -170,7 +169,7 @@
       const scope = this;
 
       this.axios.get('/api/user/get-all-users').then(response=>{
-        scope.listUsers = response.data.dat
+        scope.listUsers = response.data.data
         scope.loading = false
       })
 
