@@ -6,12 +6,14 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import {Steps, Step, Notification, Checkbox} from 'element-ui'
+import {Steps, Step, Notification, Checkbox, Dialog, Button} from 'element-ui'
 
 Vue.use(VueAxios, axios)
 Vue.use(Steps)
 Vue.use(Step)
 Vue.use(Checkbox)
+Vue.use(Dialog)
+Vue.use(Button)
 
 Vue.prototype.$notify = Notification
 

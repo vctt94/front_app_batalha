@@ -9,7 +9,7 @@
                 </el-steps>
 
             </div>
-            <a class="button" @click="showSubscribeds">Show usersSubscribed</a>
+            <a class="button" @click="sendUsersSubscribed">Show usersSubscribed</a>
             <br /><br />
           <div class="columns" style="padding-top: 2em" >
              <div class="column is-two-thirds">
@@ -20,12 +20,9 @@
                          </tr>
                      </thead>
                      <tfoot>
-
                      </tfoot>
                      <tbody>
-
                          <tr v-for="user in users" v-if="user">
-
                              <td>
                                   {{user.name}}
                               </td>
@@ -34,7 +31,6 @@
                               </td>
                           </tr>
                       </tbody>
-
                   </table>
               </div>
              <div class="column is-two-thirds is-offset-2">
@@ -48,7 +44,6 @@
                          </tr>
                      </thead>
                      <tfoot>
-
                      </tfoot>
                      <tbody>
                          <tr v-for="user in usersSubscribed">
@@ -69,9 +64,9 @@
         </div>
 
 
-
+            <modal-confirm ></modal-confirm>
             <!-- <content-navbar /> -->
-            <!-- <main id="tournament">
+            <main v-if="firstStage.length != 0" id="tournament">
             <bracket
                   v-if="!loading"
                   :rounds-number="firstStage.length"
@@ -79,7 +74,7 @@
                   v-on:getWinner="showWinner">
 
                 </bracket>
-            </main> -->
+            </main>
 
 
     </div>
@@ -91,11 +86,12 @@
 <script>
 
 import Bracket from '../Components/Bracket.vue'
+import ModalConfirm from '../../components/ModalConfirm.vue'
 import fab from 'vue-fab'
 
 export default {
 
-    components : {Bracket, fab},
+    components : {Bracket, fab, ModalConfirm},
 
     data () {
         return {
@@ -111,11 +107,7 @@ export default {
 
     mounted(){
         let scope = this;
-        this.axios.get('/api/bracket/make-battle').then(response => {
-            scope.firstStage = response.data.brackets.first_stage
-            console.log(response.data)
 
-        })
 
         this.axios.get('/api/user/get-all-users').then(response=>{
             scope.users = response.data.data
@@ -134,18 +126,51 @@ export default {
             alert('listing users')
         },
 
-        showSubscribeds(){
-            console.log(this.usersSubscribed)
+        sendUsersSubscribed(){
+            let scope = this
+
+            let users = this.remakeUsersArray()
+
+            this.axios.post('http://localhost:3000/battle/make-battle', users).then(response => {
+                console.log(response.data)
+                // scope.firstStage = response.data.brackets.first_stage
+
+            }).catch( err => {
+                console.log(err)
+            })
+        },
+
+        remakeUsersArray() {
+            let usersnew = []
+
+            this.usersSubscribed.forEach(function(user) {
+                let u = {
+                    'created'    : user.created,
+                    'email'      : user.email,
+                    'gender'     : user.gender,
+                    'modified'   : user.modified,
+                    'name'       : user.name,
+                    'user_level' : user.user_level,
+                    'virgin'     : user.virgin,
+                    '_id'        : user._id,
+                    '_group'     : user._group
+                }
+                usersnew.push(u)
+            });
+
+            return usersnew
         },
 
         subscribe(user) {
-            if(this.usersSubscribed.indexOf(user) == -1)
-                this.usersSubscribed.push(user)
+            delete this.users[user._id]
+            let index = this.usersSubscribed.indexOf(user)
+            this.usersSubscribed.push(user)
         },
 
         unsubscribe(user) {
             let index = this.usersSubscribed.indexOf(user)
             this.usersSubscribed.splice(index, 1)
+            this.users[user._id] = user
         },
 
         setVirgin(user) {
