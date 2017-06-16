@@ -1,85 +1,88 @@
 <template>
     <div>
-        <br /><br />
-        <div class="column is-half is-offset-2">
-            <div class="column is-offset-3">
-                <el-steps :space="350" :active="1" style="color: black">
-                    <el-step title="Sorteio" icon="search"></el-step>
-                    <el-step title="Chaves" icon="share"></el-step>
-                </el-steps>
+        <div v-if="loading">
+            <lottie :options="defaultOptions" :height="400" :width="400" v-on:animCreated="handleAnimation"/>
+        </div>
+        <div v-else>
+
+            <br /><br />
+            <div v-if="!showBracket" class="column is-half is-offset-2">
+                <div class="column is-offset-3">
+                    <h2>Sorteio</h2>
+
+                </div>
+                <a class="button" @click="sendUsersSubscribed">Show usersSubscribed</a>
+                <br /><br />
+                <div class="columns" style="padding-top: 2em" >
+                    <div class="column is-two-thirds">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>nome MC</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                            </tfoot>
+                            <tbody>
+                                <tr v-for="user in users" v-if="user">
+                                    <td>
+                                        {{user.name}}
+                                    </td>
+                                    <td >
+                                        <a class="btn" @click="subscribe(user)"><i class="fa fa-arrow-right blackhover" style="color: grey" aria-hidden="true"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="column is-two-thirds is-offset-2">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>na disputa !</th>
+                                    <th>
+                                        estreiante?
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                            </tfoot>
+                            <tbody>
+                                <tr v-for="user in usersSubscribed">
+                                    <td>
+                                        <a class="btn" @click="unsubscribe(user)"><i class="fa fa-arrow-left blackhover" style="color: grey" aria-hidden="true"></i></a>
+                                        &nbsp&nbsp
+                                        &nbsp&nbsp
+                                        &nbsp&nbsp
+                                        {{user.name}}
+                                    </td>
+                                    <td>
+                                        <a @change="setVirgin(user)"><el-checkbox></el-checkbox></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
             </div>
-            <a class="button" @click="sendUsersSubscribed">Show usersSubscribed</a>
-            <br /><br />
-          <div class="columns" style="padding-top: 2em" >
-             <div class="column is-two-thirds">
-                  <table class="table">
-                      <thead>
-                          <tr>
-                             <th>nome MC</th>
-                         </tr>
-                     </thead>
-                     <tfoot>
-                     </tfoot>
-                     <tbody>
-                         <tr v-for="user in users" v-if="user">
-                             <td>
-                                  {{user.name}}
-                              </td>
-                              <td >
-                                 <a class="btn" @click="subscribe(user)"><i class="fa fa-arrow-right blackhover" style="color: grey" aria-hidden="true"></i></a>
-                              </td>
-                          </tr>
-                      </tbody>
-                  </table>
-              </div>
-             <div class="column is-two-thirds is-offset-2">
-                 <table class="table">
-                     <thead>
-                         <tr>
-                             <th>na disputa !</th>
-                             <th>
-                                 estreiante?
-                             </th>
-                         </tr>
-                     </thead>
-                     <tfoot>
-                     </tfoot>
-                     <tbody>
-                         <tr v-for="user in usersSubscribed">
-                             <td>
-                                <a class="btn" @click="unsubscribe(user)"><i class="fa fa-arrow-left blackhover" style="color: grey" aria-hidden="true"></i></a>
-                                &nbsp&nbsp
-                                &nbsp&nbsp
-                                &nbsp&nbsp
-                                 {{user.name}}
-                             </td>
-                             <td>
-                                    <a @change="setVirgin(user)"><el-checkbox></el-checkbox></a>
-                             </td>
-                         </tr>
-                     </tbody>
-                 </table>
-              </div>
+            <!-- <modal-confirm ></modal-confirm> -->
+            <main id="tournament" class="column" style="padding-left: 10em;">
+                <bracket
+                v-if="showBracket"
+                :rounds-number="firstStage.length"
+                :first-round = "firstStage"
+                v-on:getWinner="showWinner">
+
+            </bracket>
+        </main>
+
         </div>
 
 
-            <modal-confirm ></modal-confirm>
-            <!-- <content-navbar /> -->
-            <main v-if="firstStage.length != 0" id="tournament">
-            <bracket
-                  v-if="!loading"
-                  :rounds-number="firstStage.length"
-                  :first-round = "firstStage"
-                  v-on:getWinner="showWinner">
-
-                </bracket>
-            </main>
 
 
     </div>
-
-        </div>
 
 </template>
 
@@ -88,35 +91,51 @@
 import Bracket from '../Components/Bracket.vue'
 import ModalConfirm from '../../components/ModalConfirm.vue'
 import fab from 'vue-fab'
+import Lottie from '../../components/Lottie.vue';
+import * as animationData from '../../assets/volume_shaker.json';
 
 export default {
 
-    components : {Bracket, fab, ModalConfirm},
+    components : {Bracket, fab, ModalConfirm, Lottie},
 
     data () {
         return {
+            defaultOptions  : {animationData: animationData},
             firstStage      : [],
             users           : [],
             usersSubscribed : [],
             loading         : true,
             total_rounds    : 0,
+            showBracket     : false,
+            stepper         : 1,
             value2 : null
 
         }
     },
-
     mounted(){
         let scope = this;
 
+        // this.axios.post('/api/battle/make-battle', users).then(response=>{
+        //     scope.firstStage = response.data.data.brackets.first_stage
+        //     console.log(scope.firstStage)
+        // })
+
 
         this.axios.get('/api/user/get-all-users').then(response=>{
-            scope.users = response.data.data
-            scope.loading = false
-        })
+           scope.users = response.data.data
+           scope.loading = false
+       })
 
     },
 
     methods : {
+        handleAnimation: function (anim) {
+            this.anim = anim;
+          },
+
+        showWinner(v) {
+            console.log(v)
+        },
 
         newUser() {
             alert('creating new user')
@@ -128,37 +147,18 @@ export default {
 
         sendUsersSubscribed(){
             let scope = this
+            this.loading = true
+            // let users = this.remakeUsersArray()
 
-            let users = this.remakeUsersArray()
-
-            this.axios.post('http://localhost:3000/battle/make-battle', users).then(response => {
-                console.log(response.data)
-                // scope.firstStage = response.data.brackets.first_stage
-
+            this.axios.post('http://localhost:3000/battle/make-battle', this.usersSubscribed).then(response => {
+                scope.firstStage  = response.data.data.brackets.first_stage
+                console.log(scope.firstStage)
+                scope.showBracket = true
+                scope.loading       = false
+                scope.stepper     = 2
             }).catch( err => {
                 console.log(err)
             })
-        },
-
-        remakeUsersArray() {
-            let usersnew = []
-
-            this.usersSubscribed.forEach(function(user) {
-                let u = {
-                    'created'    : user.created,
-                    'email'      : user.email,
-                    'gender'     : user.gender,
-                    'modified'   : user.modified,
-                    'name'       : user.name,
-                    'user_level' : user.user_level,
-                    'virgin'     : user.virgin,
-                    '_id'        : user._id,
-                    '_group'     : user._group
-                }
-                usersnew.push(u)
-            });
-
-            return usersnew
         },
 
         subscribe(user) {
