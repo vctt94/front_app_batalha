@@ -134,7 +134,7 @@
   import axios from 'axios'
   import ModalConfirm from '../Components/Modal.vue'
   import ModalUserForm from '../Components/ModalUserForm.vue'
-  import ContentNavbar from '../../components/ContentNavbar.vue'
+  import ContentNavbar from '../../templates/ContentNavbar.vue'
 
   const headers = {
     'Content-Type': 'application/json'
@@ -185,7 +185,7 @@
       createUser() {
         let jsonUser = JSON.stringify(this.user)
 
-        axios.post('http://localhost:3000/user/create-user', jsonUser, {
+        axios.post('api/user/create-user', jsonUser, {
           headers: headers
         }).then( response => {
           console.log(response)

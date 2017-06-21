@@ -4,7 +4,10 @@
       v-for="j in jTotal"
       :class="['round round-'+j, j==jTotal ? 'is-last' : '']"
     >
-      <h4 class="title">Round {{j}}</h4>
+      <h4 v-if="j == 1" class="title">Primeira Etapa</h4>
+      <h4 v-if="j == 2" class="title">Quartas</h4>
+      <h4 v-if="j == 3" class="title">Semis</h4>
+      <h4 v-if="j == 4" class="title">Final</h4>
 
       <template v-for="i in iTotal"
                 v-if="!loading && matriz[j-1][i-1]"
@@ -23,7 +26,9 @@
             <div class="game-content" v-for="data in rounds[j-1][i-1][0]"
                  v-if="data"
             >
-              {{data.name}}
+              <p class="player-style">
+                  &nbsp&nbsp{{data.name}}
+              </p>
             </div>
 
           </draggable>
@@ -43,8 +48,10 @@
 
             <div class="game-content" v-for="data in rounds[j-1][i-1][2]"
                  v-if="data">
-              {{data.name}}
-            </div>
+                 <p class="player-style">
+                     &nbsp&nbsp{{data.name}}
+                 </p>
+             </div>
 
           </draggable>
         </li>
@@ -62,7 +69,9 @@
 
             <div class="game-content" v-for="data in rounds[j-1][i-1][1]"
                  v-if="data">
-              {{data.name}}
+                 <p class="player-style">
+                     &nbsp&nbsp{{data.name}}
+                 </p>
             </div>
 
           </draggable>
@@ -138,6 +147,7 @@
           tempITotal /= 2
           this.jTotal++;
         }
+        
         for (let j = 0; j < this.jTotal; j++) {
 
           matriz[j] = []
@@ -234,6 +244,7 @@
         const data = {
           round    : j,
           game     : i,
+          round    : this.rounds[j][i],
           person   : this.rounds[j][i][position],
           position : position === 0 ? 'top' : 'bottom'
         }
@@ -250,6 +261,10 @@
 
 <style scoped lang="scss">
 
+  .player-style {
+    font-size: 15px;
+  }
+
   .main{
     display:flex;
     flex-direction:row;
@@ -264,7 +279,7 @@
   }
 
   .spacer{
-    flex-grow:0.5;
+    flex-grow:0.555;
   }
 
 
@@ -291,21 +306,21 @@
   }
   .game span{
     float:right;
-    margin-right:5px;
+    margin-right: 10px;
   }
 
   .game-top{
-    border-bottom:1px solid #aaa;
+    border-bottom: 0.5px solid #000000;
   }
 
   .game-spacer{
-    border-right:1px solid #aaa;
+    border-right:1px solid #000000;
     min-height:40px;
   }
 
   .game-bottom{
-    border-right: 1px solid #aaa;
-    border-bottom:1px solid #aaa;
+    border-right: 1px solid #000000;
+    border-bottom:1px solid #000000;
   }
 
   .is-last{
@@ -313,11 +328,11 @@
 
   }
   .square{
-    min-height: 2em;
-    min-width: 2em;
+    min-height: 3em;
+    min-width: 3em;
     margin: 0em;
-    border : 1px solid #aaa;
-    color: #aaa;
+    border : 1px solid #000000;
+    color: #000000;
     font-size: 8pt
   }
   .game-content{

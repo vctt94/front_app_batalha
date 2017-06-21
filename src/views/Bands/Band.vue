@@ -74,7 +74,7 @@
 
 import ModalConfirm from '../Components/Modal.vue'
 import ModalBandForm from '../Components/ModalBandForm.vue'
-import ContentNavbar from '../../components/ContentNavbar.vue'
+import ContentNavbar from '../../templates/ContentNavbar.vue'
 
 export default {
     name: 'BandCreate',

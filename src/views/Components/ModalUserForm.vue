@@ -92,6 +92,7 @@
       },
       title:{
         type: String,
+        default: "Cadastro de MC"
       },
       content:{
         type: String,
@@ -150,10 +151,20 @@
 
           this.axios.post('api/user/create-user',jsonUser,{
               headers: headers
-            }).then( response => {
-            console.log(response)
+          }).then( response => {
+            this.$notify({
+                title: 'Mil trutas mil tretas',
+                message: 'MC recrutado com sucesso',
+                type: 'success'
+            });
+            this.$emit('close')
           }).catch(e => {
-            console.log(e)
+            this.$notify({
+                title: 'Zero truta zero treta',
+                message: 'Erro interno ao recrutar MC. Causa: ' + err.message,
+                type: 'error'
+            });
+            this.$emit('close')
           })
         }
 
@@ -165,6 +176,8 @@
   }
 </script>
 
-<style scoped lang="sass">
-
+<style scoped lang="scss">
+    .modal {
+        padding-bottom: 30em;
+    }
 </style>
