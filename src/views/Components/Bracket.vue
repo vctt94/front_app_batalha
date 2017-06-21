@@ -97,10 +97,7 @@
     },
 
     props: {
-      roundsNumber: {
-        type: Number
-      },
-      firstRound: {
+      stages: {
         type: Array
       }
     },
@@ -147,7 +144,7 @@
           tempITotal /= 2
           this.jTotal++;
         }
-        
+
         for (let j = 0; j < this.jTotal; j++) {
 
           matriz[j] = []
@@ -170,10 +167,12 @@
 
     mounted(){
 
-      this.iTotal = this.roundsNumber
-
+      this.iTotal = this.stages[0].length
       this.initMatrixData();
-      this.drawStage(0,this.firstRound);
+
+      for(let i=0; i<this.stages.length;i++) {
+        this.drawStage(i,this.stages[i]);
+      }
 
       this.loading = false
     },
