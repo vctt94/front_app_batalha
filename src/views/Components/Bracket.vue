@@ -27,7 +27,7 @@
                  v-if="data"
             >
               <p class="player-style">
-                  &nbsp&nbsp{{data.name}}
+                &nbsp&nbsp{{data.name}}
               </p>
             </div>
 
@@ -48,10 +48,10 @@
 
             <div class="game-content" v-for="data in rounds[j-1][i-1][2]"
                  v-if="data">
-                 <p class="player-style">
-                     &nbsp&nbsp{{data.name}}
-                 </p>
-             </div>
+              <p class="player-style">
+                &nbsp&nbsp{{data.name}}
+              </p>
+            </div>
 
           </draggable>
         </li>
@@ -69,9 +69,9 @@
 
             <div class="game-content" v-for="data in rounds[j-1][i-1][1]"
                  v-if="data">
-                 <p class="player-style">
-                     &nbsp&nbsp{{data.name}}
-                 </p>
+              <p class="player-style">
+                &nbsp&nbsp{{data.name}}
+              </p>
             </div>
 
           </draggable>
@@ -132,6 +132,7 @@
     },
 
     computed : {
+
       matriz (){
         let matriz = []
         let k = 0;
@@ -159,8 +160,8 @@
           iTotalBefore = iTotalBefore / 2
 
         }
-        return matriz;
 
+        return matriz;
       }
 
     },
@@ -201,20 +202,24 @@
         const j = roundNumber
         let is3People = false;
 
-        for(let i=0;i<rounds.length;i++){
+        for(let i=0;i<this.iTotal;i++){
 
-          if(rounds[i].third) {
-            is3People = true;
-            this.rounds[j][i][0] = [rounds[i].first];
-            this.rounds[j][i][1] = [rounds[i].second];
-            this.rounds[j][i][2] = [rounds[i].third];
-          }
+          if(this.matriz[j][i]) {
 
-          else {
-            this.rounds[j][i][0] = [rounds[i].first];
-            this.rounds[j][i][1] = [rounds[i].second];
+            if (rounds[i].third) {
+              is3People = true;
+              this.rounds[j][i][0] = [rounds[i].first];
+              this.rounds[j][i][1] = [rounds[i].second];
+              this.rounds[j][i][2] = [rounds[i].third];
+            }
+
+            else {
+              this.rounds[j][i][0] = [rounds[i].first];
+              this.rounds[j][i][1] = [rounds[i].second];
+            }
           }
         }
+
 
         // set third person in all games of round so they have same size and flex grow, grow right
         if(is3People) {
