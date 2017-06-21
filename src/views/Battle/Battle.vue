@@ -148,8 +148,11 @@ export default {
         let scope = this;
 
         this.axios.get('/api/user/get-all-users').then(response=>{
-           scope.users = response.data.data
-           scope.users = scope.users.reverse()
+          const users = response.data.data
+
+          for(let id in users){
+            scope.users.push(users[id])
+          }
            scope.loading = false
         })
 
@@ -169,7 +172,7 @@ export default {
             let scope = this
             this.axios.get('/api/user/get-all-users').then(response=>{
                scope.users = response.data.data
-               scope.users = scope.users.reverse()
+//               scope.users = scope.users.reverse()
             })
         },
 
@@ -216,7 +219,7 @@ export default {
 
         setVirgin(user) {
             let index = this.usersSubscribed.indexOf(user)
-            if(this.usersSubscribed[index].virgin == undefined)
+            if(this.usersSubscribed[index].virgin === undefined)
                 this.usersSubscribed[index].virgin = true
             else
                 this.usersSubscribed[index].virgin = !this.usersSubscribed[index].virgin
