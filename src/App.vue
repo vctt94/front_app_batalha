@@ -26,9 +26,9 @@
 <script>
 
   import Router from './router/index.js'
-  import Sidebar from './components/Sidebar.vue'
-  import Navbar from './components/Navbar.vue'
-  import Footer from './components/Footer.vue'
+  import Sidebar from './templates/Sidebar.vue'
+  import Navbar from './templates/Navbar.vue'
+  import Footer from './templates/Footer.vue'
 
 
   export default {

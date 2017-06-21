@@ -21,12 +21,12 @@
     <modal-user-form
       :show       = "showModalForm"
       :title      = "modalProps.title"
-      :users     = "users"
-      :user      = "user"
-      :edit       = "edit"
+      :user       = "user"
+      :edit       = "false"
       v-on:submit = "showModalForm = false"
       v-on:close  = "closeModal"
     ></modal-user-form>
+
     <a class="fa fa-plus" v-on:click="openCreateModal">Adicionar novo</a>
     <div class="table is-bordered is-striped is-narrow">
       <table>
@@ -70,7 +70,7 @@
 <script>
   import ModalConfirm from '../Components/Modal.vue'
   import ModalUserForm from '../Components/ModalUserForm.vue'
-  import ContentNavbar from '../../components/ContentNavbar.vue'
+  import ContentNavbar from '../../templates/ContentNavbar.vue'
 
 
 

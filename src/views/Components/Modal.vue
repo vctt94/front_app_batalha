@@ -53,5 +53,8 @@
 </script>
 
 <style>
-
+.modal {
+    position: absolute;
+    padding-bottom: 20em;
+}
 </style>

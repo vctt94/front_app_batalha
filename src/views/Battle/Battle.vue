@@ -1,5 +1,19 @@
 <template>
     <div>
+        <modal-user-form
+          :show       = "showModalForm"
+          :edit       = "false"
+          v-on:submit = "showModalForm = false"
+          v-on:close  = "closeModal"
+        ></modal-user-form>
+
+        <div class="column is-offset-3">
+            <el-steps :space="350" :active="stepper" style="color: black">
+                <el-step title="Sorteio" icon="search"></el-step>
+                <el-step title="Chaves" icon="share"></el-step>
+            </el-steps>
+
+        </div>
         <div v-if="loading">
             <lottie :options="defaultOptions" :height="400" :width="400" v-on:animCreated="handleAnimation"/>
         </div>
@@ -7,10 +21,7 @@
 
             <br /><br />
             <div v-if="!showBracket" class="column is-half is-offset-2">
-                <div class="column is-offset-3">
-                    <h2>Sorteio</h2>
 
-                </div>
                 <a class="button" @click="sendUsersSubscribed">Show usersSubscribed</a>
                 <br /><br />
                 <div class="columns" style="padding-top: 2em" >
@@ -65,16 +76,24 @@
                     </div>
                 </div>
 
+                <fab
+                    bg-color="#0e2449"
+                    position="top-right"
+                    :actions="actions"
+                    @newUser="newUser"
+                    @listUsers="listUsers"
+                    style="padding-top: 2em"
+                />
+
             </div>
             <!-- <modal-confirm ></modal-confirm> -->
             <main id="tournament" class="column" style="padding-left: 10em;">
                 <bracket
-                v-if="showBracket"
-                :rounds-number="firstStage.length"
-                :first-round = "firstStage"
-                v-on:getWinner="showWinner">
-
-            </bracket>
+                    v-if="showBracket"
+                    :rounds-number="firstStage.length"
+                    :first-round = "firstStage"
+                    v-on:getWinner="showWinner"
+                />
         </main>
 
         </div>
@@ -88,57 +107,79 @@
 
 <script>
 
-import Bracket from '../Components/Bracket.vue'
-import ModalConfirm from '../../components/ModalConfirm.vue'
 import fab from 'vue-fab'
-import Lottie from '../../components/Lottie.vue';
-import * as animationData from '../../assets/volume_shaker.json';
+import Bracket from '../Components/Bracket.vue'
+import ModalConfirm from '../../templates/ModalConfirm.vue'
+import ModalUserForm from '../Components/ModalUserForm.vue'
+import Lottie from '../../templates/Lottie.vue'
+import * as animationData from '../../assets/volume_shaker.json'
 
 export default {
 
-    components : {Bracket, fab, ModalConfirm, Lottie},
+    components : {Bracket, fab, ModalConfirm, Lottie, ModalUserForm},
 
     data () {
         return {
             defaultOptions  : {animationData: animationData},
+            battle          : null,
             firstStage      : [],
             users           : [],
             usersSubscribed : [],
-            loading         : true,
             total_rounds    : 0,
-            showBracket     : false,
             stepper         : 1,
-            value2 : null
+            loading         : true,
+            showBracket     : false,
+            showModalForm   : false,
+            actions         : [
+                {
+                    name: 'newUser',
+                    icon: 'add'
+                },
+                {
+                    name: 'listUsers',
+                    icon: 'list'
+                }
+            ]
 
         }
     },
+
     mounted(){
         let scope = this;
 
-        // this.axios.post(API_URL + '//battle/make-battle', users).then(response=>{
-        //     scope.firstStage = response.data.data.brackets.first_stage
-        //     console.log(scope.firstStage)
-        // })
-
-
-        this.axios.get(API_URL + '/user/get-all-users').then(response=>{
+        this.axios.get('/api/user/get-all-users').then(response=>{
            scope.users = response.data.data
+           scope.users = scope.users.reverse()
            scope.loading = false
-       })
+        })
 
     },
 
     methods : {
-        handleAnimation: function (anim) {
-            this.anim = anim;
-          },
+        closeModal(user){
+            this.showModalForm = false
+            this.reloadUsers()
+        },
 
-        showWinner(v) {
-            console.log(v)
+        handleAnimation(anim) {
+            this.anim = anim;
+        },
+
+        reloadUsers(){
+            let scope = this
+            this.axios.get('/api/user/get-all-users').then(response=>{
+               scope.users = response.data.data
+               scope.users = scope.users.reverse()
+            })
+        },
+
+        getWinner(data) {
+            console.log(data)
+            let user_id = data.person._id
         },
 
         newUser() {
-            alert('creating new user')
+            this.showModalForm = true
         },
 
         listUsers() {
@@ -150,11 +191,11 @@ export default {
             this.loading = true
             // let users = this.remakeUsersArray()
 
-            this.axios.post(API_URL + '/battle/make-battle', this.usersSubscribed).then(response => {
+            this.axios.post('api/battle/make-battle', this.usersSubscribed).then(response => {
+                scope.battle      = response.data.data
                 scope.firstStage  = response.data.data.brackets.first_stage
-                console.log(scope.firstStage)
                 scope.showBracket = true
-                scope.loading       = false
+                scope.loading     = false
                 scope.stepper     = 2
             }).catch( err => {
                 console.log(err)
@@ -162,20 +203,20 @@ export default {
         },
 
         subscribe(user) {
-            delete this.users[user._id]
-            let index = this.usersSubscribed.indexOf(user)
+            let index = this.users.indexOf(user)
+            this.users.splice(index, 1)
             this.usersSubscribed.push(user)
         },
 
         unsubscribe(user) {
             let index = this.usersSubscribed.indexOf(user)
             this.usersSubscribed.splice(index, 1)
-            this.users[user._id] = user
+            this.users.unshift(user)
         },
 
         setVirgin(user) {
             let index = this.usersSubscribed.indexOf(user)
-            if(this.usersSubscribed[index].virgin === undefined)
+            if(this.usersSubscribed[index].virgin == undefined)
                 this.usersSubscribed[index].virgin = true
             else
                 this.usersSubscribed[index].virgin = !this.usersSubscribed[index].virgin

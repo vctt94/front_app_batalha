@@ -1,6 +1,6 @@
 import Vue     from 'vue'
 import Router  from 'vue-router'
-import Wrapper from '@/components/WrapperTemplate'
+import Wrapper from '@/templates/WrapperTemplate'
 import Home    from '@/views/Home'
 import Users   from '@/views/Users/Users'
 import UsersMain from '@/views/Users/UsersMain'
