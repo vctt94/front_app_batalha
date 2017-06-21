@@ -92,7 +92,7 @@
     },
     mounted(){
       const scope = this;
-      this.axios.get('/api/user/get-all-users').then(response=>{
+      this.axios.get(API_URL + '/user/get-all-users').then(response=>{
         scope.users = response.data.data
       })
 
@@ -134,7 +134,7 @@
         console.log(this.users[id])
         this.users[id] = null
 
-        this.$http.delete('api/user/delete-user-by-id/'+id)
+        this.$http.delete(API_URL + '/user/delete-user-by-id/'+id)
       },
 
 

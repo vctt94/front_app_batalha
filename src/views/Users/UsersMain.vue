@@ -168,7 +168,7 @@
     mounted() {
       const scope = this;
 
-      this.axios.get('/api/user/get-all-users').then(response=>{
+      this.axios.get(API_URL + '/user/get-all-users').then(response=>{
         scope.listUsers = response.data.data
         scope.loading = false
       })
@@ -185,7 +185,7 @@
       createUser() {
         let jsonUser = JSON.stringify(this.user)
 
-        axios.post('http://localhost:3000/user/create-user', jsonUser, {
+        axios.post(API_URL + '/user/create-user', jsonUser, {
           headers: headers
         }).then( response => {
           console.log(response)
@@ -237,7 +237,7 @@
 
       deleteUser(id){
         this.listUsers[id] = null
-        this.$http.delete('api/user/delete-user-by-id/'+id)
+        this.$http.delete(API_URL + '/user/delete-user-by-id/'+id)
       }
 
 

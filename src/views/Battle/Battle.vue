@@ -115,13 +115,13 @@ export default {
     mounted(){
         let scope = this;
 
-        // this.axios.post('/api/battle/make-battle', users).then(response=>{
+        // this.axios.post(API_URL + '//battle/make-battle', users).then(response=>{
         //     scope.firstStage = response.data.data.brackets.first_stage
         //     console.log(scope.firstStage)
         // })
 
 
-        this.axios.get('/api/user/get-all-users').then(response=>{
+        this.axios.get(API_URL + '/user/get-all-users').then(response=>{
            scope.users = response.data.data
            scope.loading = false
        })
@@ -150,7 +150,7 @@ export default {
             this.loading = true
             // let users = this.remakeUsersArray()
 
-            this.axios.post('http://localhost:3000/battle/make-battle', this.usersSubscribed).then(response => {
+            this.axios.post(API_URL + '/battle/make-battle', this.usersSubscribed).then(response => {
                 scope.firstStage  = response.data.data.brackets.first_stage
                 console.log(scope.firstStage)
                 scope.showBracket = true
@@ -175,7 +175,7 @@ export default {
 
         setVirgin(user) {
             let index = this.usersSubscribed.indexOf(user)
-            if(this.usersSubscribed[index].virgin == undefined)
+            if(this.usersSubscribed[index].virgin === undefined)
                 this.usersSubscribed[index].virgin = true
             else
                 this.usersSubscribed[index].virgin = !this.usersSubscribed[index].virgin
