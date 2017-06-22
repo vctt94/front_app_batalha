@@ -251,11 +251,11 @@
         this.rounds[j][i].winner = position
 
         const data = {
-          round    : j,
-          game     : i,
-          round    : this.rounds[j][i],
-          person   : this.rounds[j][i][position],
-          position : position === 0 ? 'top' : 'bottom'
+          roundNumber : j,
+          game        : i,
+          round       : this.rounds[j][i],
+          person      : this.rounds[j][i][position],
+          position    : position === 0 ? 'top' : 'bottom'
         }
 
         this.$emit('getWinner', data)
