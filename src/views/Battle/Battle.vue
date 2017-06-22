@@ -111,7 +111,7 @@
   import ModalConfirm from '../../templates/ModalConfirm.vue'
   import ModalUserForm from '../Components/ModalUserForm.vue'
   import Lottie from '../../templates/Lottie.vue'
-  import * as animationData from '../../assets/volume_shaker.json'
+  import * as animationData from '../../assets/loader.json'
 
   export default {
 
@@ -147,12 +147,9 @@
       let scope = this;
 
       this.axios.get('/api/user/get-all-users').then(response=>{
-        const users = response.data.data
-
-        for(let id in users){
-          scope.users.push(users[id])
-        }
-        scope.loading = false
+          scope.users = response.data.data
+          scope.users = scope.users.reverse()
+          scope.loading = false
       })
 
     },
