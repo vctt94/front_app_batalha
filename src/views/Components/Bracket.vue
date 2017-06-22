@@ -198,25 +198,30 @@
       },
 
       drawStage(roundNumber, rounds){
+        console.log(rounds)
 
         const j = roundNumber
         let is3People = false;
 
+        let k = 0;
+
         for(let i=0;i<this.iTotal;i++){
 
           if(this.matriz[j][i]) {
+            console.log(k)
 
-            if (rounds[i].third) {
+            if (rounds[k].third) {
               is3People = true;
-              this.rounds[j][i][0] = [rounds[i].first];
-              this.rounds[j][i][1] = [rounds[i].second];
-              this.rounds[j][i][2] = [rounds[i].third];
+              this.rounds[j][i][0] = [rounds[k].first];
+              this.rounds[j][i][1] = [rounds[k].second];
+              this.rounds[j][i][2] = [rounds[k].third];
             }
 
             else {
-              this.rounds[j][i][0] = [rounds[i].first];
-              this.rounds[j][i][1] = [rounds[i].second];
+              this.rounds[j][i][0] = [rounds[k].first];
+              this.rounds[j][i][1] = [rounds[k].second];
             }
+            k++;
           }
         }
 
