@@ -1,7 +1,9 @@
 <template>
   <div class="main">
+
     <ul
       v-for="j in jTotal"
+      v-if="!loading"
       :class="['round round-'+j, j==jTotal ? 'is-last' : '']"
     >
       <h4 v-if="j == 1" class="title">Primeira Etapa</h4>
@@ -10,7 +12,7 @@
       <h4 v-if="j == 4" class="title">Final</h4>
 
       <template v-for="i in iTotal"
-                v-if="!loading && matriz[j-1][i-1]"
+                v-if="matriz[j-1][i-1] && j!= jTotal"
       >
         <li class="spacer">&nbsp;</li>
 
@@ -69,6 +71,33 @@
 
             <div class="game-content" v-for="data in rounds[j-1][i-1][1]"
                  v-if="data">
+              <p class="player-style">
+                &nbsp&nbsp{{data.name}}
+              </p>
+            </div>
+
+          </draggable>
+        </li>
+
+      </template>
+
+      <template
+        v-else-if="matriz[j-1][i-1] && j == jTotal"
+      >
+        <li class="spacer">&nbsp;</li>
+
+        <li class="game game-top">
+        <p>Vencedor PIK</p>
+
+        <draggable :options="{group:{ name:'people',  pull:'clone'}}"
+                     :list="rounds[j-1][i-1][0]"
+                     v-on:clone = "cloneWinner(j-1,i-1, 0, $event)"
+                     class="square"
+          >
+
+            <div class="game-content" v-for="data in rounds[j-1][i-1][0]"
+                 v-if="data"
+            >
               <p class="player-style">
                 &nbsp&nbsp{{data.name}}
               </p>
@@ -145,6 +174,8 @@
           tempITotal /= 2
           this.jTotal++;
         }
+        //adding final round winner
+        this.jTotal++;
 
         for (let j = 0; j < this.jTotal; j++) {
 
