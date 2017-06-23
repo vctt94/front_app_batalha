@@ -7,15 +7,8 @@
       v-on:close  = "closeModal"
     ></modal-user-form>
 
-    <div class="column is-offset-3">
-      <el-steps :space="350" :active="stepper" style="color: black">
-        <el-step title="Sorteio" icon="search"></el-step>
-        <el-step title="Chaves" icon="share"></el-step>
-      </el-steps>
-
-    </div>
-    <div v-if="loading">
-      <lottie :options="defaultOptions" :height="400" :width="400" v-on:animCreated="handleAnimation"/>
+    <div v-if="loading" class="column"  style="padding-botton: 100em;">
+      <lottie :options="defaultOptions" :height="500" :width="500" v-on:animCreated="handleAnimation"/>
     </div>
     <div v-else>
 
@@ -87,11 +80,15 @@
 
       </div>
       <!-- <modal-confirm ></modal-confirm> -->
+      <div v-if="loading">
+        <lottie :options="soundOptions" :height="400" :width="400" v-on:animCreated="handleAnimation"/>
+      </div>
+
       <main id="tournament" class="column" style="padding-left: 10em;">
         <bracket
-          v-if="showBracket"
-          :stages = "stages"
-          v-on:getWinner="showWinner"
+          v-if           = "showBracket"
+          :brackets      = "brackets"
+          v-on:getWinner = "setWinner"
         />
       </main>
 
@@ -121,7 +118,7 @@
       return {
         defaultOptions  : {animationData: animationData},
         battle          : null,
-        stages          : [],
+        brackets        : [],
         users           : [],
         usersSubscribed : [],
         total_rounds    : 0,
@@ -146,9 +143,18 @@
     mounted(){
       let scope = this;
 
-      this.axios.get('/api/user/get-all-users').then(response=>{
-          scope.users = response.data.data
-          scope.users = scope.users.reverse()
+      this.axios.get('/api/battle/get-latest-battle').then(response => {
+          if(response.data.data.length != 0 && response.data.data[0].active){
+              scope.battle   = response.data.data[0]
+              console.log(scope.battle)
+              scope.brackets = response.data.data[0].brackets
+              scope.showBracket = true
+          } else {
+              this.axios.get('/api/user/get-all-users').then(response=>{
+                  scope.users = response.data.data
+                  scope.users = scope.users.reverse()
+              })
+          }
           scope.loading = false
       })
 
@@ -167,14 +173,25 @@
       reloadUsers(){
         let scope = this
         this.axios.get('/api/user/get-all-users').then(response=>{
-          scope.users = response.data.data
-//               scope.users = scope.users.reverse()
+              scope.users = response.data.data
+              scope.users = scope.users.reverse()
         })
       },
 
-      getWinner(data) {
-        console.log(data)
-        let user_id = data.person._id
+      setWinner(data) {
+        let request = {
+            battle_id : this.battle._id,
+            round_id  : data.round._id[0],
+            user_id   : data.person[0]._id
+        }
+        console.log(request)
+        let scope = this
+
+        this.axios.post('/api/battle/update-battle', request).then(response => {
+            console.log(response)
+        }).catch( err => {
+            console.log(err)
+        })
       },
 
       newUser() {
@@ -188,32 +205,18 @@
       sendUsersSubscribed(){
         let scope = this
         this.loading = true
-        // let users = this.remakeUsersArray()
 
-//        const temp = '{"_id":"594bc61626ff9561ef7f1298","brackets":{"_id":"594bc61626ff9561ef7f1297","__v":0,"modified":"2017-06-22T13:28:54.041Z","created":"2017-06-22T13:28:54.041Z","finale":[],"semi_final":[],"quarter_final":[{"_id":"594bc61626ff9561ef7f1293","first":{"_id":"594a69f27f3d1c20dece3667","name":"qwdqwdq","email":"qwdqwd","gender":"mano","user_level":1,"__v":0,"modified":"2017-06-21T12:43:30.470Z","created":"2017-06-21T12:43:30.470Z","_group":[],"virgin":false},"stage":0,"__v":0,"modified":"2017-06-22T13:28:54.040Z","created":"2017-06-22T13:28:54.040Z","third":null,"second":{"_id":"59443bd2d6b7b83a2cf7618d","name":"eafaef","email":"eafaef","gender":"mano","user_level":1,"__v":0,"modified":"2017-06-16T20:13:06.895Z","created":"2017-06-16T20:13:06.895Z","_group":[],"virgin":false}},{"_id":"594bc61626ff9561ef7f1294","first":{"_id":"594a6a207f3d1c20dece3668","name":"zzzzzzzzzzzz","email":"zzzzzz","gender":"mano","user_level":1,"__v":0,"modified":"2017-06-21T12:44:16.960Z","created":"2017-06-21T12:44:16.960Z","_group":[],"virgin":false},"stage":0,"__v":0,"modified":"2017-06-22T13:28:54.041Z","created":"2017-06-22T13:28:54.041Z","third":null,"second":{"_id":"5949cc217f3d1c20dece3664","name":"qweqwe","email":"qwwqe","gender":"mano","user_level":1,"__v":0,"modified":"2017-06-21T01:30:09.804Z","created":"2017-06-21T01:30:09.804Z","_group":[],"virgin":false}}],"first_stage":[{"_id":"594bc61626ff9561ef7f1293","first":{"_id":"594a69f27f3d1c20dece3667","name":"qwdqwdq","email":"qwdqwd","gender":"mano","user_level":1,"__v":0,"modified":"2017-06-21T12:43:30.470Z","created":"2017-06-21T12:43:30.470Z","_group":[],"virgin":false},"stage":0,"__v":0,"modified":"2017-06-22T13:28:54.040Z","created":"2017-06-22T13:28:54.040Z","third":null,"second":{"_id":"59443bd2d6b7b83a2cf7618d","name":"eafaef","email":"eafaef","gender":"mano","user_level":1,"__v":0,"modified":"2017-06-16T20:13:06.895Z","created":"2017-06-16T20:13:06.895Z","_group":[],"virgin":false}},{"_id":"594bc61626ff9561ef7f1294","first":{"_id":"594a6a207f3d1c20dece3668","name":"zzzzzzzzzzzz","email":"zzzzzz","gender":"mano","user_level":1,"__v":0,"modified":"2017-06-21T12:44:16.960Z","created":"2017-06-21T12:44:16.960Z","_group":[],"virgin":false},"stage":0,"__v":0,"modified":"2017-06-22T13:28:54.041Z","created":"2017-06-22T13:28:54.041Z","third":null,"second":{"_id":"5949cc217f3d1c20dece3664","name":"qweqwe","email":"qwwqe","gender":"mano","user_level":1,"__v":0,"modified":"2017-06-21T01:30:09.804Z","created":"2017-06-21T01:30:09.804Z","_group":[],"virgin":false}},{"_id":"594bc61626ff9561ef7f1295","first":{"_id":"594a69837f3d1c20dece3665","name":"MC doidao","email":"qwe@qwe.com","gender":"mina","user_level":1,"__v":0,"modified":"2017-06-21T12:41:39.966Z","created":"2017-06-21T12:41:39.966Z","_group":[],"virgin":false},"stage":0,"__v":0,"modified":"2017-06-22T13:28:54.041Z","created":"2017-06-22T13:28:54.041Z","third":null,"second":{"_id":"5949cbef7f3d1c20dece3663","name":"teste","email":"teste","gender":"mina","user_level":1,"__v":0,"modified":"2017-06-21T01:29:19.332Z","created":"2017-06-21T01:29:19.332Z","_group":[],"virgin":false}},{"_id":"594bc61626ff9561ef7f1296","first":{"_id":"594a69b17f3d1c20dece3666","name":"zzzzz","email":"zzzz","gender":"mina","user_level":1,"__v":0,"modified":"2017-06-21T12:42:25.007Z","created":"2017-06-21T12:42:25.007Z","_group":[],"virgin":false},"stage":0,"__v":0,"modified":"2017-06-22T13:28:54.041Z","created":"2017-06-22T13:28:54.041Z","third":null,"second":{"_id":"594a6d92bf9f4e425a36a8e8","name":"tttt","email":"ttt","gender":"mano","user_level":1,"__v":0,"modified":"2017-06-21T12:58:58.344Z","created":"2017-06-21T12:58:58.345Z","_group":[],"virgin":false}}]},"__v":0,"modified":"2017-06-22T13:28:54.042Z","created":"2017-06-22T13:28:54.042Z"}'
-        const temp = '{"_id":"594bc61626ff9561ef7f1298","brackets":{"_id":"594bc61626ff9561ef7f1297","__v":0,"modified":"2017-06-22T13:28:54.041Z","created":"2017-06-22T13:28:54.041Z","finale":[],"semi_final":[{"_id":"594bc61626ff9561ef7f1293","first":{"_id":"594a69f27f3d1c20dece3667","name":"qwdqwdq","email":"qwdqwd","gender":"mano","user_level":1,"__v":0,"modified":"2017-06-21T12:43:30.470Z","created":"2017-06-21T12:43:30.470Z","_group":[],"virgin":false},"stage":0,"__v":0,"modified":"2017-06-22T13:28:54.040Z","created":"2017-06-22T13:28:54.040Z","third":null,"second":{"_id":"59443bd2d6b7b83a2cf7618d","name":"eafaef","email":"eafaef","gender":"mano","user_level":1,"__v":0,"modified":"2017-06-16T20:13:06.895Z","created":"2017-06-16T20:13:06.895Z","_group":[],"virgin":false}}],"quarter_final":[{"_id":"594bc61626ff9561ef7f1293","first":{"_id":"594a69f27f3d1c20dece3667","name":"qwdqwdq","email":"qwdqwd","gender":"mano","user_level":1,"__v":0,"modified":"2017-06-21T12:43:30.470Z","created":"2017-06-21T12:43:30.470Z","_group":[],"virgin":false},"stage":0,"__v":0,"modified":"2017-06-22T13:28:54.040Z","created":"2017-06-22T13:28:54.040Z","third":null,"second":{"_id":"59443bd2d6b7b83a2cf7618d","name":"eafaef","email":"eafaef","gender":"mano","user_level":1,"__v":0,"modified":"2017-06-16T20:13:06.895Z","created":"2017-06-16T20:13:06.895Z","_group":[],"virgin":false}},{"_id":"594bc61626ff9561ef7f1294","first":{"_id":"594a6a207f3d1c20dece3668","name":"zzzzzzzzzzzz","email":"zzzzzz","gender":"mano","user_level":1,"__v":0,"modified":"2017-06-21T12:44:16.960Z","created":"2017-06-21T12:44:16.960Z","_group":[],"virgin":false},"stage":0,"__v":0,"modified":"2017-06-22T13:28:54.041Z","created":"2017-06-22T13:28:54.041Z","third":null,"second":{"_id":"5949cc217f3d1c20dece3664","name":"qweqwe","email":"qwwqe","gender":"mano","user_level":1,"__v":0,"modified":"2017-06-21T01:30:09.804Z","created":"2017-06-21T01:30:09.804Z","_group":[],"virgin":false}}],"first_stage":[{"_id":"594bc61626ff9561ef7f1293","first":{"_id":"594a69f27f3d1c20dece3667","name":"qwdqwdq","email":"qwdqwd","gender":"mano","user_level":1,"__v":0,"modified":"2017-06-21T12:43:30.470Z","created":"2017-06-21T12:43:30.470Z","_group":[],"virgin":false},"stage":0,"__v":0,"modified":"2017-06-22T13:28:54.040Z","created":"2017-06-22T13:28:54.040Z","third":null,"second":{"_id":"59443bd2d6b7b83a2cf7618d","name":"eafaef","email":"eafaef","gender":"mano","user_level":1,"__v":0,"modified":"2017-06-16T20:13:06.895Z","created":"2017-06-16T20:13:06.895Z","_group":[],"virgin":false}},{"_id":"594bc61626ff9561ef7f1294","first":{"_id":"594a6a207f3d1c20dece3668","name":"zzzzzzzzzzzz","email":"zzzzzz","gender":"mano","user_level":1,"__v":0,"modified":"2017-06-21T12:44:16.960Z","created":"2017-06-21T12:44:16.960Z","_group":[],"virgin":false},"stage":0,"__v":0,"modified":"2017-06-22T13:28:54.041Z","created":"2017-06-22T13:28:54.041Z","third":null,"second":{"_id":"5949cc217f3d1c20dece3664","name":"qweqwe","email":"qwwqe","gender":"mano","user_level":1,"__v":0,"modified":"2017-06-21T01:30:09.804Z","created":"2017-06-21T01:30:09.804Z","_group":[],"virgin":false}},{"_id":"594bc61626ff9561ef7f1295","first":{"_id":"594a69837f3d1c20dece3665","name":"MC doidao","email":"qwe@qwe.com","gender":"mina","user_level":1,"__v":0,"modified":"2017-06-21T12:41:39.966Z","created":"2017-06-21T12:41:39.966Z","_group":[],"virgin":false},"stage":0,"__v":0,"modified":"2017-06-22T13:28:54.041Z","created":"2017-06-22T13:28:54.041Z","third":null,"second":{"_id":"5949cbef7f3d1c20dece3663","name":"teste","email":"teste","gender":"mina","user_level":1,"__v":0,"modified":"2017-06-21T01:29:19.332Z","created":"2017-06-21T01:29:19.332Z","_group":[],"virgin":false}},{"_id":"594bc61626ff9561ef7f1296","first":{"_id":"594a69b17f3d1c20dece3666","name":"zzzzz","email":"zzzz","gender":"mina","user_level":1,"__v":0,"modified":"2017-06-21T12:42:25.007Z","created":"2017-06-21T12:42:25.007Z","_group":[],"virgin":false},"stage":0,"__v":0,"modified":"2017-06-22T13:28:54.041Z","created":"2017-06-22T13:28:54.041Z","third":null,"second":{"_id":"594a6d92bf9f4e425a36a8e8","name":"tttt","email":"ttt","gender":"mano","user_level":1,"__v":0,"modified":"2017-06-21T12:58:58.344Z","created":"2017-06-21T12:58:58.345Z","_group":[],"virgin":false}}]},"__v":0,"modified":"2017-06-22T13:28:54.042Z","created":"2017-06-22T13:28:54.042Z"}'
-        const parsedtemp = JSON.parse(temp)
+        this.axios.post('/api/battle/make-battle', this.usersSubscribed).then(response => {
+            scope.battle      = response.data.data
+            scope.brackets    = response.data.data.brackets
+            scope.showBracket = true
+            scope.loading     = false
+            scope.stepper     = 2
+        }).catch( err => {
+            console.log(err)
+        })
 
-        scope.battle      = parsedtemp
-        scope.stages[0]  = parsedtemp.brackets.first_stage
-        scope.stages[1]  = parsedtemp.brackets.quarter_final
-        scope.stages[2]  = parsedtemp.brackets.semi_final
-        scope.showBracket = true
-        scope.loading     = false
-        scope.stepper     = 2
-
-//        this.axios.post('api/battle/make-battle', this.usersSubscribed).then(response => {
-//          console.log(JSON.stringify(response.data.data))
-//          scope.battle      = response.data.data
-//          scope.stages[0]  = response.data.data.brackets.first_stage
-//          scope.showBracket = true
-//          scope.loading     = false
-//          scope.stepper     = 2
-//        }).catch( err => {
-//          console.log(err)
-//        })
       },
-
       subscribe(user) {
         let index = this.users.indexOf(user)
         this.users.splice(index, 1)
@@ -233,10 +236,6 @@
         else
           this.usersSubscribed[index].virgin = !this.usersSubscribed[index].virgin
 
-      },
-
-      showWinner(data){
-        console.log(data)
       }
 
     }

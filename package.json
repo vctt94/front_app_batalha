@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "frontend in vue to consume vue api",
   "author": "vctt94 <victor.duarte.oliveira@gmail.com>",
-  "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",

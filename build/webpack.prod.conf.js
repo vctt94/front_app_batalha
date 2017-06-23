@@ -30,7 +30,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
       'process.env': env,
-      'API_URL': "'https://afternoon-brushlands-68131.herokuapp.com/'"
+      'API_URL': "'https://murmuring-meadow-23071.herokuapp.com/'"
 
     }),
     new webpack.optimize.UglifyJsPlugin({

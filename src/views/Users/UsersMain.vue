@@ -168,7 +168,7 @@
     mounted() {
       const scope = this;
 
-      this.axios.get('/api/user/get-all-users').then(response=>{
+      this.axios.get('https://murmuring-meadow-23071.herokuapp.com/user/get-all-users').then(response=>{
         scope.listUsers = response.data.data
         scope.loading = false
       })

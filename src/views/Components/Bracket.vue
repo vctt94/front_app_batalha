@@ -128,7 +128,12 @@
     props: {
       stages: {
         type: Array
+      },
+
+      brackets: {
+          type: [Object, Array]
       }
+
     },
     data () {
       return {
@@ -198,13 +203,19 @@
     },
 
     mounted(){
-
-      this.iTotal = this.stages[0].length
+      this.iTotal = this.brackets.first_stage.length
       this.initMatrixData();
 
-      for(let i=0; i<this.stages.length;i++) {
-        this.drawStage(i,this.stages[i]);
-      }
+    //   for(let i=0; i<this.stages.length;i++) {
+    //     this.drawStage(i,this.stages[i]);
+    //   }
+    console.log(this.brackets.quarter_final)
+
+      this.drawStage(0, this.brackets.first_stage)
+      this.drawStage(1, this.brackets.quarter_final)
+      this.drawStage(2, this.brackets.semi_final)
+      this.drawStage(3, this.brackets.finale)
+
 
       this.loading = false
     },
@@ -229,28 +240,28 @@
       },
 
       drawStage(roundNumber, rounds){
-        console.log(rounds)
 
         const j = roundNumber
-        let is3People = false;
 
         let k = 0;
+        let is3People = false;
 
-        for(let i=0;i<this.iTotal;i++){
-
+        for(let i=0;i<rounds.length;i++){
           if(this.matriz[j][i]) {
-            console.log(k)
 
             if (rounds[k].third) {
               is3People = true;
-              this.rounds[j][i][0] = [rounds[k].first];
-              this.rounds[j][i][1] = [rounds[k].second];
-              this.rounds[j][i][2] = [rounds[k].third];
+              this.rounds[j][i][0]  = [rounds[k].first];
+              this.rounds[j][i][1]  = [rounds[k].second];
+              this.rounds[j][i][2]  = [rounds[k].third];
+              this.rounds[j][i]._id = [rounds[k]._id];
             }
 
             else {
-              this.rounds[j][i][0] = [rounds[k].first];
-              this.rounds[j][i][1] = [rounds[k].second];
+              this.rounds[j][i][0]  = [rounds[k].first];
+              this.rounds[j][i][1]  = [rounds[k].second];
+              this.rounds[j][i]._id = [rounds[k]._id];
+
             }
             k++;
           }
