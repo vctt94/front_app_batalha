@@ -144,9 +144,8 @@
       let scope = this;
 
       this.axios.get('/api/battle/get-latest-battle').then(response => {
-          if(response.data.data.length != 0 && response.data.data[0].active){
+          if(response.data.data.length > 0 && response.data.data[0].active){
               scope.battle   = response.data.data[0]
-              console.log(scope.battle)
               scope.brackets = response.data.data[0].brackets
               scope.showBracket = true
           } else {

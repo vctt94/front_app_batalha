@@ -209,7 +209,6 @@
     //   for(let i=0; i<this.stages.length;i++) {
     //     this.drawStage(i,this.stages[i]);
     //   }
-    console.log(this.brackets.quarter_final)
 
       this.drawStage(0, this.brackets.first_stage)
       this.drawStage(1, this.brackets.quarter_final)
@@ -246,9 +245,11 @@
         let k = 0;
         let is3People = false;
 
-        for(let i=0;i<rounds.length;i++){
-          if(this.matriz[j][i]) {
+        for(let i=0;i<this.iTotal;i++){
 
+          if(this.matriz[j][i]) {
+            if(!rounds[k])
+              break;
             if (rounds[k].third) {
               is3People = true;
               this.rounds[j][i][0]  = [rounds[k].first];
