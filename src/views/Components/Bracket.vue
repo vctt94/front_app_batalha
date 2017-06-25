@@ -215,7 +215,6 @@
       this.drawStage(2, this.brackets.semi_final)
       this.drawStage(3, this.brackets.finale)
 
-      console.log(this.brackets)
       this.loading = false
     },
 
@@ -248,26 +247,30 @@
         for(let i=0;i<this.iTotal;i++){
 
           if(this.matriz[j][i]) {
-            if(!rounds[k])
+            this.rounds[j][i]._id = rounds[k] ?  rounds[k]._id : 'id';
+
+            if(!rounds[k]) {
               break;
+
+            }
             if (rounds[k].third) {
               is3People = true;
               this.rounds[j][i][0]  = [rounds[k].first];
               this.rounds[j][i][1]  = [rounds[k].second];
               this.rounds[j][i][2]  = [rounds[k].third];
-              this.rounds[j][i]._id = [rounds[k]._id];
             }
 
             else {
+              console.log('j:'+ j)
+              console.log('i: '+ i)
+              console.log(rounds[k]._id)
               this.rounds[j][i][0]  = [rounds[k].first];
               this.rounds[j][i][1]  = [rounds[k].second];
-              this.rounds[j][i]._id = [rounds[k]._id];
 
             }
             k++;
           }
         }
-
 
         // set third person in all games of round so they have same size and flex grow, grow right
         if(is3People) {
@@ -293,10 +296,12 @@
           roundNumber : j,
           game        : i,
           round       : this.rounds[j][i],
-          id       : this.rounds[j][i]._id,
+          id          : this.rounds[j][i]._id,
           person      : this.rounds[j][i][position],
           position    : position === 0 ? 'top' : 'bottom'
         }
+
+        console.log(data)
 
         this.$emit('getWinner', data)
         this.rounds = Object.assign({}, this.rounds)
