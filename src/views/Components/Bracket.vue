@@ -28,6 +28,7 @@
             <div class="game-content" v-for="data in rounds[j-1][i-1][0]"
                  v-if="data"
             >
+
               <p class="player-style">
                 &nbsp&nbsp{{data.name}}
               </p>
@@ -297,6 +298,7 @@
           roundNumber : j,
           game        : i,
           round       : this.rounds[j][i],
+          id       : this.rounds[j][i]._id,
           person      : this.rounds[j][i][position],
           position    : position === 0 ? 'top' : 'bottom'
         }

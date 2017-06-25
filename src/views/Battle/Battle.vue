@@ -183,11 +183,10 @@
             round_id  : data.round._id[0],
             user_id   : data.person[0]._id
         }
-        console.log(request)
         let scope = this
 
         this.axios.post('/api/battle/update-battle', request).then(response => {
-            console.log(response)
+//            console.log(response)
         }).catch( err => {
             console.log(err)
         })
