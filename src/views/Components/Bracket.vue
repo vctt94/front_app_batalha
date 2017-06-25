@@ -110,7 +110,6 @@
 
       <li class="spacer">&nbsp;</li>
     </ul>
-    <a v-on:click="showRounds">show rounds</a>
   </div>
 </template>
 
@@ -215,7 +214,7 @@
       this.drawStage(2, this.brackets.semi_final)
       this.drawStage(3, this.brackets.finale)
 
-
+      console.log(this.brackets)
       this.loading = false
     },
 
@@ -277,10 +276,6 @@
           }
         }
 
-      },
-
-      showRounds(){
-        console.log(this.rounds)
       },
 
       /**
