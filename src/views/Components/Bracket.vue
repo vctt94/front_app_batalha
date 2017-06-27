@@ -134,6 +134,7 @@
       }
 
     },
+    
     data () {
       return {
         loading: true,
@@ -214,7 +215,6 @@
       this.drawStage(2, this.brackets.semi_final)
       this.drawStage(3, this.brackets.finale)
 
-      console.log(this.brackets)
       this.loading = false
     },
 

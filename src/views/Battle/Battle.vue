@@ -84,9 +84,10 @@
                 <lottie :options="soundOptions" :height="400" :width="400" v-on:animCreated="handleAnimation"/>
             </div>
 
+            <div v-if = "showBracket">
+
             <main id="tournament" class="column" style="padding-left: 10em;">
                 <bracket
-                v-if           = "showBracket"
                 :brackets      = "brackets"
                 v-on:getWinner = "setWinner"
                 />
@@ -94,6 +95,7 @@
 
             <a class="button is-black" v-on:click="quitBattle">Finalizar Batalha</a>
 
+            </div>
 
         </div>
 
@@ -112,6 +114,7 @@ import ModalConfirm from '../../templates/ModalConfirm.vue'
 import ModalUserForm from '../Components/ModalUserForm.vue'
 import Lottie from '../../templates/Lottie.vue'
 import * as animationData from '../../assets/loader.json'
+import * as soundData from '../../assets/volume_shaker.json'
 
 export default {
 
@@ -119,7 +122,12 @@ export default {
 
     data () {
         return {
+
+            //state object to keep stage information / all stage rounds / latest round created
+            current         : {},
+
             defaultOptions  : {animationData: animationData},
+            soundOptions    : {animationData: soundData},
             battle          : null,
             brackets        : [],
             users           : [],
@@ -199,11 +207,14 @@ export default {
                 round_id  : data.round._id[0],
                 user_id   : data.person[0]._id
             }
-            console.log(request)
             let scope = this
 
             this.axios.post('/api/battle/update-battle', request).then(response => {
-                console.log(response)
+                console.log("UPDATED")
+                this.current.rounds = response.data.data.rounds
+                this.current.round  = response.data.data.round
+
+                console.log(this.current)
             }).catch( err => {
                 console.log(err)
             })
