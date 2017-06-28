@@ -155,13 +155,13 @@ export default {
     mounted(){
         let scope = this;
 
-        this.axios.get(API_URL + '/battle/get-latest-battle').then(response => {
+        this.axios.get('/api/battle/get-latest-battle').then(response => {
             if(response.data.data.length > 0 && response.data.data[0].active){
                 scope.battle   = response.data.data[0]
                 scope.brackets = response.data.data[0].brackets
                 scope.showBracket = true
             } else {
-                this.axios.get(API_URL + '/user/get-all-users').then(response=>{
+                this.axios.get('/api/user/get-all-users').then(response=>{
                     scope.users = response.data.data
                     scope.users = scope.users.reverse()
                 })
@@ -174,7 +174,7 @@ export default {
     methods : {
 
         quitBattle(){
-            this.axios.put(API_URL + '/battle/end-battle', {
+            this.axios.put('/api/battle/end-battle', {
                 'battle_id': this.battle._id,
                 'winner_id': null
             }).then(response => {
@@ -195,7 +195,7 @@ export default {
 
         reloadUsers(){
             let scope = this
-            this.axios.get(API_URL + '/user/get-all-users').then(response=>{
+            this.axios.get('/api/user/get-all-users').then(response=>{
                 scope.users = response.data.data
                 scope.users = scope.users.reverse()
             })
@@ -210,7 +210,7 @@ export default {
             }
             let scope = this
 
-            this.axios.post(API_URL + '/battle/update-battle', request).then(response => {
+            this.axios.post('/api/battle/update-battle', request).then(response => {
                 this.current.rounds = response.data.data.rounds
                 this.current.round  = response.data.data.round
                 this.current.stage  = response.data.data.name
@@ -232,7 +232,7 @@ export default {
             let scope = this
             this.loading = true
 
-            this.axios.post(API_URL + '/battle/make-battle', this.usersSubscribed).then(response => {
+            this.axios.post('/api/battle/make-battle', this.usersSubscribed).then(response => {
                 scope.battle      = response.data.data
                 scope.brackets    = response.data.data.brackets
                 scope.showBracket = true

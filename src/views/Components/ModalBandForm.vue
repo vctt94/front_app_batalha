@@ -131,7 +131,7 @@
       }
 
       let scope = this
-      this.axios.get(API_URL + '/user/get-all-users').then(response=>{
+      this.axios.get('/api/user/get-all-users').then(response=>{
         scope.people = response.data.data
       })
     },
@@ -150,7 +150,7 @@
 
         const scope = this
         this.loadingSearch = true
-        this.axios.post(API_URL + '/user/search-user-by-name',{name : this.search},headers).then(response => {
+        this.axios.post('/api/user/search-user-by-name',{name : this.search},headers).then(response => {
           scope.people = response.data.data
           scope.loadingSearch = false
         })
@@ -172,7 +172,7 @@
 
           const oldId = this.group._id
 
-          this.axios.put(API_URL + '/group/update-group-by-id/'+this.group._id,jsonBand,{
+          this.axios.put('/api/group/update-group-by-id/'+this.group._id,jsonBand,{
             headers: {
               'Content-Type': 'application/json'
             }
@@ -185,7 +185,7 @@
         }
         else {
 
-          this.axios.post(API_URL + '/group/create-group', jsonBand,{
+          this.axios.post('/api/group/create-group', jsonBand,{
             headers: {
               'Content-Type': 'application/json'
             }
