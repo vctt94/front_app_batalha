@@ -1,10 +1,10 @@
 <template>
     <div>
         <modal-user-form
-        :show       = "showModalForm"
-        :edit       = "false"
-        v-on:submit = "showModalForm = false"
-        v-on:close  = "closeModal"
+            :show       = "showModalForm"
+            :edit       = "false"
+            v-on:submit = "showModalForm = false"
+            v-on:close  = "closeModal"
         ></modal-user-form>
 
         <div v-if="loading" class="column"  style="padding-botton: 100em;">
@@ -15,7 +15,6 @@
             <br /><br />
             <div v-if="!showBracket" class="column is-half is-offset-2">
 
-                <a class="button" @click="sendUsersSubscribed">Show usersSubscribed</a>
                 <br /><br />
                 <div class="columns" style="padding-top: 2em" >
                     <div class="column is-two-thirds">
@@ -67,6 +66,8 @@
                             </tbody>
                         </table>
                     </div>
+                    <a class="button" @click="sendUsersSubscribed">Show usersSubscribed</a>
+
                 </div>
 
                 <fab
@@ -84,16 +85,18 @@
                 <lottie :options="soundOptions" :height="400" :width="400" v-on:animCreated="handleAnimation"/>
             </div>
 
+            <div v-if = "showBracket">
+
             <main id="tournament" class="column" style="padding-left: 10em;">
                 <bracket
-                v-if           = "showBracket"
-                :brackets      = "brackets"
-                v-on:getWinner = "setWinner"
+                    :brackets      = "brackets"
+                    :battle        = "battle"
                 />
             </main>
 
             <a class="button is-black" v-on:click="quitBattle">Finalizar Batalha</a>
 
+            </div>
 
         </div>
 
@@ -112,6 +115,7 @@ import ModalConfirm from '../../templates/ModalConfirm.vue'
 import ModalUserForm from '../Components/ModalUserForm.vue'
 import Lottie from '../../templates/Lottie.vue'
 import * as animationData from '../../assets/loader.json'
+import * as soundData from '../../assets/volume_shaker.json'
 
 export default {
 
@@ -119,7 +123,12 @@ export default {
 
     data () {
         return {
+
+            //state object to keep stage information / all stage rounds / latest round created
+            current         : {},
+
             defaultOptions  : {animationData: animationData},
+            soundOptions    : {animationData: soundData},
             battle          : null,
             brackets        : [],
             users           : [],
@@ -193,6 +202,7 @@ export default {
         },
 
         setWinner(data) {
+            console.log(data)
             let request = {
                 battle_id : this.battle._id,
                 round_id  : data.round._id[0],
@@ -201,7 +211,10 @@ export default {
             let scope = this
 
             this.axios.post('/api/battle/update-battle', request).then(response => {
-//                console.log(response)
+                this.current.rounds = response.data.data.rounds
+                this.current.round  = response.data.data.round
+                this.current.stage  = response.data.data.name
+                console.log(this.current)
             }).catch( err => {
                 console.log(err)
             })

@@ -28,7 +28,6 @@
             <div class="game-content" v-for="data in rounds[j-1][i-1][0]"
                  v-if="data"
             >
-
               <p class="player-style">
                 &nbsp&nbsp{{data.name}}
               </p>
@@ -126,8 +125,8 @@
     },
 
     props: {
-      stages: {
-        type: Array
+      battle: {
+        type: [Object, Array]
       },
 
       brackets: {
@@ -135,6 +134,7 @@
       }
 
     },
+
     data () {
       return {
         loading: true,
@@ -149,8 +149,6 @@
         round: [],
 
         rounds : [],
-
-        battle: [],
 
         iTotal: 0,
         jTotal: 1,
@@ -203,17 +201,18 @@
     },
 
     mounted(){
-      this.iTotal = this.brackets.first_stage.length
+        console.log(this.battle)
+      this.iTotal = this.battle.brackets.first_stage.length
       this.initMatrixData();
 
     //   for(let i=0; i<this.stages.length;i++) {
     //     this.drawStage(i,this.stages[i]);
     //   }
 
-      this.drawStage(0, this.brackets.first_stage)
-      this.drawStage(1, this.brackets.quarter_final)
-      this.drawStage(2, this.brackets.semi_final)
-      this.drawStage(3, this.brackets.finale)
+      this.drawStage(0, this.battle.brackets.first_stage)
+      this.drawStage(1, this.battle.brackets.quarter_final)
+      this.drawStage(2, this.battle.brackets.semi_final)
+      this.drawStage(3, this.battle.brackets.finale)
 
       this.loading = false
     },
@@ -247,30 +246,26 @@
         for(let i=0;i<this.iTotal;i++){
 
           if(this.matriz[j][i]) {
-            this.rounds[j][i]._id = rounds[k] ?  rounds[k]._id : 'id';
-
-            if(!rounds[k]) {
+            if(!rounds[k])
               break;
-
-            }
             if (rounds[k].third) {
               is3People = true;
               this.rounds[j][i][0]  = [rounds[k].first];
               this.rounds[j][i][1]  = [rounds[k].second];
               this.rounds[j][i][2]  = [rounds[k].third];
+              this.rounds[j][i]._id = [rounds[k]._id];
             }
 
             else {
-              console.log('j:'+ j)
-              console.log('i: '+ i)
-              console.log(rounds[k]._id)
               this.rounds[j][i][0]  = [rounds[k].first];
               this.rounds[j][i][1]  = [rounds[k].second];
+              this.rounds[j][i]._id = [rounds[k]._id];
 
             }
             k++;
           }
         }
+
 
         // set third person in all games of round so they have same size and flex grow, grow right
         if(is3People) {
@@ -292,21 +287,37 @@
 
         this.rounds[j][i].winner = position
 
-        const data = {
-          roundNumber : j,
-          game        : i,
-          round       : this.rounds[j][i],
-          id          : this.rounds[j][i]._id,
-          person      : this.rounds[j][i][position],
-          position    : position === 0 ? 'top' : 'bottom'
+        // const data = {
+        //   roundNumber : j,
+        //   game        : i,
+        //   round       : this.rounds[j][i],
+        //   person      : this.rounds[j][i][position],
+        //   position    : position === 0 ? 'top' : 'bottom'
+        // }
+        console.log(this.rounds[j][i])
+        let request = {
+            battle_id : this.battle._id,
+            round_id  : this.rounds[j][i]._id[0],
+            user_id   : this.rounds[j][i][position][0]._id
         }
 
-        console.log(data)
+        console.log(request)
 
-        this.$emit('getWinner', data)
+        let scope = this
+
+        this.axios.post('/api/battle/update-battle', request).then(response => {
+            let rounds = response.data.data.rounds
+            let round  = response.data.data.round
+            let stage  = response.data.data.name
+            console.log(response)
+
+            // ?????? FAZ AQUI VIADO
+            // this.rounds[j+1][i+offset do stage] = round._id
+        }).catch( err => {
+            console.log(err)
+        })
+
         this.rounds = Object.assign({}, this.rounds)
-
-
       },
 
     }
