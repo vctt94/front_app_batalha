@@ -1,5 +1,6 @@
 <template>
   <div class="main">
+    <a class="button" @click="showRounds">showRounds</a>
 
     <ul
       v-for="j in jTotal"
@@ -10,7 +11,6 @@
       <h4 v-if="j == 2" class="title">Quartas</h4>
       <h4 v-if="j == 3" class="title">Semis</h4>
       <h4 v-if="j == 4" class="title">Final</h4>
-
       <template v-for="i in iTotal"
                 v-if="matriz[j-1][i-1] && j!= jTotal"
       >
@@ -24,12 +24,11 @@
                      v-on:clone = "cloneWinner(j-1,i-1, 0, $event)"
                      class="square"
           >
-
             <div class="game-content" v-for="data in rounds[j-1][i-1][0]"
                  v-if="data"
             >
               <p class="player-style">
-                &nbsp&nbsp{{data.name}}
+                &nbsp&nbsp{{data.person.name}}
               </p>
             </div>
 
@@ -49,9 +48,9 @@
           >
 
             <div class="game-content" v-for="data in rounds[j-1][i-1][2]"
-                 v-if="data">
+                 v-if="data.person">
               <p class="player-style">
-                &nbsp&nbsp{{data.name}}
+                &nbsp&nbsp{{data.person.name}}
               </p>
             </div>
 
@@ -68,11 +67,11 @@
                      :list="rounds[j-1][i-1][1]"
                      class="square"
           >
-
             <div class="game-content" v-for="data in rounds[j-1][i-1][1]"
-                 v-if="data">
+                 v-if="data.person">
               <p class="player-style">
-                &nbsp&nbsp{{data.name}}
+                {{data.person.name}}
+                &nbsp&nbsp
               </p>
             </div>
 
@@ -201,7 +200,6 @@
     },
 
     mounted(){
-        console.log(this.battle)
       this.iTotal = this.battle.brackets.first_stage.length
       this.initMatrixData();
 
@@ -248,18 +246,32 @@
           if(this.matriz[j][i]) {
             if(!rounds[k])
               break;
+
+            let firstPerson = {
+              round_id: rounds[k]._id,
+              person: rounds[k].first,
+              user_id: rounds[k].first ? rounds[k].first._id : ''
+            };
+            let secondPerson = {
+              round_id: rounds[k]._id,
+              person: rounds[k].second,
+              user_id: rounds[k].second ? rounds[k].second._id : ''};
+            let thirdPerson = {
+              round_id: rounds[k]._id,
+              person: rounds[k].third ? rounds[k].third : '',
+              user_id: rounds[k].third ? rounds[k].third._id : ''
+            };
+
             if (rounds[k].third) {
               is3People = true;
-              this.rounds[j][i][0]  = [rounds[k].first];
-              this.rounds[j][i][1]  = [rounds[k].second];
-              this.rounds[j][i][2]  = [rounds[k].third];
-              this.rounds[j][i]._id = [rounds[k]._id];
+              this.rounds[j][i][0]  = [firstPerson];
+              this.rounds[j][i][1]  = [secondPerson];
+              this.rounds[j][i][2]  = [thirdPerson];
             }
 
             else {
-              this.rounds[j][i][0]  = [rounds[k].first];
-              this.rounds[j][i][1]  = [rounds[k].second];
-              this.rounds[j][i]._id = [rounds[k]._id];
+              this.rounds[j][i][0]  = [firstPerson];
+              this.rounds[j][i][1]  = [secondPerson];
 
             }
             k++;
@@ -276,6 +288,9 @@
         }
 
       },
+      showRounds(){
+        console.log(this.rounds)
+      },
 
       /**
        * emit data to parent
@@ -285,23 +300,16 @@
        */
       cloneWinner(j,i, position, evt){
 
+        console.log(evt)
         this.rounds[j][i].winner = position
 
-        // const data = {
-        //   roundNumber : j,
-        //   game        : i,
-        //   round       : this.rounds[j][i],
-        //   person      : this.rounds[j][i][position],
-        //   position    : position === 0 ? 'top' : 'bottom'
-        // }
-        console.log(this.rounds[j][i])
+        const winnerObj = this.rounds[j][i][position][0];
+
         let request = {
             battle_id : this.battle._id,
-            round_id  : this.rounds[j][i]._id[0],
-            user_id   : this.rounds[j][i][position][0]._id
+            round_id  : winnerObj.round_id,
+            user_id   : winnerObj.user_id
         }
-
-        console.log(request)
 
         let scope = this
 
