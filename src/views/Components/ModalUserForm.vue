@@ -137,7 +137,7 @@
 
         if(this.edit){
 
-          this.axios.put('/api/user/update-user-by-id/'+scope.user._id,jsonUser,{
+          this.axios.put(API_URL + '/user/update-user-by-id/'+scope.user._id,jsonUser,{
             headers: headers
           }).then(response=>{
             this.$emit('close')
@@ -149,7 +149,7 @@
         else {
           console.log(jsonUser)
 
-          this.axios.post('/apiuser/create-user',jsonUser,{
+          this.axios.post(API_URL + 'user/create-user',jsonUser,{
               headers: headers
           }).then( response => {
             this.$notify({

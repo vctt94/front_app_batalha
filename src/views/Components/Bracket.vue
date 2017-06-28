@@ -306,7 +306,7 @@
             user_id   : winnerObj.person._id
         }
 
-        this.axios.post('/api/battle/update-battle', request)
+        this.axios.post(API_URL + '/battle/update-battle', request)
 
         if(j+1 === this.jTotal-1)
           this.battleWinner()
