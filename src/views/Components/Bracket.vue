@@ -39,11 +39,11 @@
         <li class="game game-spacer" >&nbsp;</li>
 
         <li class="game game"
-            :class="[rounds[j-1][i-1].winner == 1 ? 'winner' : '' ]"
+            :class="[rounds[j-1][i-1].winner == 2 ? 'winner' : '' ]"
             v-if="rounds[j-1][i-1][2]"
         >
           <draggable :options="{group:{ name:'people',  pull:'clone'}}"
-                     v-on:clone="cloneWinner(j-1,i-1, 1, $event)"
+                     v-on:clone="cloneWinner(j-1,i-1, 2, $event)"
                      :list="rounds[j-1][i-1][2]"
                      class="square"
           >
