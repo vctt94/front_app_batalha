@@ -249,17 +249,15 @@
 
             let firstPerson = {
               round_id: rounds[k]._id,
-              person: rounds[k].first,
-              user_id: rounds[k].first ? rounds[k].first._id : ''
+              person: rounds[k].first ? rounds[k].first : '',
             };
             let secondPerson = {
               round_id: rounds[k]._id,
-              person: rounds[k].second,
-              user_id: rounds[k].second ? rounds[k].second._id : ''};
+              person: rounds[k].second ? rounds[k].second : '',
+            };
             let thirdPerson = {
               round_id: rounds[k]._id,
               person: rounds[k].third ? rounds[k].third : '',
-              user_id: rounds[k].third ? rounds[k].third._id : ''
             };
 
             if (rounds[k].third) {
@@ -308,7 +306,7 @@
         let request = {
             battle_id : this.battle._id,
             round_id  : winnerObj.round_id,
-            user_id   : winnerObj.user_id
+            user_id   : winnerObj.person._id
         }
 
         let scope = this
