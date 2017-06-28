@@ -11,6 +11,7 @@
       <h4 v-if="j == 2" class="title">Quartas</h4>
       <h4 v-if="j == 3" class="title">Semis</h4>
       <h4 v-if="j == 4" class="title">Final</h4>
+
       <template v-for="i in iTotal"
                 v-if="matriz[j-1][i-1] && j!= jTotal"
       >
@@ -90,7 +91,7 @@
 
         <draggable :options="{group:{ name:'people',  pull:'clone'}}"
                      :list="rounds[j-1][i-1][0]"
-                     v-on:clone = "cloneWinner(j-1,i-1, 0, $event)"
+                     v-on:clone = "battleWinner"
                      class="square"
           >
 
@@ -98,7 +99,7 @@
                  v-if="data"
             >
               <p class="player-style">
-                &nbsp&nbsp{{data.name}}
+                &nbsp&nbsp{{data.person.name}}
               </p>
             </div>
 
@@ -200,12 +201,9 @@
     },
 
     mounted(){
+
       this.iTotal = this.battle.brackets.first_stage.length
       this.initMatrixData();
-
-    //   for(let i=0; i<this.stages.length;i++) {
-    //     this.drawStage(i,this.stages[i]);
-    //   }
 
       this.drawStage(0, this.battle.brackets.first_stage)
       this.drawStage(1, this.battle.brackets.quarter_final)
@@ -298,7 +296,6 @@
        */
       cloneWinner(j,i, position, evt){
 
-        console.log(evt)
         this.rounds[j][i].winner = position
 
         const winnerObj = this.rounds[j][i][position][0];
@@ -309,22 +306,17 @@
             user_id   : winnerObj.person._id
         }
 
-        let scope = this
+        this.axios.post('/api/battle/update-battle', request)
 
-        this.axios.post('/api/battle/update-battle', request).then(response => {
-            let rounds = response.data.data.rounds
-            let round  = response.data.data.round
-            let stage  = response.data.data.name
-            console.log(response)
-
-            // ?????? FAZ AQUI VIADO
-            // this.rounds[j+1][i+offset do stage] = round._id
-        }).catch( err => {
-            console.log(err)
-        })
+        if(j+1 === this.jTotal-1)
+          this.battleWinner()
 
         this.rounds = Object.assign({}, this.rounds)
       },
+
+      battleWinner(){
+        console.log('winner')
+      }
 
     }
   }
