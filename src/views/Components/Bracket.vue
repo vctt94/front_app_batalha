@@ -26,7 +26,7 @@
                      class="square"
           >
             <div class="game-content" v-for="data in rounds[j-1][i-1][0]"
-                 v-if="data"
+                 v-if="data.person"
             >
               <p class="player-style">
                 &nbsp&nbsp{{data.person.name}}
