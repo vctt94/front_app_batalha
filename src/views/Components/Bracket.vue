@@ -125,8 +125,8 @@
     },
 
     props: {
-      stages: {
-        type: Array
+      battle: {
+        type: [Object, Array]
       },
 
       brackets: {
@@ -134,7 +134,7 @@
       }
 
     },
-    
+
     data () {
       return {
         loading: true,
@@ -149,8 +149,6 @@
         round: [],
 
         rounds : [],
-
-        battle: [],
 
         iTotal: 0,
         jTotal: 1,
@@ -203,17 +201,18 @@
     },
 
     mounted(){
-      this.iTotal = this.brackets.first_stage.length
+        console.log(this.battle)
+      this.iTotal = this.battle.brackets.first_stage.length
       this.initMatrixData();
 
     //   for(let i=0; i<this.stages.length;i++) {
     //     this.drawStage(i,this.stages[i]);
     //   }
 
-      this.drawStage(0, this.brackets.first_stage)
-      this.drawStage(1, this.brackets.quarter_final)
-      this.drawStage(2, this.brackets.semi_final)
-      this.drawStage(3, this.brackets.finale)
+      this.drawStage(0, this.battle.brackets.first_stage)
+      this.drawStage(1, this.battle.brackets.quarter_final)
+      this.drawStage(2, this.battle.brackets.semi_final)
+      this.drawStage(3, this.battle.brackets.finale)
 
       this.loading = false
     },
@@ -288,18 +287,37 @@
 
         this.rounds[j][i].winner = position
 
-        const data = {
-          roundNumber : j,
-          game        : i,
-          round       : this.rounds[j][i],
-          person      : this.rounds[j][i][position],
-          position    : position === 0 ? 'top' : 'bottom'
+        // const data = {
+        //   roundNumber : j,
+        //   game        : i,
+        //   round       : this.rounds[j][i],
+        //   person      : this.rounds[j][i][position],
+        //   position    : position === 0 ? 'top' : 'bottom'
+        // }
+        console.log(this.rounds[j][i])
+        let request = {
+            battle_id : this.battle._id,
+            round_id  : this.rounds[j][i]._id[0],
+            user_id   : this.rounds[j][i][position][0]._id
         }
 
-        this.$emit('getWinner', data)
+        console.log(request)
+
+        let scope = this
+
+        this.axios.post('/api/battle/update-battle', request).then(response => {
+            let rounds = response.data.data.rounds
+            let round  = response.data.data.round
+            let stage  = response.data.data.name
+            console.log(response)
+
+            // ?????? FAZ AQUI VIADO
+            // this.rounds[j+1][i+offset do stage] = round._id
+        }).catch( err => {
+            console.log(err)
+        })
+
         this.rounds = Object.assign({}, this.rounds)
-
-
       },
 
     }
