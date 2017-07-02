@@ -19,6 +19,7 @@
     </div>
 
     <div v-else>
+
       <div class="create-battle" v-if="stepNumber==0">
         <form>
           <h2 class="title is-2">Criar Batalha</h2>
@@ -34,7 +35,6 @@
           </div>
 
           <a class="button is-large is-orange" @click="createBattle">Criar Batalha</a>
-
         </form>
       </div>
 
@@ -100,7 +100,7 @@
       </div>
 
       <div v-else-if="stepNumber == 2">
-        <main id="tournament" class="column" style="padding-left: 10em;">
+        <main id="tournament" class="column">
           <bracket
             :brackets      = "brackets"
             :battle        = "battle"

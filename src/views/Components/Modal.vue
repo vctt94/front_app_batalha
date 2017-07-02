@@ -57,4 +57,9 @@
     position: absolute;
     padding-bottom: 20em;
 }
+  .modal-card{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+  }
 </style>
