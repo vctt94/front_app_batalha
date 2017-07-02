@@ -1,6 +1,5 @@
 <template>
   <div class="main">
-    <a class="button" @click="showRounds">showRounds</a>
 
     <ul
       v-for="j in jTotal"
@@ -18,7 +17,7 @@
         <li class="spacer">&nbsp;</li>
 
         <li class="game game-top"
-            :class="[rounds[j-1][i-1].winner == 0 ? 'winner' : '' ]"
+            :class="[rounds[j-1][i-1].winner == 0 ? 'winner' : '', j-1 == 0 ? 'no-border' : '' ]"
         >
           <draggable :options="{group:{ name:'people',  pull:'clone'}}"
                      :list="rounds[j-1][i-1][0]"
@@ -61,9 +60,10 @@
         <li class="game game-spacer" v-if="rounds[j-1][i-1][2]">&nbsp;</li>
 
         <li class="game game-bottom"
-            :class="[rounds[j-1][i-1].winner == 1 ? 'winner' : '' ]"
+            :class="[ j-1 == 0 ? 'no-border' : '']"
         >
           <draggable :options="{group:{ name:'people',  pull:'clone'}}"
+                     :class="rounds[j-1][i-1].winner == 1 ? 'winner' : ''"
                      v-on:clone="cloneWinner(j-1,i-1, 1, $event)"
                      :list="rounds[j-1][i-1][1]"
                      class="square"
@@ -87,7 +87,7 @@
         <li class="spacer">&nbsp;</li>
 
         <li class="game game-top">
-        <p>Vencedor PIK</p>
+        <p><i class="fa fa-trophy"></i></p>
 
         <draggable :options="{group:{ name:'people',  pull:'clone'}}"
                      :list="rounds[j-1][i-1][0]"
@@ -350,6 +350,9 @@
     flex-grow:1;
   }
 
+  .no-border{
+    border:0 !important;
+  }
 
   body{
     font-family:sans-serif;
@@ -359,7 +362,7 @@
   }
 
   .game{
-    padding-left:20px;
+    padding-left:10px;
     margin:0;
 
   }
@@ -391,9 +394,11 @@
 
   }
   .square{
-    min-height: 3em;
-    min-width: 3em;
-    margin: 0em;
+    min-height: 4em;
+    border-radius: 5%;
+    background: #e9e9e9;
+    min-width: 3.5em;
+    margin: 0 !important;
     border : 1px solid #000000;
     color: #000000;
     font-size: 8pt

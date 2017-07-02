@@ -1,7 +1,6 @@
 <template>
   <div>
       <img src="../../assets/003.svg" alt="Bulma logo" style="width: 50%">
-      <h2>Nº 21</h2>
       <br /><br /><br />
 
       <!-- <div v-if="loading" class="fa fa-spinner fa-pulse fa-5x fa-fw" style="font-size: 130px;"> -->
