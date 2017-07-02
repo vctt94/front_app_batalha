@@ -96,5 +96,8 @@
     color: orange;
 
   }
+  .is-bold{
+    font-weight: bold;
+  }
 
 </style>

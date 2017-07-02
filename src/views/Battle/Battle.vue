@@ -7,18 +7,46 @@
       v-on:close  = "closeModal"
     ></modal-user-form>
 
+    <stepper
+      :steps="steps"
+      :step-number="stepNumber"
+      :offset="1"
+    >
+    </stepper>
     <div v-if="loading" class="column">
       <lottie :options="defaultOptions" :height="500" :width="500" v-on:animCreated="handleAnimation"/>
     </div>
     <div v-else>
 
-      <div v-if="!showBracket">
-        <div>
-          <h4>Escolha os MCs para batalhar</h4>
-          <p>Basta clicar nas setas</p>
-          <a class="button is-large is-orange" @click="sendUsersSubscribed">Começar Batalha!</a>
 
-        </div>
+
+      <div class="create-battle" v-if="stepNumber==0">
+        <form>
+
+          <h2 class="title is-2">Criar Batalha</h2>
+
+          <div class="field ">
+            <label class="label">Nome</label>
+            <input class="input  " type="text" placeholder="Nome">
+          </div>
+
+          <div class="field ">
+            <label class="label">Descrição</label>
+            <textarea class=" textarea" placeholder="Breve Descrição"></textarea>
+          </div>
+
+          <a class="button is-large is-orange" @click="createBattle">Criar Batalha</a>
+
+        </form>
+      </div>
+
+      <div v-else-if="stepNumber == 1">
+        <p>
+          <a class="button is-large is-orange" @click="sendUsersSubscribed">Começar Batalha!</a>
+        </p>
+
+        <h1>Escolha os Integrantes</h1>
+
         <div class="columns" style="margin-top:1em;">
           <div class="column" style="margin-right:2em;">
             <table class="table is-bordered is-striped">
@@ -68,41 +96,19 @@
               </tbody>
             </table>
           </div>
-
-
         </div>
-
-      </div>
-      <!-- <modal-confirm ></modal-confirm> -->
-      <div v-if="loading">
-        <lottie :options="soundOptions" :height="400" :width="400" v-on:animCreated="handleAnimation"/>
       </div>
 
-      <div v-if = "showBracket">
-
+      <div v-else-if="stepNumber == 2">
         <main id="tournament" class="column" style="padding-left: 10em;">
           <bracket
             :brackets      = "brackets"
             :battle        = "battle"
           />
         </main>
-
         <a class="button is-black" v-on:click="quitBattle">Finalizar Batalha</a>
-
       </div>
-
     </div>
-    <fab
-      bg-color="#0e2449"
-      position="top-right"
-      :actions="actions"
-      @newUser="newUser"
-      @listUsers="listUsers"
-      style="padding-top: 2em"
-    />
-
-
-
   </div>
 
 </template>
@@ -113,13 +119,17 @@
   import Bracket from '../Components/Bracket.vue'
   import ModalConfirm from '../../templates/ModalConfirm.vue'
   import ModalUserForm from '../Components/ModalUserForm.vue'
+  import Stepper from '../Components/Stepper'
   import Lottie from '../../templates/Lottie.vue'
   import * as animationData from '../../assets/loader.json'
   import * as soundData from '../../assets/volume_shaker.json'
 
+  const StepNames = ['Criar Batalha', 'Inscrever Usuários', 'Batalhar!']
+
+
   export default {
 
-    components : {Bracket, fab, ModalConfirm, Lottie, ModalUserForm},
+    components : {Bracket, fab, ModalConfirm, Lottie, ModalUserForm,Stepper},
 
     data () {
       return {
@@ -134,7 +144,6 @@
         users           : [],
         usersSubscribed : [],
         total_rounds    : 0,
-        stepper         : 1,
         loading         : true,
         showBracket     : false,
         showModalForm   : false,
@@ -147,25 +156,34 @@
             name: 'listUsers',
             icon: 'list'
           }
-        ]
+        ],
+        steps:[],
+        step: {
+          number: null,
+          name: null
+        },
+        stepNumber: 0
 
       }
     },
 
+
     mounted(){
       let scope = this;
 
+      const numberOfSteps = 3;
+      for(let i=0;i < numberOfSteps;i++){
+        this.steps.push({number: i, name: StepNames[i]})
+      }
+
       this.axios.get('/api/battle/get-latest-battle').then(response => {
-        if(response.data.data.length > 0 && response.data.data[0].active){
-          scope.battle   = response.data.data[0]
-          scope.brackets = response.data.data[0].brackets
-          scope.showBracket = true
-        } else {
-          this.axios.get('/api/user/get-all-users').then(response=>{
-            scope.users = response.data.data
-            scope.users = scope.users.reverse()
-          })
-        }
+        if(response.data.data.length === 0 || !response.data.data[0].active )
+          return;
+
+        this.stepNumber = 2;
+        scope.battle   = response.data.data[0]
+        scope.brackets = response.data.data[0].brackets
+        scope.showBracket = true
         scope.loading = false
       })
 
@@ -184,6 +202,19 @@
         this.$router.push('/')
       },
 
+      createBattle(){
+        this.loading = true;
+
+        this.axios.get('/api/user/get-all-users').then(response=>{
+          this.loading = false;
+          this.users = response.data.data
+          this.users = this.users.reverse()
+          this.stepNumber++;
+        })
+
+
+      },
+
       closeModal(user){
         this.showModalForm = false
         this.reloadUsers()
@@ -194,10 +225,12 @@
       },
 
       reloadUsers(){
-        let scope = this
+        this.loading = true;
+
         this.axios.get('/api/user/get-all-users').then(response=>{
-          scope.users = response.data.data
-          scope.users = scope.users.reverse()
+          this.loading = false;
+          this.users = response.data.data
+          this.users = scope.users.reverse()
         })
       },
 
@@ -229,15 +262,15 @@
       },
 
       sendUsersSubscribed(){
-        let scope = this
+
         this.loading = true
 
         this.axios.post('/api/battle/make-battle', this.usersSubscribed).then(response => {
-          scope.battle      = response.data.data
-          scope.brackets    = response.data.data.brackets
-          scope.showBracket = true
-          scope.loading     = false
-          scope.stepper     = 2
+          this.battle      = response.data.data
+          this.brackets    = response.data.data.brackets
+          this.showBracket = true
+          this.loading     = false
+          this.stepNumber = 2
         }).catch( err => {
           console.log(err)
         })
@@ -271,6 +304,8 @@
 <style scoped lang="scss">
 
   .battle-wrapper{
+    width: 80%;
+    margin-left: 10%;
   }
   .fab-button {
     padding-top: 10em;
