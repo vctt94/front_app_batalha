@@ -77,9 +77,7 @@
   .content{
     margin-top: 2em;
     padding-top: 3em;
-    margin-right: 5em;
     max-width: 80%;
-
     min-height:100vh
   }
   .is-orange{
@@ -91,10 +89,12 @@
     background:white;
     border: 1px solid orange;
     color: orange;
-
   }
   .is-bold{
     font-weight: bold;
+  }
+  .margin-right-1{
+    margin-right: 1em;
   }
 
 </style>

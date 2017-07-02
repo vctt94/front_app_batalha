@@ -1,5 +1,5 @@
 <template>
-  <div class="battle-wrapper">
+  <div class="battle-wrapper content">
     <modal-user-form
       :show       = "showModalForm"
       :edit       = "false"
@@ -13,13 +13,14 @@
       :offset="1"
     >
     </stepper>
+
     <div v-if="loading" class="column">
       <lottie :options="defaultOptions" :height="500" :width="500" v-on:animCreated="handleAnimation"/>
     </div>
+
     <div v-else>
       <div class="create-battle" v-if="stepNumber==0">
         <form>
-
           <h2 class="title is-2">Criar Batalha</h2>
 
           <div class="field ">
@@ -29,7 +30,7 @@
 
           <div class="field ">
             <label class="label">Descrição</label>
-            <textarea class=" textarea" placeholder="Breve Descrição"></textarea>
+            <textarea class="textarea" placeholder="Breve Descrição"></textarea>
           </div>
 
           <a class="button is-large is-orange" @click="createBattle">Criar Batalha</a>
@@ -37,15 +38,16 @@
         </form>
       </div>
 
-      <div v-else-if="stepNumber == 1">
+      <div v-else-if="stepNumber == 1" class="subscribe-user">
         <p>
           <a class="button is-large is-orange" @click="sendUsersSubscribed">Começar Batalha!</a>
         </p>
 
         <h1>Escolha os Integrantes</h1>
 
-        <div class="columns" style="margin-top:1em;">
-          <div class="column" style="margin-right:2em;">
+        <div class="columns">
+
+          <div class="column is-3 is-offset-3 margin-right-1">
             <table class="table is-bordered is-striped">
               <thead>
               <tr>
@@ -66,7 +68,8 @@
               </tbody>
             </table>
           </div>
-          <div class="column">
+
+          <div class="column is-3">
             <table class="table is-bordered is-striped">
               <thead>
               <tr>
@@ -106,6 +109,7 @@
         <a class="button is-black" v-on:click="quitBattle">Finalizar Batalha</a>
       </div>
     </div>
+
   </div>
 
 </template>
@@ -300,12 +304,19 @@
 <style scoped lang="scss">
 
   .battle-wrapper{
-    margin-top: 4em;
-    width: 80%;
-    margin-left: 10%;
-    min-height: 100vh;
   }
   .create-battle{
+    width: 80%;
+    margin-left: 10%;
+    padding: 50px;
+  }
+  .subscribe-user{
+  }
+  input{
+    width: 50%;
+  }
+  .textarea{
+
   }
   .fab-button {
     padding-top: 10em;
