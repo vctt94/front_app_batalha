@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content">
     <div>
       <img src="../../assets/003.svg" alt="Bulma logo" style="width: 50%">
     </div>

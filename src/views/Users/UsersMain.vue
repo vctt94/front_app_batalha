@@ -1,5 +1,5 @@
 <template>
-  <div class="column is-offset-2">
+  <div class="content">
     <div v-if="loading" class="fa fa-spinner fa-pulse fa-3x fa-fw" style="font-size: 130px;">
     </div>
     <div v-else>

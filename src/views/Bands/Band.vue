@@ -1,5 +1,5 @@
 <template>
-  <div class="column is-offset-2">
+  <div class="content">
       <content-navbar
         v-on:update="setContentNavbarSection"
         string = "Bandas cadastradas"
