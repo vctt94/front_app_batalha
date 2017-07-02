@@ -300,8 +300,12 @@
 <style scoped lang="scss">
 
   .battle-wrapper{
+    margin-top: 4em;
     width: 80%;
     margin-left: 10%;
+    min-height: 100vh;
+  }
+  .create-battle{
   }
   .fab-button {
     padding-top: 10em;

@@ -5,18 +5,15 @@
       <navbar></navbar>
     </div>
 
-    <div class="columns ">
 
-      <div class="column is-2 aside sidebar is-hidden-touch">
-          <sidebar
-            :menus="router"
-          ></sidebar>
-      </div>
+    <div class="columns">
+      <sidebar
+        class="column is-2"
+        :menus="router"
+      ></sidebar>
 
-      <main class="column is-10">
-        <div class="content">
-            <router-view></router-view>
-        </div>
+      <main class="column is-10 is-offset-2">
+        <router-view></router-view>
       </main>
     </div>
     <my-footer class="hero-foot"></my-footer>

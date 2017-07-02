@@ -338,7 +338,6 @@
     flex-direction:row;
   }
   .round{
-
     width: 10em;
     display: flex;
     flex-direction:column;
@@ -347,7 +346,7 @@
   }
 
   .spacer{
-    flex-grow:0.555;
+    flex-grow:.8;
   }
 
 
@@ -368,8 +367,7 @@
 
   .game{
     padding-left:10px;
-    margin:0;
-
+    margin: 0;
   }
 
   .winner{
@@ -400,10 +398,10 @@
   }
   .square{
     min-height: 4em;
+    width: 150px;
     box-shadow: 5px 5px #afafaf;
     border-radius: 5%;
     background: #efefef;
-    min-width: 3.5em;
     margin: 0 !important;
     border-bottom : 1px solid #000000;
     border-right : 1px solid #000000;
