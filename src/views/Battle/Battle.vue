@@ -17,9 +17,6 @@
       <lottie :options="defaultOptions" :height="500" :width="500" v-on:animCreated="handleAnimation"/>
     </div>
     <div v-else>
-
-
-
       <div class="create-battle" v-if="stepNumber==0">
         <form>
 
@@ -169,7 +166,6 @@
 
 
     mounted(){
-      let scope = this;
 
       const numberOfSteps = 3;
       for(let i=0;i < numberOfSteps;i++){
@@ -177,14 +173,16 @@
       }
 
       this.axios.get('/api/battle/get-latest-battle').then(response => {
-        if(response.data.data.length === 0 || !response.data.data[0].active )
+        if(response.data.data.length === 0 || !response.data.data[0].active ) {
+          this.loading = false;
           return;
+        }
 
         this.stepNumber = 2;
-        scope.battle   = response.data.data[0]
-        scope.brackets = response.data.data[0].brackets
-        scope.showBracket = true
-        scope.loading = false
+        this.battle   = response.data.data[0]
+        this.brackets = response.data.data[0].brackets
+        this.showBracket = true
+        this.loading = false
       })
 
     },
@@ -211,8 +209,6 @@
           this.users = this.users.reverse()
           this.stepNumber++;
         })
-
-
       },
 
       closeModal(user){
