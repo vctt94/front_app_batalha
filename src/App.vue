@@ -85,5 +85,16 @@
 
     min-height:100vh
   }
+  .is-orange{
+    background:orange;
+    color: white;
+
+  }
+  .is-orange:hover{
+    background:white;
+    border: 1px solid orange;
+    color: orange;
+
+  }
 
 </style>
