@@ -51,7 +51,7 @@
                 </th>
               </tr>
               </thead>
-              
+
               <tbody>
               <tr v-for="user in usersSubscribed">
                 <td>
@@ -271,8 +271,6 @@
 <style scoped lang="scss">
 
   .battle-wrapper{
-    width: 80%;
-    margin-left: 10%;
   }
   .fab-button {
     padding-top: 10em;
