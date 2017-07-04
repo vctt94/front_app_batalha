@@ -13,7 +13,7 @@
       :offset="1"
     >
     </stepper>
-
+    <br />
     <div v-if="loading" class="column">
       <lottie :options="defaultOptions" :height="500" :width="500" v-on:animCreated="handleAnimation"/>
     </div>
