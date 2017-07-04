@@ -2,7 +2,7 @@
   <div class="content">
     <div v-if="loading" class="fa fa-spinner fa-pulse fa-3x fa-fw" style="font-size: 130px;">
     </div>
-    <div v-else>
+    <div v-else class="users">
 
       <content-navbar
         v-on:update="setContentNavbarSection"
@@ -253,5 +253,8 @@
     width : 100%
     border-width: 10em
     align-items: center
+    padding-left: 10em
+
+
 
 </style>

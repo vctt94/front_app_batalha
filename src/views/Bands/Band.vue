@@ -1,6 +1,8 @@
 <template>
   <div class="content">
+      <div class="bands">
       <content-navbar
+
         v-on:update="setContentNavbarSection"
         string = "Bandas cadastradas"
       />
@@ -64,7 +66,7 @@
         </tr>
         </tbody>
       </table>
-
+    </div>
     </div>
   </div>
 
@@ -151,5 +153,11 @@ export default {
 
 <style scoped lang="sass">
     .rendered-content
-      padding-top: 4em
+        padding-top: 4em
+
+    .bands
+        width : 100%
+        border-width: 10em
+        align-items: center
+        padding-left: 10em
 </style>

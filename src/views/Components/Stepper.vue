@@ -55,7 +55,7 @@
   /* Simple setup for this demo */
 
   .mdl-card {
-    background-color: rgba(0, 0, 0, .04);
+    background-color: 'white';
     width: 550px;
     min-height: 0;
     margin: 10px auto;
