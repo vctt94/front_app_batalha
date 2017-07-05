@@ -97,7 +97,7 @@ export default {
     },
     mounted(){
         const scope = this;
-        this.axios.get('/api/group/get-all-groups').then(response=>{
+        this.axios.get(API_URL + '/group/get-all-groups').then(response=>{
             scope.groups = response.data.data
         })
 

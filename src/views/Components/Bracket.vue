@@ -306,7 +306,7 @@
             user_id   : winnerObj.person._id
         }
 
-        this.axios.post('/api/battle/update-battle', request).then(response=>{
+        this.axios.post(API_URL + '/battle/update-battle', request).then(response=>{
           const round = response.data.data.round
           winnerObj.round_id = round._id
         }).catch(err=>{
