@@ -29,8 +29,8 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        // target: 'http://localhost:3000',
-        target: 'https://murmuring-meadow-23071.herokuapp.com',
+        target: 'http://localhost:3000',
+        // target: 'https://murmuring-meadow-23071.herokuapp.com',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''

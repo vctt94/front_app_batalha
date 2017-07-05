@@ -21,16 +21,16 @@
     <div v-else>
       <div class="create-battle" v-if="stepNumber==0">
         <form>
-          <h2 class="title is-2">Criar Batalha</h2>
+          <h2 class="title is-2">Batalha !</h2>
 
           <div class="field ">
-            <label class="label">Nome</label>
-            <input class="input  " type="text" placeholder="Nome">
+            <label class="label">Nova Saga</label>
+            <input class="input  " type="text" placeholder="ex.: Nº 42" v-model="battleName">
           </div>
 
           <div class="field ">
             <label class="label">Descrição</label>
-            <textarea class="textarea" placeholder="Breve Descrição"></textarea>
+            <textarea class="textarea" placeholder="convidados especiais, evento, acontecimento inédito ..." v-model="battleDesc"></textarea>
           </div>
 
           <a class="button is-large is-orange" @click="createBattle">Criar Batalha</a>
@@ -97,6 +97,15 @@
             </table>
           </div>
         </div>
+
+        <fab
+            bg-color="#0e2449"
+            position="top-right"
+            :actions="actions"
+            @newUser="newUser"
+            @listUsers="listUsers"
+            style="padding-top: 2em"
+         />
       </div>
 
       <div v-else-if="stepNumber == 2">
@@ -135,12 +144,11 @@
     data () {
       return {
 
-        //state object to keep stage information / all stage rounds / latest round created
-        current         : {},
-
         defaultOptions  : {animationData: animationData},
         soundOptions    : {animationData: soundData},
         battle          : null,
+        battleName      : '',
+        battleDesc      : '',
         brackets        : [],
         users           : [],
         usersSubscribed : [],
@@ -230,28 +238,29 @@
         this.axios.get('/api/user/get-all-users').then(response=>{
           this.loading = false;
           this.users = response.data.data
-          this.users = scope.users.reverse()
+          this.users = this.users.reverse()
         })
       },
 
-      setWinner(data) {
-        console.log(data)
-        let request = {
-          battle_id : this.battle._id,
-          round_id  : data.round._id[0],
-          user_id   : data.person[0]._id
-        }
-        let scope = this
-
-        this.axios.post('/api/battle/update-battle', request).then(response => {
-          this.current.rounds = response.data.data.rounds
-          this.current.round  = response.data.data.round
-          this.current.stage  = response.data.data.name
-          console.log(this.current)
-        }).catch( err => {
-          console.log(err)
-        })
-      },
+      /*  DEPRECATED !!!!!!!!!!!! */
+    //   setWinner(data) {
+    //     console.log(data)
+    //     let request = {
+    //       battle_id : this.battle._id,
+    //       round_id  : data.round._id[0],
+    //       user_id   : data.person[0]._id
+    //     }
+    //     let scope = this
+      //
+    //     this.axios.post('/api/battle/update-battle', request).then(response => {
+    //       this.current.rounds = response.data.data.rounds
+    //       this.current.round  = response.data.data.round
+    //       this.current.stage  = response.data.data.name
+    //       console.log(this.current)
+    //     }).catch( err => {
+    //       console.log(err)
+    //     })
+    //   },
 
       newUser() {
         this.showModalForm = true
@@ -265,7 +274,15 @@
 
         this.loading = true
 
-        this.axios.post('/api/battle/make-battle', this.usersSubscribed).then(response => {
+        let battle = {
+            'name': this.battleName,
+            'description': this.battleDesc,
+            'usersSubscribed': this.usersSubscribed
+        }
+
+
+        this.axios.post('/api/battle/make-battle', battle).then(response => {
+            console.log(response.data)
           this.battle      = response.data.data
           this.brackets    = response.data.data.brackets
           this.showBracket = true
