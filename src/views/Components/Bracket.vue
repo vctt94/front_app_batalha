@@ -1,5 +1,5 @@
 <template>
-  <div class="main ">
+  <div class="main">
 
     <ul
       v-for="j in jTotal"
@@ -314,13 +314,13 @@
         })
 
         if(j+1 === this.jTotal-1)
-          this.battleWinner()
+          this.battleWinner(winnerObj)
 
         this.rounds = Object.assign({}, this.rounds)
       },
 
-      battleWinner(){
-        console.log('winner')
+      battleWinner(winner){
+        console.log(winner)
       }
 
     }
@@ -336,6 +336,7 @@
   .main{
     display:flex;
     flex-direction:row;
+    margin-left: 2em;
   }
   .round{
     width: 10em;

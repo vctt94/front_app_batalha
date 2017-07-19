@@ -15,7 +15,7 @@
     </div>
 
     <div v-show="state==1" class="wrapper">
-      <div>
+      <div class="image-wrapper">
         <img src="../../assets/003.svg" alt="Bulma logo" >
       </div>
       <p>Comece uma nova batalha agora! Clique no microfone</p>
@@ -70,6 +70,10 @@
   }
   .nav-head{
     display: flex;
+  }
+  .image-wrapper{
+    max-width: 80%;
+    margin-left: 10%
   }
   .main-wrapper{
     width: 80%;

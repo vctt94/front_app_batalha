@@ -5,15 +5,15 @@
         <div class="modal-card">
           <header class="modal-card-head">
             <p class="modal-card-title">{{modalTitle}}</p>
-            <button class="delete" v-on:click="toggleModal({status:!isOpen})"></button>
+            <button class="delete" v-on:click="close()"></button>
           </header>
 
           <section class="modal-card-body" v-bind:is="modalComponent">
           </section>
 
           <footer class="modal-card-foot">
-            <a class="button" v-if="submitButton"  >{{submitButton}}</a>
-            <a class="button"  v-on:click="toggleModal({status:!isOpen})">{{cancelButton}}</a>
+            <a class="button" v-if="submitButton.text"  @click="submitButton.submitFunction">{{submitButton.text}}</a>
+            <a class="button" v-if="cancelButton" @click="cancelButton.cancelFunction">{{cancelButton.text}}</a>
           </footer>
 
         </div>
@@ -25,7 +25,7 @@
 <script>
 
   import {mapGetters,mapMutations} from 'vuex'
-  import {TOGGLE_MODAL} from '../../store/mutations'
+  import {CLOSE_MODAL} from '../../store/mutations'
 
   export default {
 
@@ -62,7 +62,7 @@
     },
     methods:{
       ...mapMutations({
-        toggleModal: TOGGLE_MODAL
+        close: CLOSE_MODAL
       }),
     }
 

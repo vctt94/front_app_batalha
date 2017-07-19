@@ -4,8 +4,14 @@ import * as Mutations from '../mutations'
 const state = {
   title: null,
   component: null,
-  submitButton: "Submit",
-  closeButton: "Cancel",
+  submitButton:{
+    text: "Submit",
+    submitFunction: null
+  },
+  closeButton: {
+    text: "Cancel",
+    cancelFunction: null
+  },
   open: false,
   data: null
 }
@@ -25,10 +31,15 @@ const mutations = {
     state.open = payload.status
     state.title = payload.title
     state.component = payload.component
-    state.submitButton = payload.submitButton
+    state.submitButton.text = payload.submitButton.text
+    state.submitButton.submitFunction = payload.submitButton.submitFunction
     state.closeButton = payload.closeButton
     state.data = payload.data
-  }
+  },
+  [Mutations.CLOSE_MODAL](state ){
+    state.open = false
+  },
+
 
 }
 

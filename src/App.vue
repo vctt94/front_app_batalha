@@ -12,7 +12,7 @@
           :menus="router"
         ></sidebar>
         <div  class="column"
-              :class="activeSideBar ? 'is-offset-3' : ''">
+              :class="activeSideBar ? 'offset-sidebar' : ''">
           <router-view
 
           >
@@ -88,6 +88,9 @@
     padding: 0;
   }
 
+  .offset-sidebar{
+    margin-left: 15em;
+  }
   .content{
     margin-top: 2em;
     padding-top: 3em;

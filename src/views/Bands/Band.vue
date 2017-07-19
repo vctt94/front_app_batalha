@@ -74,7 +74,7 @@
 
 <script>
 
-import ModalConfirm from '../Components/Modal.vue'
+import ModalConfirm from '../Components/ModalConfirm.vue'
 import ModalBandForm from '../Components/ModalBandForm.vue'
 import ContentNavbar from '../../templates/ContentNavbar.vue'
 

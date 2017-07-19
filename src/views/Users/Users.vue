@@ -68,7 +68,7 @@
   </div>
 </template>
 <script>
-  import ModalConfirm from '../Components/Modal.vue'
+  import ModalConfirm from '../Components/ModalConfirm.vue'
   import ModalUserForm from '../Components/ModalUserForm.vue'
   import ContentNavbar from '../../templates/ContentNavbar.vue'
 
