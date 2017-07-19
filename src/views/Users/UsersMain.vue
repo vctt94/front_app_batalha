@@ -30,8 +30,9 @@
 
       <div class="rendered-content">
 
-        <div v-if="this.section == 'list'" >
-          <table class="table is-bordered is-striped is-narrow">
+
+        <div v-if="this.section == 'list'" class="table is-bordered is-striped is-narrow">
+          <table>
             <thead>
             <tr>
               <th>Nome</th>
@@ -73,11 +74,11 @@
               <p class="control has-icons-left has-icons-right">
                 <input class="input" type="text" placeholder="nome/mais conhecido como" v-model="user.name">
                 <span class="icon is-small is-left">
-                  <i class="fa fa-user"></i>
-                </span>
+                                    <i class="fa fa-user"></i>
+                                </span>
                 <span class="icon is-small is-right">
-                  <i class="fa fa-check"></i>
-                </span>
+                                    <i class="fa fa-check"></i>
+                                </span>
               </p>
             </div>
 
@@ -86,11 +87,11 @@
               <p class="control has-icons-left has-icons-right">
                 <input class="input" type="text" placeholder="email" v-model="user.email" >
                 <span class="icon is-small is-left">
-                  <i class="fa fa-envelope"></i>
-                </span>
+                                    <i class="fa fa-envelope"></i>
+                                </span>
                 <span class="icon is-small is-right">
-                  <i class="fa fa-warning"></i>
-                </span>
+                                    <i class="fa fa-warning"></i>
+                                </span>
               </p>
             </div>
 
@@ -119,8 +120,8 @@
 
 
         <!-- <div v-else>
-          else
-        </div> -->
+        else
+    </div> -->
 
       </div>
 
@@ -178,13 +179,22 @@
     methods : {
 
       setContentNavbarSection(value) {
+        const scope = this;
+
+        if(value == 'list') {
+          this.loading = true
+          this.axios.get('https://murmuring-meadow-23071.herokuapp.com/user/get-all-users').then(response=>{
+            scope.listUsers = response.data.data
+            scope.loading = false
+          })
+        }
         this.section = value
       },
 
       createUser() {
         let jsonUser = JSON.stringify(this.user)
 
-        axios.post('api/user/create-user', jsonUser, {
+        this.axios.post(API_URL + '/user/create-user', jsonUser, {
           headers: headers
         }).then( response => {
           console.log(response)
@@ -236,7 +246,9 @@
 
       deleteUser(id){
         this.listUsers[id] = null
-        this.$http.delete('api/user/delete-user-by-id/'+id)
+        this.axios.delete(API_URL + '/user/delete-user-by-id/'+id).then( response => {
+          window.location.reload()
+        })
       }
 
 
