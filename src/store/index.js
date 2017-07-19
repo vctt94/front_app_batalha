@@ -7,6 +7,7 @@ import * as getters from './getters'
  * modules
  */
 import sidebar from './modules/sidebar'
+import modal from './modules/modal'
 
 Vue.use(Vuex)
 
@@ -16,7 +17,8 @@ export default new Vuex.Store({
   actions,
   getters,
   modules: {
-    sidebar
+    sidebar,
+    modal
   },
   strict: debug
 })

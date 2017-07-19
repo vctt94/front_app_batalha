@@ -1,21 +1,28 @@
 <template>
-  <div id="app" class="hero">
+  <div>
+    <modal></modal>
+    <div id="app" class="hero">
+      <div class="hero-head">
+        <navbar></navbar>
+      </div>
 
-    <div class="hero-head">
-      <navbar></navbar>
-    </div>
+      <main>
+        <sidebar
+          class="column"
+          :menus="router"
+        ></sidebar>
+        <div  class="column"
+              :class="activeSideBar ? 'is-offset-3' : ''">
+          <router-view
 
-
-    <div class="columns">
-      <sidebar
-        class="column"
-        :menus="router"
-      ></sidebar>
-      <main class="column">
-        <router-view></router-view>
+          >
+          </router-view>
+        </div>
       </main>
+
+      <my-footer class="hero-foot"></my-footer>
     </div>
-    <my-footer class="hero-foot"></my-footer>
+
   </div>
 </template>
 
@@ -23,6 +30,7 @@
 
   import {mapGetters} from 'vuex'
   import Router from './router/index.js'
+  import Modal from './views/Components/ModalCard.vue'
   import Sidebar from './templates/Sidebar.vue'
   import Navbar from './templates/Navbar.vue'
   import Footer from './templates/Footer.vue'
@@ -34,7 +42,8 @@
     components: {
       'sidebar'   : Sidebar,
       'navbar'    : Navbar,
-      'my-footer' : Footer
+      'my-footer' : Footer,
+      Modal
     },
 
     computed: {
@@ -52,7 +61,6 @@
     },
 
     mounted(){
-      console.log(this.sidebar)
       this.router = Router.options.routes
     }
   }
