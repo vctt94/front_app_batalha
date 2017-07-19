@@ -8,11 +8,10 @@
 
     <div class="columns">
       <sidebar
-        class="column is-2"
+        class="column"
         :menus="router"
       ></sidebar>
-
-      <main class="column is-10" :class="activeSideBar ? 'is-offset-2' : ''">
+      <main class="column">
         <router-view></router-view>
       </main>
     </div>

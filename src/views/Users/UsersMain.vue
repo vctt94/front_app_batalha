@@ -1,8 +1,9 @@
 <template>
-  <div class="content user">
-    <div v-if="loading" class="fa fa-spinner fa-pulse fa-3x fa-fw" style="font-size: 130px;">
+  <div class="main-wrapper">
+    <div v-if="loading" class="fa fa-spinner fa-pulse fa-3x fa-fw">
     </div>
-    <div v-else class="users">
+
+    <div class="user-main" v-else>
 
       <content-navbar
         v-on:update="setContentNavbarSection"
@@ -30,18 +31,22 @@
 
       <div class="rendered-content">
 
+        <div v-if="this.section == 'list'" class="table-wrapper">
 
-        <div v-if="this.section == 'list'" class="table is-bordered is-striped is-narrow">
-          <table>
+          <table class="table  is-striped is-narrow">
             <thead>
             <tr>
               <th>Nome</th>
-              <th>Email</th>
+              <th class="is-hidden-touch">Email</th>
               <th>Editar</th>
               <th>Deletar</th>
             </tr>
             </thead>
             <tfoot>
+              <th>Nome</th>
+              <th class="is-hidden-touch">Email</th>
+              <th>Editar</th>
+              <th>Deletar</th>
             </tfoot>
             <tbody>
 
@@ -49,14 +54,14 @@
               <td>
                 {{user.name}}
               </td>
-              <td >
+              <td class="is-hidden-touch" >
                 {{user.email}}
               </td>
-              <td style="width: 2em">
+              <td>
                 <a class="fa fa-book" v-on:click="openEditModal(user)">
                 </a>
               </td>
-              <td style="width: 2em" >
+              <td>
                 <a class="fa fa-trash" v-on:click="openDeleteModal(user)">
                 </a>
               </td>
@@ -112,16 +117,11 @@
             <br /><br />
             <div class="hero field is-grouped">
               <p class="control">
-                <button class="button is-primary" @click="createUser" style="background-color: black"> Cadastrar MC </button>
+                <button class="button is-primary" @click="createUser" > Cadastrar MC </button>
               </p>
             </div>
           </div>
         </div>
-
-
-        <!-- <div v-else>
-        else
-    </div> -->
 
       </div>
 
@@ -258,16 +258,20 @@
 
 <style scoped lang="scss">
 
-  .user{
-    width: 80%;
+  .main-wrapper{
+    margin-top: 4em;
+    max-width: 100%;
+  }
+  .table-wrapper{
+    max-width: 100% !important;
+  }
+  table{
+  }
+  .user-main{
+    width: 90%;
+    margin-left: 5%;
   }
 
-  .users {
-    width: 100%;
-    border-width: 10em;
-    align-items: center;
-    padding-left: 10em;
-  }
 
 
 

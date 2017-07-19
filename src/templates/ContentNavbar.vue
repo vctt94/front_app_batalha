@@ -89,5 +89,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .menu{
+    max-width: 100%;
+  }
 
 </style>

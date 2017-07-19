@@ -1,8 +1,8 @@
 <template>
-  <div class="content">
-    <div class="nav-head is-pulled-right">
+  <div class="main-wrapper">
+    <div class="nav-head ">
       <a class="nav-item is-tab" :class="state == 1 ? 'is-active' : ''" @click = "state = 1">
-				<span class="icon-btn">
+        <span class="icon-btn">
 					<i class="fa fa-plus">
 					</i>
 				</span>
@@ -14,8 +14,10 @@
       </a>
     </div>
 
-    <div v-show="state==1">
-      <img src="../../assets/003.svg" alt="Bulma logo" style="width: 50%">
+    <div v-show="state==1" class="wrapper">
+      <div>
+        <img src="../../assets/003.svg" alt="Bulma logo" >
+      </div>
       <p>Comece uma nova batalha agora! Clique no microfone</p>
       <a @click="createBattle" style="color:grey">
         <i class="fa fa-microphone fa-5x" :class="loading ? 'animated fadeOutLeft' : ''" style="font-size: 200px;" aria-hidden="true"></i>
@@ -61,13 +63,18 @@
   }
 </script>
 
-<style type="scss">
+<style scoped type="scss">
 
   a :hover {
     color: black;
   }
   .nav-head{
     display: flex;
+  }
+  .main-wrapper{
+    width: 80%;
+    margin-top: 4em;
+    margin-left: 10%;
   }
 
 </style>
