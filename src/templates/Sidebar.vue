@@ -1,7 +1,7 @@
 
 <template>
 
-  <aside v-if="getSidebarActiveStatus" class="app-sidebar aside hero is-fullheight is-hidden-mobile animated slideInLeft">
+  <aside v-if="getSidebarActiveStatus" class="app-sidebar aside hero is-fullheight  animated slideInLeft">
   <div>
     <div class="logo">
       <img src="../assets/006.svg" alt="Bulma logo">
@@ -34,6 +34,7 @@
 <script>
 
 import { mapMutations, mapGetters } from 'vuex'
+import { TOGGLE_SIDEBAR} from '../store/mutations'
 
 export default {
   props : [
@@ -55,13 +56,12 @@ export default {
   },
 
   mounted() {
-    this.active = this.getSidebarActiveStatus
   },
 
   methods : {
 
     ...mapMutations({
-      updateSideBarActiveStatus : 'UPDATE_SIDEBAR_ACTIVE_STATUS'
+      updateSideBarActiveStatus : TOGGLE_SIDEBAR
     }),
 
     toggleActive(item){

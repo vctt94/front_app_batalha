@@ -3,13 +3,13 @@
 	  <div class="container">
 		<div class="nav-left">
 
-			<a class="nav-item is-tab" :class="states.list ? 'is-active' : ''" @click = "updateNavbarSection('list')">
+			<a class="nav-item is-tab" :class="state == 1 ? 'is-active' : ''" @click = "updateNavbarSection('list')">
 				<span class="icon-btn">
 				  <i class="fa fa-list-ul "></i>
 				</span>
 		  </a>
 
-		  <a class="nav-item is-tab" :class="states.create ? 'is-active' : ''" @click = "updateNavbarSection('create')">
+		  <a class="nav-item is-tab" :class="state == 2 ? 'is-active' : ''" @click = "updateNavbarSection('create')">
 				<span class="icon-btn">
 					<i class="fa fa-plus">
 					</i>
@@ -52,7 +52,10 @@ export default {
 		},
 		string: {
 			type: String
-		}
+		},
+    state:{
+		  type: Number
+    }
 	},
 
 	data(){
@@ -65,8 +68,6 @@ export default {
 	},
 
 	mounted() {
-		console.log(this.total)
-		console.log(this.string)
 	},
 
 	methods :{

@@ -8,8 +8,8 @@ const state = {
 const getters = {}
 
 const mutations = {
-	[Mutations.UPDATE_SIDEBAR_ACTIVE_STATUS](state, payload ){
-		state.activeStatus = payload.status
+	[Mutations.TOGGLE_SIDEBAR](state, status ){
+		state.activeStatus = status
 	}
 
 }

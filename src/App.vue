@@ -12,7 +12,7 @@
         :menus="router"
       ></sidebar>
 
-      <main class="column is-10 is-offset-2">
+      <main class="column is-10" :class="activeSideBar ? 'is-offset-2' : ''">
         <router-view></router-view>
       </main>
     </div>
@@ -22,11 +22,11 @@
 
 <script>
 
+  import {mapGetters} from 'vuex'
   import Router from './router/index.js'
   import Sidebar from './templates/Sidebar.vue'
   import Navbar from './templates/Navbar.vue'
   import Footer from './templates/Footer.vue'
-
 
   export default {
 
@@ -38,6 +38,13 @@
       'my-footer' : Footer
     },
 
+    computed: {
+      ...mapGetters(['sidebar']),
+      activeSideBar(){
+        return this.sidebar.activeStatus
+      }
+    },
+
     data (){
       return{
         router : null,
@@ -46,8 +53,8 @@
     },
 
     mounted(){
+      console.log(this.sidebar)
       this.router = Router.options.routes
-
     }
   }
 </script>

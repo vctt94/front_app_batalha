@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content user">
     <div v-if="loading" class="fa fa-spinner fa-pulse fa-3x fa-fw" style="font-size: 130px;">
     </div>
     <div v-else class="users">
@@ -30,16 +30,15 @@
 
       <div class="rendered-content">
 
-
-        <div v-if="this.section == 'list'" class="table is-bordered is-striped is-narrow">
-          <table>
+        <div v-if="this.section == 'list'" >
+          <table class="table is-bordered is-striped is-narrow">
             <thead>
-                <tr>
-                  <th>Nome</th>
-                  <th>Email</th>
-                  <th>Editar</th>
-                  <th>Deletar</th>
-                </tr>
+            <tr>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Editar</th>
+              <th>Deletar</th>
+            </tr>
             </thead>
             <tfoot>
             </tfoot>
@@ -191,19 +190,19 @@
           console.log(response)
 
           this.$notify({
-              title: 'Mil trutas mil tretas',
-              message: 'MC recrutado com sucesso',
-              type: 'success'
-            });
+            title: 'Mil trutas mil tretas',
+            message: 'MC recrutado com sucesso',
+            type: 'success'
+          });
 
         }).catch( err => {
           console.log(err)
 
           this.$notify({
-              title: 'Zero truta zero treta',
-              message: 'Erro interno ao recrutar MC. Causa: ' + err.message,
-              type: 'error'
-            });
+            title: 'Zero truta zero treta',
+            message: 'Erro interno ao recrutar MC. Causa: ' + err.message,
+            type: 'error'
+          });
         })
       },
 
@@ -245,15 +244,18 @@
   }
 </script>
 
-<style scoped lang="sass">
-  .rendered-content
-    padding-top: 4em
+<style scoped lang="scss">
 
-  .users
-    width : 100%
-    border-width: 10em
-    align-items: center
-    padding-left: 10em
+  .user{
+    width: 80%;
+  }
+
+  .users {
+    width: 100%;
+    border-width: 10em;
+    align-items: center;
+    padding-left: 10em;
+  }
 
 
 
