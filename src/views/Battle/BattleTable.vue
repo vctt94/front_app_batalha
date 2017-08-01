@@ -103,7 +103,7 @@
       deleteBattle(id){
         console.log(id)
 //        this.battles[id] = null
-//        this.axios.delete('/api/battle/'+id)
+//        this.axios.delete(API_URL + '/battle/'+id)
       }
 
     }

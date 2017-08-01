@@ -136,7 +136,12 @@
 
   const StepNames = ['Criar Batalha', 'Inscrever Usuários', 'Batalhar!']
 
-
+  const HEADER =  {
+    'Content-Type': 'application/json',
+  }
+  const HEADERS = {
+    headers: HEADER
+  }
   export default {
 
     components : {Bracket, fab, ModalConfirm, Lottie, ModalUserForm,Stepper},
@@ -205,7 +210,7 @@
         this.axios.put(API_URL + '/battle/end-battle', {
           'battle_id': this.battle._id,
           'winner_id': null
-        }).then(response => {
+        },HEADERS).then(response => {
           console.log(response)
         })
 
@@ -280,8 +285,9 @@
             'usersSubscribed': this.usersSubscribed
         }
 
+        console.log(JSON.stringify(battle))
 
-        this.axios.post(API_URL + '/battle/make-battle', battle).then(response => {
+        this.axios.post(API_URL + '/battle/make-battle', battle, HEADERS).then(response => {
             console.log(response.data)
           this.battle      = response.data.data
           this.brackets    = response.data.data.brackets
