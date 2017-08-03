@@ -189,7 +189,7 @@
         this.steps.push({number: i, name: StepNames[i]})
       }
 
-      this.axios.get(API_URL + '/battle/get-latest-battle').then(response => {
+      this.axios.get('/api/battle/get-latest-battle').then(response => {
         if(response.data.data.length === 0 || !response.data.data[0].active ) {
           this.loading = false;
           return;
@@ -207,10 +207,10 @@
     methods : {
 
       quitBattle(){
-        this.axios.put(API_URL + '/battle/end-battle', {
+        this.axios.put('/api/battle/end-battle', JSON.stringify({
           'battle_id': this.battle._id,
           'winner_id': null
-        },HEADERS).then(response => {
+        }),HEADERS).then(response => {
           console.log(response)
         })
 
@@ -220,7 +220,7 @@
       createBattle(){
         this.loading = true;
 
-        this.axios.get(API_URL + '/user/get-all-users').then(response=>{
+        this.axios.get('/api/user/get-all-users').then(response=>{
           this.loading = false;
           this.users = response.data.data
           this.users = this.users.reverse()
@@ -240,7 +240,7 @@
       reloadUsers(){
         this.loading = true;
 
-        this.axios.get(API_URL + '/user/get-all-users').then(response=>{
+        this.axios.get('/api/user/get-all-users').then(response=>{
           this.loading = false;
           this.users = response.data.data
           this.users = this.users.reverse()
@@ -257,7 +257,7 @@
     //     }
     //     let scope = this
       //
-    //     this.axios.post(API_URL + '/battle/update-battle', request).then(response => {
+    //     this.axios.post('/api/battle/update-battle', request).then(response => {
     //       this.current.rounds = response.data.data.rounds
     //       this.current.round  = response.data.data.round
     //       this.current.stage  = response.data.data.name
@@ -287,7 +287,7 @@
 
         console.log(JSON.stringify(battle))
 
-        this.axios.post(API_URL + '/battle/make-battle', battle, HEADERS).then(response => {
+        this.axios.post('/api/battle/make-battle', JSON.stringify(battle), HEADERS).then(response => {
             console.log(response.data)
           this.battle      = response.data.data
           this.brackets    = response.data.data.brackets

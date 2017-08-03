@@ -194,7 +194,7 @@
       createUser() {
         let jsonUser = JSON.stringify(this.user)
 
-        this.axios.post(API_URL + '/user/create-user', jsonUser, {
+        this.axios.post('/api/user/create-user', jsonUser, {
           headers: headers
         }).then( response => {
           console.log(response)
@@ -246,7 +246,7 @@
 
       deleteUser(id){
         this.listUsers[id] = null
-        this.axios.delete(API_URL + '/user/delete-user-by-id/'+id).then( response => {
+        this.axios.delete('/api/user/delete-user-by-id/'+id).then( response => {
           window.location.reload()
         })
       }
