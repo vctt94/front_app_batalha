@@ -91,7 +91,7 @@
 
         <draggable :options="{group:{ name:'people',  pull:'clone'}}"
                      :list="rounds[j-1][i-1][0]"
-                     v-on:clone = "battleWinner"
+                     v-on:clone = ""
                      class="square"
           >
 
@@ -300,27 +300,37 @@
 
         const winnerObj = this.rounds[j][i][position][0];
 
-        let request = {
-            battle_id : this.battle._id,
-            round_id  : winnerObj.round_id,
-            user_id   : winnerObj.person._id
-        }
+        if(j+1 === this.jTotal-1)
+          this.setBattleWinner(this.battle._id,winnerObj.person._id)
+        else
+          this.updateBattle(this.battle._id,winnerObj)
 
+        this.rounds = Object.assign({}, this.rounds)
+      },
+
+      updateBattle: function (battleId, winnerObj) {
+        const request = {
+          battle_id : this.battle._id,
+          round_id  : winnerObj.round_id,
+          user_id   : winnerObj.person._id
+        }
         this.axios.post('/api/battle/update-battle', request).then(response=>{
           const round = response.data.data.round
           winnerObj.round_id = round._id
         }).catch(err=>{
           console.log(err)
         })
-
-        if(j+1 === this.jTotal-1)
-          this.battleWinner(winnerObj)
-
-        this.rounds = Object.assign({}, this.rounds)
       },
-
-      battleWinner(winner){
-        console.log(winner)
+      setBattleWinner(battleId,userId){
+        const request = {
+          battle_id : battleId,
+          user_id   : userId
+        }
+        this.axios.post('/api/battle/set-winner', request).then(response=>{
+          console.log(response)
+        }).catch(err=>{
+          console.log(err)
+        })
       }
 
     }
