@@ -117,6 +117,7 @@
 <script>
 
   import draggable from 'vuedraggable'
+  import requestHelper from '../../utils/requestHelper'
 
   export default {
 
@@ -314,7 +315,7 @@
           round_id  : winnerObj.round_id,
           user_id   : winnerObj.person._id
         }
-        this.axios.post('/api/battle/update-battle', request).then(response=>{
+        requestHelper.updateBattle(JSON.stringify(request)).then(response=>{
           const round = response.data.data.round
           winnerObj.round_id = round._id
         }).catch(err=>{
@@ -326,7 +327,7 @@
           battle_id : battleId,
           user_id   : userId
         }
-        this.axios.post('/api/battle/set-winner', request).then(response=>{
+        requestHelper.updateBattleWinner( JSON.stringify(request) ).then(response=>{
           console.log(response)
         }).catch(err=>{
           console.log(err)

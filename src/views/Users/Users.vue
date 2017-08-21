@@ -71,8 +71,7 @@
   import ModalConfirm from '../Components/ModalConfirm.vue'
   import ModalUserForm from '../Components/ModalUserForm.vue'
   import ContentNavbar from '../../templates/ContentNavbar.vue'
-
-
+  import requestHelper from '../../utils/requestHelper'
 
   export default {
     name: 'users',
@@ -92,7 +91,7 @@
     },
     mounted(){
       const scope = this;
-      this.axios.get('/api/user/get-all-users').then(response=>{
+      requestHelper.getUsers().then(response=>{
         scope.users = response.data.data
       })
 
@@ -134,7 +133,7 @@
         console.log(this.users[id])
         this.users[id] = null
 
-        this.$http.delete('/api/user/delete-user-by-id/'+id)
+        requestHelper.deleteUser(id)
       },
 
 

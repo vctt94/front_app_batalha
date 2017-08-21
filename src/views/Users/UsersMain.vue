@@ -131,14 +131,11 @@
 </template>
 
 <script>
-  import axios from 'axios'
+
   import ModalConfirm from '../Components/ModalConfirm.vue'
   import ModalUserForm from '../Components/ModalUserForm.vue'
   import ContentNavbar from '../../templates/ContentNavbar.vue'
-
-  const headers = {
-    'Content-Type': 'application/json'
-  }
+  import requestHelper from '../../utils/requestHelper'
 
   export default {
     name: 'UsersMain',
@@ -168,7 +165,7 @@
     mounted() {
       const scope = this;
 
-      this.axios.get('https://murmuring-meadow-23071.herokuapp.com/user/get-all-users').then(response=>{
+      requestHelper.getUsers().then(response=>{
         scope.listUsers = response.data.data
         scope.loading = false
       })
@@ -183,7 +180,7 @@
 
         if(value == 'list') {
           this.loading = true
-          this.axios.get('https://murmuring-meadow-23071.herokuapp.com/user/get-all-users').then(response=>{
+          requestHelper.getUsers().then(response=>{
             scope.listUsers = response.data.data
             scope.loading = false
           })
@@ -194,11 +191,8 @@
       createUser() {
         let jsonUser = JSON.stringify(this.user)
 
-        this.axios.post('/api/user/create-user', jsonUser, {
-          headers: headers
-        }).then( response => {
+        requestHelper.createUser(jsonUser).then( response => {
           console.log(response)
-
           this.$notify({
             title: 'Mil trutas mil tretas',
             message: 'MC recrutado com sucesso',
@@ -246,7 +240,7 @@
 
       deleteUser(id){
         this.listUsers[id] = null
-        this.axios.delete('/api/user/delete-user-by-id/'+id).then( response => {
+        requestHelper.deleteUser().then( response => {
           window.location.reload()
         })
       }

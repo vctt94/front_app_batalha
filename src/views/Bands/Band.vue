@@ -143,7 +143,7 @@
         console.log(this.groups[id])
         this.groups[id] = null
 
-//        this.$http.delete('api/group/delete-group-by-id/'+id)
+        requestHelper.deleteGroup(id)
       },
 
 

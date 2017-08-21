@@ -64,12 +64,7 @@
 <script>
   import Multiselect from 'vue-multiselect'
   import { mapMutations, mapGetters } from 'vuex'
-
-  const headers = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }
+  import requestHelper from '../../utils/requestHelper'
 
   export default {
     name: 'BandCreate',
@@ -131,7 +126,7 @@
       }
 
       let scope = this
-      this.axios.get('/api/user/get-all-users').then(response=>{
+      requestHelper.getUsers().then(response=>{
         scope.people = response.data.data
       })
     },
@@ -148,9 +143,10 @@
       },
       searchUser(){
 
-        const scope = this
         this.loadingSearch = true
-        this.axios.post('/api/user/search-user-by-name',{name : this.search},headers).then(response => {
+        const req = {name : this.search};
+
+        requestHelper.searchUser(JSON.stringify(req)).then(response => {
           scope.people = response.data.data
           scope.loadingSearch = false
         })
@@ -172,24 +168,15 @@
 
           const oldId = this.group._id
 
-          this.axios.put('/api/group/update-group-by-id/'+this.group._id,jsonBand,{
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }).then(response=>{
+          requestHelper.updateGroup(this.group._id,jsonBand).then(response=>{
             this.$emit('close')
           }).catch(error=>{
             console.log(error)
           })
-
         }
         else {
 
-          this.axios.post('/api/group/create-group', jsonBand,{
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }).then(response => {
+          requestHelper.createGroup(jsonBand).then(response => {
             this.groups[response.data.data._id] = response.data.data
             alert('cadastrado com sucesso')
           })

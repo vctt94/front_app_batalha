@@ -67,9 +67,7 @@
 
 <script>
 
-  const headers = {
-    'Content-Type': 'application/json'
-  }
+  import requestHelper from '../../utils/requestHelper'
 
   export default {
     name: 'UserCreate',
@@ -137,9 +135,7 @@
 
         if(this.edit){
 
-          this.axios.put('/api/user/update-user-by-id/'+scope.user._id,jsonUser,{
-            headers: headers
-          }).then(response=>{
+          requestHelper.updateUser(scope.user._id,jsonUser).then(response=>{
             this.$emit('close')
           }).catch(error=>{
             console.log(error)
@@ -147,11 +143,7 @@
 
         }
         else {
-          console.log(jsonUser)
-
-          this.axios.post('/api/user/create-user',jsonUser,{
-              headers: headers
-          }).then( response => {
+          requestHelper.createUser(jsonUser).then( response => {
             this.$notify({
                 title: 'Mil trutas mil tretas',
                 message: 'MC recrutado com sucesso',
