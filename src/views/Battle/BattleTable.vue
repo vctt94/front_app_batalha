@@ -52,6 +52,7 @@
   import Modal from '../Components/ModalConfirm.vue'
   import {TOGGLE_MODAL} from '../../store/mutations'
   import {mapGetters, mapMutations} from 'vuex'
+  import requestHelper from '../../utils/requestHelper'
 
   export default {
     name: 'BattleTable',
@@ -79,7 +80,7 @@
       }),
       getAllBattles(){
         this.loading = true;
-        this.axios.get('https://murmuring-meadow-23071.herokuapp.com/battle/get-battles').then(response=>{
+        requestHelper.getBattles().then(response=>{
           this.battles = response.data.data
           this.loading = false
         })

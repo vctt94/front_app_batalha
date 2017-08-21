@@ -133,15 +133,10 @@
   import Lottie from '../../templates/Lottie.vue'
   import * as animationData from '../../assets/loader.json'
   import * as soundData from '../../assets/volume_shaker.json'
+  import requestHelper from '../../utils/requestHelper'
 
   const StepNames = ['Criar Batalha', 'Inscrever Usuários', 'Batalhar!']
 
-  const HEADER =  {
-    'Content-Type': 'application/json',
-  }
-  const HEADERS = {
-    headers: HEADER
-  }
   export default {
 
     components : {Bracket, fab, ModalConfirm, Lottie, ModalUserForm,Stepper},
@@ -189,7 +184,7 @@
         this.steps.push({number: i, name: StepNames[i]})
       }
 
-      this.axios.get('/api/battle/get-latest-battle').then(response => {
+      requestHelper.getLatestBattle().then(response => {
         if(response.data.data.length === 0 || !response.data.data[0].active ) {
           this.loading = false;
           return;
@@ -200,6 +195,9 @@
         this.brackets = response.data.data[0].brackets
         this.showBracket = true
         this.loading = false
+      }).catch(err=>{
+        console.log(err)
+        this.loading = false;
       })
 
     },
@@ -207,20 +205,21 @@
     methods : {
 
       quitBattle(){
-        this.axios.put('/api/battle/end-battle', JSON.stringify({
+        const data = {
           'battle_id': this.battle._id,
           'winner_id': null
-        }),HEADERS).then(response => {
+        }
+
+        requestHelper.finishBattle( JSON.stringify(data) ).then(response => {
           console.log(response)
         })
-
         this.$router.push('/')
       },
 
       createBattle(){
         this.loading = true;
 
-        this.axios.get('/api/user/get-all-users').then(response=>{
+        requestHelper.getUsers().then(response=>{
           this.loading = false;
           this.users = response.data.data
           this.users = this.users.reverse()
@@ -240,32 +239,12 @@
       reloadUsers(){
         this.loading = true;
 
-        this.axios.get('/api/user/get-all-users').then(response=>{
+        requestHelper.getUsers().then(response=>{
           this.loading = false;
           this.users = response.data.data
           this.users = this.users.reverse()
         })
       },
-
-      /*  DEPRECATED !!!!!!!!!!!! */
-    //   setWinner(data) {
-    //     console.log(data)
-    //     let request = {
-    //       battle_id : this.battle._id,
-    //       round_id  : data.round._id[0],
-    //       user_id   : data.person[0]._id
-    //     }
-    //     let scope = this
-      //
-    //     this.axios.post('/api/battle/update-battle', request).then(response => {
-    //       this.current.rounds = response.data.data.rounds
-    //       this.current.round  = response.data.data.round
-    //       this.current.stage  = response.data.data.name
-    //       console.log(this.current)
-    //     }).catch( err => {
-    //       console.log(err)
-    //     })
-    //   },
 
       newUser() {
         this.showModalForm = true
@@ -279,22 +258,23 @@
 
         this.loading = true
 
-        let battle = {
+        const battle = {
             'name': this.battleName,
             'description': this.battleDesc,
             'usersSubscribed': this.usersSubscribed
         }
 
-        console.log(JSON.stringify(battle))
+        const jsonBattle = JSON.stringify(battle);
 
-        this.axios.post('/api/battle/make-battle', JSON.stringify(battle), HEADERS).then(response => {
-            console.log(response.data)
+        requestHelper.makeBattle(jsonBattle).then(response => {
+          console.log(response.data)
           this.battle      = response.data.data
           this.brackets    = response.data.data.brackets
           this.showBracket = true
           this.loading     = false
           this.stepNumber = 2
         }).catch( err => {
+          this.loading     = false
           console.log(err)
         })
 

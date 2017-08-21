@@ -96,7 +96,6 @@
     methods: {
       subscribe(user) {
         this.usersSubscribed.push(user)
-        console.log(this.usersSubscribed)
       },
     }
   }

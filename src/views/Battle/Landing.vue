@@ -36,7 +36,6 @@
   import Navbar from '../../templates/ContentNavbar'
   import BattleTable from './BattleTable'
 
-
   export default {
 
     components: {
