@@ -1,6 +1,7 @@
 import * as Mutations from '../mutations'
 
 const state = {
+  status: 0,
   create:{
     step: 0,
     data: {
