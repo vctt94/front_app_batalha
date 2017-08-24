@@ -18,7 +18,6 @@
       SubscribeUsers
     },
     mounted(){
-      console.log(this.battle)
     },
     computed: {
       ...mapGetters(['battle']),

@@ -64,48 +64,35 @@
 <script>
 
   import requestHelper from '../../utils/requestHelper'
+  import {mapMutations, mapActions} from 'vuex'
+  import {SET_BATTLE_USERS} from '../../store/mutations'
+
   export default {
     name: "subscribe-users",
 
     mounted(){
       requestHelper.getUsers().then(response=>{
-        this.loading = false;
         this.users = response.data.data
         this.users = this.users.reverse()
-        this.stepNumber++;
       })
     },
 
     data(){
       return{
-        loading         : true,
         users           : [],
         usersSubscribed : [],
       }
     },
     methods: {
+      ...mapMutations({
+        setUsersSubscribed: SET_BATTLE_USERS
+      }),
+      ...mapActions({
+        createBattle: 'createBattle'
+      }),
       sendUsersSubscribed(){
-
-        const battle = {
-          'name': this.battleName,
-          'description': this.battleDesc,
-          'usersSubscribed': this.usersSubscribed
-        }
-
-        const jsonBattle = JSON.stringify(battle);
-
-        requestHelper.makeBattle(jsonBattle).then(response => {
-          console.log(response.data)
-          this.battle      = response.data.data
-          this.brackets    = response.data.data.brackets
-          this.showBracket = true
-          this.loading     = false
-          this.stepNumber = 2
-        }).catch( err => {
-          this.loading     = false
-          console.log(err)
-        })
-
+        this.setUsersSubscribed(this.usersSubscribed)
+        this.createBattle();
       },
       subscribe(user) {
         let index = this.users.indexOf(user)
@@ -125,7 +112,6 @@
           this.usersSubscribed[index].virgin = true
         else
           this.usersSubscribed[index].virgin = !this.usersSubscribed[index].virgin
-
       }
     }
 
