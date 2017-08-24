@@ -6,7 +6,6 @@
       v-on:submit = "showModalForm = false"
       v-on:close  = "closeModal"
     ></modal-user-form>
-
     <stepper
       :steps="steps"
       :step-number="stepNumber"
@@ -20,22 +19,8 @@
 
     <div v-else>
 
+      <create-battle></create-battle>
       <div class="create-battle" v-if="stepNumber==0">
-        <form>
-          <h2 class="title is-2">Batalha !</h2>
-
-          <div class="field ">
-            <label class="label">Nova Saga</label>
-            <input class="input  " type="text" placeholder="ex.: Nº 42" v-model="battleName">
-          </div>
-
-          <div class="field ">
-            <label class="label">Descrição</label>
-            <textarea class="textarea" placeholder="convidados especiais, evento, acontecimento inédito ..." v-model="battleDesc"></textarea>
-          </div>
-
-          <a class="button is-large is-orange" @click="createBattle">Criar Batalha</a>
-        </form>
       </div>
 
       <div v-else-if="stepNumber == 1" class="subscribe-user">
@@ -127,6 +112,7 @@
 
   import fab from 'vue-fab'
   import Bracket from '../Components/Bracket.vue'
+  import Create from './create.vue'
   import ModalConfirm from '../../templates/ModalConfirm.vue'
   import ModalUserForm from '../Components/ModalUserForm.vue'
   import Stepper from '../Components/Stepper'
@@ -139,7 +125,10 @@
 
   export default {
 
-    components : {Bracket, fab, ModalConfirm, Lottie, ModalUserForm,Stepper},
+    components : {
+      createBattle: Create,
+
+      Bracket, fab, ModalConfirm, Lottie, ModalUserForm,Stepper},
 
     data () {
       return {
@@ -147,8 +136,6 @@
         defaultOptions  : {animationData: animationData},
         soundOptions    : {animationData: soundData},
         battle          : null,
-        battleName      : '',
-        battleDesc      : '',
         brackets        : [],
         users           : [],
         usersSubscribed : [],

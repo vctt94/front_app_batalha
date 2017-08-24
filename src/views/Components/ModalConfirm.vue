@@ -1,6 +1,6 @@
 <template>
   <section class="modal-card-body">
-    <p v-if="text">{{text}}</p>
+    <p v-show="text">{{text}}</p>
   </section>
 </template>
 

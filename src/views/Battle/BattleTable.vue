@@ -11,7 +11,7 @@
 
         <tr>
           <th>Nome</th>
-          <th>Email</th>
+          <th>Descrição</th>
           <th>Editar</th>
           <th>Deletar</th>
         </tr>
@@ -19,7 +19,7 @@
         </thead>
         <tfoot>
         <th>Nome</th>
-        <th>Email</th>
+        <th>Descrição</th>
         <th>Editar</th>
         <th>Deletar</th>
         </tfoot>
@@ -66,8 +66,6 @@
         loading: false,
         showDelete: false,
         modalProps    : [],
-
-
       }
     },
     mounted(){
@@ -84,6 +82,22 @@
           this.battles = response.data.data
           this.loading = false
         })
+      },
+      openEditModal(battle){
+        const modal = {
+          status: true,
+          title: "Deletar Batalha " + battle.name,
+          component: Modal,
+          submitButton: {
+            text: "Deletar",
+            submitFunction: () =>{
+//              return this.deleteBattle(battle._id)
+            },
+          },
+          data: "Tem certeza que deseja deletar a Batalha "+ battle.name
+        }
+        this.toggleModal(modal)
+
       },
       openDeleteModal(battle){
         const modal = {

@@ -30,7 +30,7 @@
 
   import {mapGetters} from 'vuex'
   import Router from './router/index.js'
-  import Modal from './views/Components/ModalCard.vue'
+  import Modal from './views/Modal/Modal.vue'
   import Sidebar from './templates/Sidebar.vue'
   import Navbar from './templates/Navbar.vue'
   import Footer from './templates/Footer.vue'
