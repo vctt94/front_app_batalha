@@ -8,7 +8,9 @@ const state = {
     name: '',
     description: '',
     users: []
-  }
+  },
+  brackets: {},
+  battle: {}
 
 }
 
@@ -17,7 +19,7 @@ const getters = {}
 const actions = {
 
   createBattle({commit}){
-    
+
     const data = {
       name: state.create.name,
       description: state.create.description,
@@ -26,7 +28,10 @@ const actions = {
 
     console.log(JSON.stringify(data))
     requestHelper.makeBattle(JSON.stringify(data)).then(response=>{
-      console.log(response)
+      console.log(response.data.data)
+      commit(Mutations.SET_BATTLE_STATUS, 'battling')
+      commit(Mutations.SET_BATTLE, response.data.data)
+      commit(Mutations.SET_BRACKET, response.data.data.brackets)
     })
 
   },
@@ -48,6 +53,15 @@ const mutations = {
   },
   [Mutations.SET_BATTLE_USERS](state, users){
     state.create.users = users
+  },
+  [Mutations.SET_BATTLE_STATUS](state, payload){
+    state.status = payload.status
+  },
+  [Mutations.SET_BATTLE](state, battle){
+    state.battle = battle
+  },
+  [Mutations.SET_BRACKET](state, brackets){
+    state.brackets = brackets
   },
 
 

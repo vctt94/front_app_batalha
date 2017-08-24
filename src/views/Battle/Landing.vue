@@ -26,15 +26,16 @@
 
     <div v-show="state==2">
       <battle-table></battle-table>
-
     </div>
   </div>
 </template>
 
 <script>
 
+  import {mapMutations} from 'vuex'
   import Navbar from '../../templates/ContentNavbar'
   import BattleTable from './BattleTable'
+  import {SET_BATTLE_STATUS} from '../../store/mutations'
 
   export default {
 
@@ -50,10 +51,14 @@
     },
 
     methods: {
+      ...mapMutations({
+        setBattleStatus: SET_BATTLE_STATUS
+      }),
 
       createBattle() {
         this.loading = true
 
+        this.setBattleStatus({status:'creating'})
         this.$router.push('Batalha')
       },
 

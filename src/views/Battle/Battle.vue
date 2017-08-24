@@ -19,17 +19,15 @@
 
     <div v-else>
 
-      <create-battle></create-battle>
+      <create-battle v-if="status == 'creating' "></create-battle>
 
-      <div v-if="stepNumber == 2">
-        <main id="tournament" class="column">
+      <main id="tournament" v-if="status == 'battling' " class="column">
           <bracket
             :brackets      = "brackets"
             :battle        = "battle"
           />
         </main>
         <a class="button is-black" v-on:click="quitBattle">Finalizar Batalha</a>
-      </div>
     </div>
 
   </div>
@@ -56,20 +54,38 @@
 
     components : {
       createBattle: Create,
+      Bracket, fab, ModalConfirm, Lottie, ModalUserForm,Stepper
+    },
 
-      Bracket, fab, ModalConfirm, Lottie, ModalUserForm,Stepper},
+    mounted(){
+
+      const numberOfSteps = 3;
+      for(let i=0;i < numberOfSteps;i++){
+        this.steps.push({number: i, name: StepNames[i]})
+      }
+
+      requestHelper.getLatestBattle().then(response => {
+        this.loading = false
+        if(response.data.data.length === 0 || !response.data.data[0].active ) {
+          return;
+        }
+        this.battle   = response.data.data[0]
+        this.brackets = response.data.data[0].brackets
+      }).catch(err=>{
+        this.loading = false
+        console.log(err)
+      })
+
+    },
 
     data () {
       return {
 
         defaultOptions  : {animationData: animationData},
         soundOptions    : {animationData: soundData},
-        battle          : null,
         brackets        : [],
-
-        total_rounds    : 0,
         loading         : true,
-        showBracket     : false,
+
         showModalForm   : false,
         actions         : [
           {
@@ -91,30 +107,15 @@
       }
     },
 
+    computed : {
+      ...mapGetters(['battle']),
 
-    mounted(){
-
-      const numberOfSteps = 3;
-      for(let i=0;i < numberOfSteps;i++){
-        this.steps.push({number: i, name: StepNames[i]})
+//      step(){
+//        return this.battle.create.step
+//      },
+      status(){
+        return this.battle.status
       }
-
-      requestHelper.getLatestBattle().then(response => {
-        if(response.data.data.length === 0 || !response.data.data[0].active ) {
-          this.loading = false;
-          return;
-        }
-
-        this.stepNumber = 2;
-        this.battle   = response.data.data[0]
-        this.brackets = response.data.data[0].brackets
-        this.showBracket = true
-        this.loading = false
-      }).catch(err=>{
-        console.log(err)
-        this.loading = false;
-      })
-
     },
 
     methods : {
@@ -198,9 +199,5 @@
     border: 5px solid gray;
     margin: 0;
   }
-  /*
-  *  General Styles
-  */
-
 
 </style>
