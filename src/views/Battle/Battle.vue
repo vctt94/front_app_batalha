@@ -22,12 +22,8 @@
       <create-battle v-if="status == 'creating' "></create-battle>
 
       <main id="tournament" v-if="status == 'battling' " class="column">
-          <bracket
-            :brackets      = "brackets"
-            :battle        = "battle"
-          />
-        </main>
-        <a class="button is-black" v-on:click="quitBattle">Finalizar Batalha</a>
+        <bracket/>
+      </main>
     </div>
 
   </div>
@@ -36,7 +32,8 @@
 
 <script>
 
-  import {mapGetters} from 'vuex'
+  import {mapGetters, mapMutations} from 'vuex'
+  import {SET_BATTLE_AND_STATUS} from '../../store/mutations'
   import fab from 'vue-fab'
   import Bracket from '../Components/Bracket.vue'
   import Create from './create.vue'
@@ -69,8 +66,11 @@
         if(response.data.data.length === 0 || !response.data.data[0].active ) {
           return;
         }
-        this.battle   = response.data.data[0]
-        this.brackets = response.data.data[0].brackets
+        const data = {
+          battle: response.data.data[0],
+          status: 'battling'
+        }
+        this.setBattleAndStatus(data)
       }).catch(err=>{
         this.loading = false
         console.log(err)
@@ -120,6 +120,9 @@
 
     methods : {
 
+      ...mapMutations({
+        setBattleAndStatus: SET_BATTLE_AND_STATUS
+      }),
       quitBattle(){
         const data = {
           'battle_id': this.battle._id,

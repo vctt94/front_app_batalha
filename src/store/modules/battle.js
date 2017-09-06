@@ -2,7 +2,7 @@ import * as Mutations from '../mutations'
 import requestHelper from '../../utils/requestHelper'
 
 const state = {
-  status: 0,
+  status: 'battling',
   create:{
     step: 0,
     name: '',
@@ -26,12 +26,12 @@ const actions = {
       usersSubscribed: state.create.users
     }
 
-    console.log(JSON.stringify(data))
     requestHelper.makeBattle(JSON.stringify(data)).then(response=>{
-      console.log(response.data.data)
-      commit(Mutations.SET_BATTLE_STATUS, 'battling')
-      commit(Mutations.SET_BATTLE, response.data.data)
-      commit(Mutations.SET_BRACKET, response.data.data.brackets)
+      const data = {
+        battle: response.data.data[0],
+        status: 'battling'
+      }
+      commit(Mutations.SET_BATTLE_AND_STATUS, data)
     })
 
   },
@@ -63,6 +63,11 @@ const mutations = {
   [Mutations.SET_BRACKET](state, brackets){
     state.brackets = brackets
   },
+  [Mutations.SET_BATTLE_AND_STATUS](state,payload){
+    state.battle = payload.battle
+    state.brackets = payload.battle.brackets
+    state.status = payload.status
+  }
 
 
 }

@@ -116,6 +116,7 @@
 
 <script>
 
+  import {mapGetters} from 'vuex'
   import draggable from 'vuedraggable'
   import requestHelper from '../../utils/requestHelper'
 
@@ -123,17 +124,6 @@
 
     components: {
       draggable
-    },
-
-    props: {
-      battle: {
-        type: [Object, Array]
-      },
-
-      brackets: {
-          type: [Object, Array]
-      }
-
     },
 
     data () {
@@ -165,6 +155,9 @@
     },
 
     computed : {
+      ...mapGetters({
+        battle: 'battle'
+      }),
 
       matriz (){
         let matriz = []
@@ -197,12 +190,16 @@
         }
 
         return matriz;
-      }
+      },
+      brackets(){
+        return this.battle.brackets;
+      },
 
     },
 
     mounted(){
 
+      console.log(this.battle)
       this.iTotal = this.battle.brackets.first_stage.length
       this.initMatrixData();
 
