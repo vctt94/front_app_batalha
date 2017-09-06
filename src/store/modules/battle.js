@@ -29,16 +29,15 @@ const actions = {
 
     requestHelper.makeBattle(JSON.stringify(data)).then(response=>{
       const data = {
-        battle: response.data.data[0],
+        battle: response.data.data,
         status: 'battling'
       }
+      console.log(response.data.data)
       commit(Mutations.SET_BATTLE_AND_STATUS, data)
     })
 
   },
   quitBattle({commit}, battleId){
-    console.log('aqui')
-    console.log(battleId)
     const data = {
       'battle_id': battleId,
       'winner_id': null
