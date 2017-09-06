@@ -1,122 +1,127 @@
 <template>
-  <div class="main">
+  <div>
+    <div class="main">
 
-    <ul
-      v-for="j in jTotal"
-      v-if="!loading"
-      :class="['round round-'+j, j==jTotal ? 'is-last' : '']"
-    >
-      <h4 v-if="j == 1" class="title">Primeira Etapa</h4>
-      <h4 v-if="j == 2" class="title">Quartas</h4>
-      <h4 v-if="j == 3" class="title">Semis</h4>
-      <h4 v-if="j == 4" class="title">Final</h4>
-
-      <template v-for="i in iTotal"
-                v-if="matriz[j-1][i-1] && j!= jTotal"
+      <ul
+        v-for="j in jTotal"
+        v-if="!loading"
+        :class="['round round-'+j, j==jTotal ? 'is-last' : '']"
       >
-        <li class="spacer">&nbsp;</li>
+        <h4 v-if="j == 1" class="title">Primeira Etapa</h4>
+        <h4 v-if="j == 2" class="title">Quartas</h4>
+        <h4 v-if="j == 3" class="title">Semis</h4>
+        <h4 v-if="j == 4" class="title">Final</h4>
 
-        <li class="game game-top"
-            :class="[rounds[j-1][i-1].winner == 0 ? 'winner' : '', j-1 == 0 ? 'no-border' : '' ]"
+        <template v-for="i in iTotal"
+                  v-if="matriz[j-1][i-1] && j!= jTotal"
         >
-          <draggable :options="{group:{ name:'people',  pull:'clone'}}"
-                     :list="rounds[j-1][i-1][0]"
-                     v-on:clone = "cloneWinner(j-1,i-1, 0, $event)"
-                     class="square"
+          <li class="spacer">&nbsp;</li>
+
+          <li class="game game-top"
+              :class="[rounds[j-1][i-1].winner == 0 ? 'winner' : '', j-1 == 0 ? 'no-border' : '' ]"
           >
-            <div class="game-content" v-for="data in rounds[j-1][i-1][0]"
-                 v-if="data.person"
+            <draggable :options="{group:{ name:'people',  pull:'clone'}}"
+                       :list="rounds[j-1][i-1][0]"
+                       v-on:clone = "cloneWinner(j-1,i-1, 0, $event)"
+                       class="square"
             >
-              <p class="player-style">
-                &nbsp&nbsp{{data.person.name}}
-              </p>
-            </div>
+              <div class="game-content" v-for="data in rounds[j-1][i-1][0]"
+                   v-if="data.person"
+              >
+                <p class="player-style">
+                  &nbsp&nbsp{{data.person.name}}
+                </p>
+              </div>
 
-          </draggable>
-        </li>
+            </draggable>
+          </li>
 
-        <li class="game game-spacer" >&nbsp;</li>
+          <li class="game game-spacer" >&nbsp;</li>
 
-        <li class="game game"
-            :class="[rounds[j-1][i-1].winner == 2 ? 'winner' : '' ]"
-            v-if="rounds[j-1][i-1][2]"
-        >
-          <draggable :options="{group:{ name:'people',  pull:'clone'}}"
-                     v-on:clone="cloneWinner(j-1,i-1, 2, $event)"
-                     :list="rounds[j-1][i-1][2]"
-                     class="square"
+          <li class="game game"
+              :class="[rounds[j-1][i-1].winner == 2 ? 'winner' : '' ]"
+              v-if="rounds[j-1][i-1][2]"
           >
-
-            <div class="game-content" v-for="data in rounds[j-1][i-1][2]"
-                 v-if="data.person">
-              <p class="player-style">
-                &nbsp&nbsp{{data.person.name}}
-              </p>
-            </div>
-
-          </draggable>
-        </li>
-
-        <li class="game game-spacer" v-if="rounds[j-1][i-1][2]">&nbsp;</li>
-
-        <li class="game game-bottom"
-            :class="[ j-1 == 0 ? 'no-border' : '']"
-        >
-          <draggable :options="{group:{ name:'people',  pull:'clone'}}"
-                     :class="rounds[j-1][i-1].winner == 1 ? 'winner' : ''"
-                     v-on:clone="cloneWinner(j-1,i-1, 1, $event)"
-                     :list="rounds[j-1][i-1][1]"
-                     class="square"
-          >
-            <div class="game-content" v-for="data in rounds[j-1][i-1][1]"
-                 v-if="data.person">
-              <p class="player-style">
-                {{data.person.name}}
-                &nbsp&nbsp
-              </p>
-            </div>
-
-          </draggable>
-        </li>
-
-      </template>
-
-      <template
-        v-else-if="matriz[j-1][i-1] && j == jTotal"
-      >
-        <li class="spacer">&nbsp;</li>
-
-        <li class="game game-top">
-        <p><i class="fa fa-trophy"></i></p>
-
-        <draggable :options="{group:{ name:'people',  pull:'clone'}}"
-                     :list="rounds[j-1][i-1][0]"
-                     v-on:clone = ""
-                     class="square"
-          >
-
-            <div class="game-content" v-for="data in rounds[j-1][i-1][0]"
-                 v-if="data"
+            <draggable :options="{group:{ name:'people',  pull:'clone'}}"
+                       v-on:clone="cloneWinner(j-1,i-1, 2, $event)"
+                       :list="rounds[j-1][i-1][2]"
+                       class="square"
             >
-              <p class="player-style">
-                &nbsp&nbsp{{data.person.name}}
-              </p>
-            </div>
 
-          </draggable>
-        </li>
+              <div class="game-content" v-for="data in rounds[j-1][i-1][2]"
+                   v-if="data.person">
+                <p class="player-style">
+                  &nbsp&nbsp{{data.person.name}}
+                </p>
+              </div>
 
-      </template>
+            </draggable>
+          </li>
 
-      <li class="spacer">&nbsp;</li>
-    </ul>
+          <li class="game game-spacer" v-if="rounds[j-1][i-1][2]">&nbsp;</li>
+
+          <li class="game game-bottom"
+              :class="[ j-1 == 0 ? 'no-border' : '']"
+          >
+            <draggable :options="{group:{ name:'people',  pull:'clone'}}"
+                       :class="rounds[j-1][i-1].winner == 1 ? 'winner' : ''"
+                       v-on:clone="cloneWinner(j-1,i-1, 1, $event)"
+                       :list="rounds[j-1][i-1][1]"
+                       class="square"
+            >
+              <div class="game-content" v-for="data in rounds[j-1][i-1][1]"
+                   v-if="data.person">
+                <p class="player-style">
+                  {{data.person.name}}
+                  &nbsp&nbsp
+                </p>
+              </div>
+
+            </draggable>
+          </li>
+
+        </template>
+
+        <template
+          v-else-if="matriz[j-1][i-1] && j == jTotal"
+        >
+          <li class="spacer">&nbsp;</li>
+
+          <li class="game game-top">
+            <p><i class="fa fa-trophy"></i></p>
+
+            <draggable :options="{group:{ name:'people',  pull:'clone'}}"
+                       :list="rounds[j-1][i-1][0]"
+                       v-on:clone = ""
+                       class="square"
+            >
+
+              <div class="game-content" v-for="data in rounds[j-1][i-1][0]"
+                   v-if="data"
+              >
+                <p class="player-style">
+                  &nbsp&nbsp{{data.person.name}}
+                </p>
+              </div>
+
+            </draggable>
+          </li>
+
+        </template>
+
+        <li class="spacer">&nbsp;</li>
+      </ul>
+    </div>
+
+    <a class="button is-black" v-on:click="finishBattle">Finalizar Batalha</a>
+
   </div>
 </template>
 
 
 <script>
 
-  import {mapGetters} from 'vuex'
+  import {mapGetters, mapActions} from 'vuex'
   import draggable from 'vuedraggable'
   import requestHelper from '../../utils/requestHelper'
 
@@ -212,6 +217,9 @@
     },
 
     methods: {
+      ...mapActions({
+        quitBattle: 'quitBattle'
+      }),
 
       initMatrixData(){
 
@@ -284,6 +292,12 @@
       },
       showRounds(){
         console.log(this.rounds)
+      },
+
+      finishBattle(){
+        console.log(this.battle)
+        this.quitBattle(this.battle.id)
+        this.$router.push('/')
       },
 
       /**

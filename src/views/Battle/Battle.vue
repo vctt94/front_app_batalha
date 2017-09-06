@@ -62,15 +62,18 @@
       }
 
       requestHelper.getLatestBattle().then(response => {
-        this.loading = false
-        if(response.data.data.length === 0 || !response.data.data[0].active ) {
+        this.loading = false;
+
+        if(response.data.data.length === 0 || !response.data.data[0].active )
           return;
-        }
+
         const data = {
           battle: response.data.data[0],
           status: 'battling'
         }
-        this.setBattleAndStatus(data)
+
+        this.setBattleAndStatus(data);
+
       }).catch(err=>{
         this.loading = false
         console.log(err)
@@ -123,17 +126,6 @@
       ...mapMutations({
         setBattleAndStatus: SET_BATTLE_AND_STATUS
       }),
-      quitBattle(){
-        const data = {
-          'battle_id': this.battle._id,
-          'winner_id': null
-        }
-
-        requestHelper.finishBattle( JSON.stringify(data) ).then(response => {
-          console.log(response)
-        })
-        this.$router.push('/')
-      },
 
       closeModal(user){
         this.showModalForm = false
