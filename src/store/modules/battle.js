@@ -32,7 +32,6 @@ const actions = {
         battle: response.data.data,
         status: 'battling'
       }
-      console.log(response.data.data)
       commit(Mutations.SET_BATTLE_AND_STATUS, data)
     })
 

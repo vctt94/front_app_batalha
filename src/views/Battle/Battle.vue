@@ -156,20 +156,13 @@
 
 <style scoped lang="scss">
 
-  .battle-wrapper{
-  }
   .create-battle{
     width: 80%;
     margin-left: 10%;
     padding: 50px;
   }
-  .subscribe-user{
-  }
   input{
     width: 50%;
-  }
-  .textarea{
-
   }
   .fab-button {
     padding-top: 10em;
@@ -185,7 +178,6 @@
 
   .blackhover {
     color: black;
-
   }
 
   .box {

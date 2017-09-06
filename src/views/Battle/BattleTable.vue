@@ -117,11 +117,10 @@
       },
       deleteBattle(id){
         requestHelper.deleteBattle(id).then(response=>{
+          console.log(response)
         }).catch(err=>{
           console.log(err)
         })
-//        this.battles[id] = null
-//        this.axios.delete('/api/battle/'+id)
       }
 
     }

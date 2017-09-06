@@ -136,8 +136,6 @@
         requestHelper.deleteUser(id)
       },
 
-
-
     }
   }
 </script>

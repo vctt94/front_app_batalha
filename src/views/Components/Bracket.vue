@@ -204,7 +204,6 @@
 
     mounted(){
 
-      console.log(this.battle)
       this.iTotal = this.battle.brackets.first_stage.length
       this.initMatrixData();
 
