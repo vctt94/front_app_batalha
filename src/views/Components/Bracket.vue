@@ -325,12 +325,14 @@
           round_id  : winnerObj.round_id,
           user_id   : winnerObj.person._id
         }
-        requestHelper.updateBattle(JSON.stringify(request)).then(response=>{
-          const round = response.data.data.round
-          winnerObj.round_id = round._id
-        }).catch(err=>{
-          console.log(err)
-        })
+        this.$socket.emit('battle-update', request)
+
+//        requestHelper.updateBattle(JSON.stringify(request)).then(response=>{
+//          const round = response.data.data.round
+//          winnerObj.round_id = round._id
+//        }).catch(err=>{
+//          console.log(err)
+//        })
       },
       setBattleWinner(battleId,userId){
         const request = {

@@ -1,12 +1,7 @@
 <template>
   <div class="">
 
-      <content-navbar
-
-
-
-      >
-
+      <content-navbar>
       </content-navbar>
 
     <modal-confirm

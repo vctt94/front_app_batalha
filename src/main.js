@@ -7,6 +7,9 @@ import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import {Steps, Step, Notification, Checkbox, Dialog, Button} from 'element-ui'
+import VueSocketio from 'vue-socket.io';
+
+Vue.use(VueSocketio, 'http://127.0.0.1:3000');
 
 Vue.use(VueAxios, axios)
 Vue.use(Steps)
@@ -25,5 +28,13 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  sockets:{
+    connect: function(){
+      console.log('socket connected')
+    },
+    battleUpdated: function(val){
+      console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+    },
+  },
 })
