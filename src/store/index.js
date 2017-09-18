@@ -8,6 +8,7 @@ import * as getters from './getters'
  */
 import sidebar from './modules/sidebar'
 import modal from './modules/modal'
+import bracket from './modules/brackets'
 import battle from './modules/battle'
 
 Vue.use(Vuex)
@@ -20,6 +21,7 @@ export default new Vuex.Store({
   modules: {
     sidebar,
     modal,
+    bracket,
     battle
   },
   strict: debug

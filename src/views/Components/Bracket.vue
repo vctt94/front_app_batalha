@@ -199,6 +199,9 @@
       brackets(){
         return this.battle.brackets;
       },
+      battleId(){
+        return this.battle.id
+      }
 
     },
 
@@ -217,7 +220,8 @@
 
     methods: {
       ...mapActions({
-        quitBattle: 'quitBattle'
+        quitBattle: 'quitBattle',
+        updateBattle: 'socket_updateBattle'
       }),
 
       initMatrixData(){
@@ -311,29 +315,23 @@
 
         const winnerObj = this.rounds[j][i][position][0];
 
+        const payloadReq = {
+          personId: winnerObj.person._id,
+          roundId: winnerObj.round_id,
+          battleId: this.battleId
+        }
+
         if(j+1 === this.jTotal-1)
           this.setBattleWinner(this.battle._id,winnerObj.person._id)
         else
-          this.updateBattle(this.battle._id,winnerObj)
+//          this.updateBattle(payloadReq)
+          this.$socket.emit('battle-update',payloadReq)
 
+          this.$socket.emit('test')
+        console.log(this.$socket)
         this.rounds = Object.assign({}, this.rounds)
       },
 
-      updateBattle: function (battleId, winnerObj) {
-        const request = {
-          battle_id : this.battle._id,
-          round_id  : winnerObj.round_id,
-          user_id   : winnerObj.person._id
-        }
-        this.$socket.emit('battle-update', request)
-
-//        requestHelper.updateBattle(JSON.stringify(request)).then(response=>{
-//          const round = response.data.data.round
-//          winnerObj.round_id = round._id
-//        }).catch(err=>{
-//          console.log(err)
-//        })
-      },
       setBattleWinner(battleId,userId){
         const request = {
           battle_id : battleId,
