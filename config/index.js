@@ -30,7 +30,7 @@ module.exports = {
     proxyTable: {
       '/api': {
         target: 'http://localhost:3000',
-        // target: 'https://murmuring-meadow-23071.herokuapp.com',
+        // target: 'https://batalha-da-escada.herokuapp.com',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''

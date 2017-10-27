@@ -168,7 +168,7 @@
     mounted() {
       const scope = this;
 
-      this.axios.get('https://murmuring-meadow-23071.herokuapp.com/user/get-all-users').then(response=>{
+      this.axios.get('https://batalha-da-escada.herokuapp.com/user/get-all-users').then(response=>{
         scope.listUsers = response.data.data
         scope.loading = false
       })
@@ -183,7 +183,7 @@
 
         if(value == 'list') {
           this.loading = true
-          this.axios.get('https://murmuring-meadow-23071.herokuapp.com/user/get-all-users').then(response=>{
+          this.axios.get('https://batalha-da-escada.herokuapp.com/user/get-all-users').then(response=>{
             scope.listUsers = response.data.data
             scope.loading = false
           })

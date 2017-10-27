@@ -20,7 +20,7 @@ module.exports = merge(baseWebpackConfig, {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': config.dev.env,
-      'API_URL': "'https://murmuring-meadow-23071.herokuapp.com/'"
+      'API_URL': "'https://batalha-da-escada.herokuapp.com/'"
     }),
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),

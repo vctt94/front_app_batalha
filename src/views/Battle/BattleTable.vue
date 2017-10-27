@@ -79,7 +79,7 @@
       }),
       getAllBattles(){
         this.loading = true;
-        this.axios.get('https://murmuring-meadow-23071.herokuapp.com/battle/get-battles').then(response=>{
+        this.axios.get('https://batalha-da-escada.herokuapp.com/battle/get-battles').then(response=>{
           this.battles = response.data.data
           this.loading = false
         })
